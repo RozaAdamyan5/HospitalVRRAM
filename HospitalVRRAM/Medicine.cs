@@ -36,7 +36,7 @@ namespace HospitalWithDB
         {
             Picture = pic;
         }
-
+        // TODO
         public void ChangePrice(decimal newPrice)
         {
 

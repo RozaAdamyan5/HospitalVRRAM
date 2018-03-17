@@ -38,22 +38,26 @@ namespace HospitalWithDB
         //End Constructor//
 
         // Methods //
-
+        // TODO
         bool PassportIdIsUnique(int passport)
         {
-            if (existinDB)
+            bool existInDB = true;
+            if (existInDB)
                 return false;
             else
                 return true;
         }
+        // TODO
         public bool LoginIsValid(string login)
         {
             //validation
+            return false;
         }
-
+        // TODO
         public bool PasswordIsValid(string password)
         {
-            if (sadsa)
+            bool isValid = true;
+            if (isValid)
                 return true;
             else
                 return false;
@@ -73,7 +77,6 @@ namespace HospitalWithDB
         {
             Balance += amountForChange;
         }
-       
 
 
         //End Methods //

@@ -18,11 +18,11 @@ namespace HospitalWithDB
 
         //End Constructor//
 
-        public void AddMedicine(Medicine medicine) { }
-        public void ChangePrice(Medicine medicine , decimal price) { }
-        public void AddDoctor(Doctor doctor) { }
-        public void DeleteDoctor(Doctor doctor) { }
-        public Doctor[] ShowDoctors()
+        public void AddMedicine(Medicine medicine) { }      // TODO
+        public void ChangePrice(Medicine medicine , decimal price) { }  // TODO
+        public void AddDoctor(Doctor doctor) { }            // TODO
+        public void DeleteDoctor(Doctor doctor) { }         // TODO
+        public Doctor[] ShowDoctors()                       // TODO
         {
             return null;
         }

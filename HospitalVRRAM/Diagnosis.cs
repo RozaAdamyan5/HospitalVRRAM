@@ -12,7 +12,7 @@ namespace HospitalWithDB
 
         public string Disease { get; }
         public Medicine[] PrescribedMedicines { get; }
-        // Can Doctor add medicines after writeing diagnosis ? 
+        // Can Doctor add medicines after writing diagnosis ? 
         public DateTime DiagnoseDate { get;  }
         // End Properties  //
 

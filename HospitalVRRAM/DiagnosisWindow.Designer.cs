@@ -1,6 +1,6 @@
-﻿namespace ADO.NET_Test1
+﻿namespace HospitalWithDB
 {
-    partial class Diagnosis
+    partial class DiagnosisWindow
     {
         /// <summary>
         /// Required designer variable.

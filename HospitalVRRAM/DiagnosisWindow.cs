@@ -8,21 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ADO.NET_Test1
+namespace HospitalWithDB
 {
-    public partial class Diagnosis : Form
+    // Very low quality code
+    public partial class DiagnosisWindow : Form
     {
         private Dictionary<string, int> reserved = new Dictionary<string, int>();
         private TableLayoutPanel table = new TableLayoutPanel();
 
-        public Diagnosis(string patientsName)
+        public DiagnosisWindow(string patientsName)
         {
             InitializeComponent();
             label1.Text += ": " + patientsName;
         }
 
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Here must be loading of medicine from DB but hence we yet haven't DB here is something
             comboBox1.Items.Add("Medicine 1");      reserved["Medicine 1"] = 10;
             comboBox1.Items.Add("Medicine 2");      reserved["Medicine 2"] = 5;
             comboBox1.Items.Add("Medicine 3");      reserved["Medicine 3"] = 40;

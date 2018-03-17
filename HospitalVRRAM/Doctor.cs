@@ -31,33 +31,36 @@ namespace HospitalWithDB
 
 
         // Methods //
-
+        // TODO
         public void WriteDiagnosis(Patient patient)
         {
-            //todo
+            
         }
+        // TODO
         public void ServePatient(Patient patient, Diagnosis diagnose)
         {
 
         }
+        // TODO
         public Patient[] ShowPatient()
         {
             return null;
         }
+        // TODO
         public Dictionary<Patient,DateTime> Calendar()
         {
             return null;
         }
-
+        // TODO
         public Diagnosis PatientDiagnosis(Patient patient)
         {
             return null;
         }
-
+        // TODO
         public DateTime newPatient (Patient patient)
         {
             //add in Dictionary of patietnts
-        
+            return new DateTime();
         }
         //End Methods //
     }

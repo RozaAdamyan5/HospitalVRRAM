@@ -29,12 +29,12 @@ namespace HospitalWithDB
         //End Constructor//
 
         // Methods //
-
+        // TODO
         public DateTime RequestForConsult(Doctor doctor)
         {
-
+            return new DateTime();
         }
-
+        // TODO
         public List<Diagnosis> ShowMyHistory()
         {
             return null;
@@ -45,12 +45,13 @@ namespace HospitalWithDB
             //can be negative
         }
 
-
+        // TODO
         public Doctor[] SearchBySpeciality(string Speciality)
         {
             return null;
         }
 
+        // TODO
         public void changeAddress(string newAddress)
         {
 
