@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HospitalWithDB
+namespace HospitalWithDB    //Rafo's been here
 {
     // Very low quality code
     public partial class DiagnosisWindow : Form
