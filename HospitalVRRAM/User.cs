@@ -17,7 +17,7 @@ namespace HospitalWithDB
         public string Password { get; protected set; }
         public byte[] Picture { get; protected set; }
         public string PhoneNumber { get; set; }
-        public int Balance { get; set; }
+        public decimal Balance { get; set; }
 
         // End Propertieselds  //
 
