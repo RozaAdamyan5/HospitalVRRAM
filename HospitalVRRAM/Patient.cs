@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using HospitaConnection;
+using HospitalForms;
+using HospitalConnections;
 
-namespace HospitalWithDB
+namespace HospitalClasses
 {
-    class Patient : User
+    public class Patient : User
     {
         //  Properties  //
 
@@ -29,14 +30,14 @@ namespace HospitalWithDB
             Address = address;
             DateOfBirth = dateOfBirth;
             string SQlcmd = "insert into Patient (InsuranceCard, Address, DateOfBirth)\r\n" +
-                            "values ('" + InsurenceCard + "', '" + Address + "', '" + DateOfBirth + "')"; 
-            var conn = HospitaConnection.HospitalConnection.CreateDbConnection();
+                            "values ('" + InsurenceCard + "', '" + Address + "', '" + DateOfBirth + "')";
+            var conn = HospitalConnection.CreateDbConnection();
             try
             {
                 using (conn)
                 {
                     conn.Open();
-                    var cmd = HospitaConnection.HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.Text);
+                    var cmd = HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.Text);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -58,17 +59,17 @@ namespace HospitalWithDB
         {
             List<Diagnosis> history = new List<Diagnosis>();
 
-            var conn = HospitaConnection.HospitalConnection.CreateDbConnection();
+            var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd0 = "select Discription, DateOfDiagnosis, DiagnosesID \r\n" +
-                             "from Diagnoses \r\n" + 
+                             "from Diagnoses \r\n" +
                              "where PatientID='" + PassportID + "'";
             try
             {
                 using (conn)
                 {
                     conn.Open();
-                    var cmd0 = HospitaConnection.HospitalConnection.CreateDbCommand(conn, SQLcmd0, CommandType.Text);
+                    var cmd0 = HospitalConnection.CreateDbCommand(conn, SQLcmd0, CommandType.Text);
 
 
                     using (var reader0 = (SqlDataReader)cmd0.ExecuteReader())
@@ -80,17 +81,17 @@ namespace HospitalWithDB
                                          "join AssingnedTo on MedicineID = ID" +
                                          "where DiagnoseID = " + reader0["DiagnosesID"];
 
-                            var cmd1 = HospitaConnection.HospitalConnection.CreateDbCommand(conn, SQLcmd1, CommandType.Text);
+                            var cmd1 = HospitalConnection.CreateDbCommand(conn, SQLcmd1, CommandType.Text);
 
                             using (var reader1 = (SqlDataReader)cmd1.ExecuteReader())
                             {
                                 Medicine[] medicine = new Medicine[(int)reader1["count"]];        // ?? should work :-/
-                                for(int i=0; reader1.Read();++i)
+                                for (int i = 0; reader1.Read(); ++i)
                                 {
                                     medicine[i] = new Medicine((string)reader1["Name"], (string)reader1["Country"],
                                                             (int)reader1["Price"], (DateTime)reader1["ExpirationDate"]);
                                 }
-                                Diagnosis diagnose = new Diagnosis((string)reader0["Discription"],(DateTime)reader0["DateOfDiagnosis"], medicine);
+                                Diagnosis diagnose = new Diagnosis((string)reader0["Discription"], (DateTime)reader0["DateOfDiagnosis"], medicine);
                                 history.Add(diagnose);
                             }
                         }
@@ -107,22 +108,22 @@ namespace HospitalWithDB
 
         public void ChangeBalance(decimal moneyToAdd /*can be negative*/)
         {
-           if (Balance <= -moneyToAdd)
+            if (Balance <= -moneyToAdd)
                 Balance = 0;
             else
                 Balance += moneyToAdd;
 
-            var conn = HospitaConnection.HospitalConnection.CreateDbConnection();
+            var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "update Patient \r\n" +
-                            "set Balance = " + Balance + "\r\n" + 
+                            "set Balance = " + Balance + "\r\n" +
                             "where PassportID = '" + PassportID + "'";
             try
             {
                 using (conn)
                 {
                     conn.Open();
-                    var cmd = HospitaConnection.HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
+                    var cmd = HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
 
                     cmd.ExecuteNonQuery();
 
@@ -137,24 +138,24 @@ namespace HospitalWithDB
 
         public Doctor[] SearchBySpeciality(string Speciality)
         {
-            var conn = HospitaConnection.HospitalConnection.CreateDbConnection();
+            var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "select *, Count(*) as count \r\n" +
                             "from Doctor \r\n" +
-                            "where Speciality = " + Speciality ;
+                            "where Speciality = " + Speciality;
             try
             {
                 using (conn)
                 {
                     conn.Open();
-                    var cmd = HospitaConnection.HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
+                    var cmd = HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {
                         Doctor[] doctors = new Doctor[(int)reader["count"]];
                         for (int i = 0; reader.Read(); ++i)
                         {
-                            doctors[i] = new Doctor((string)reader["Name"],(string) reader["Surename"], (int)reader["PasportID"],
+                            doctors[i] = new Doctor((string)reader["Name"], (string)reader["Surename"], (int)reader["PasportID"],
                                                     (string)reader["Login"], (string)reader["Password"], (string)reader["Speciality"],
                                                     (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/);      //incompatibility between databases and classes
                         }
@@ -173,7 +174,7 @@ namespace HospitalWithDB
         {
             Address = newAddress;
 
-            var conn = HospitaConnection.HospitalConnection.CreateDbConnection();
+            var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "update Patient \r\n" +
                             "set Address = '" + Address + "'\r\n" +
@@ -183,7 +184,7 @@ namespace HospitalWithDB
                 using (conn)
                 {
                     conn.Open();
-                    var cmd = HospitaConnection.HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
+                    var cmd = HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
 
                     cmd.ExecuteNonQuery();
 

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HospitalWithDB
+namespace HospitalClasses
 {
-    class User
+    public class User
     {
 
         //  Properties  //
         public string Name { get; }
-        public string SureName { get;}
+        public string Surname { get; }
         public int PassportID { get; protected set; }
         public string Login { get; protected set; }
         public string Password { get; protected set; }
@@ -23,15 +23,15 @@ namespace HospitalWithDB
 
         //Constructor//
 
-        public User(string name, string surename, int passportID, string login, string password)
+        public User(string name, string surname, int passportID, string login, string password)
         {
             Name = name;
-            SureName = surename;
-            if (!PassportIdIsUnique(passportID)) throw new Exception("Invallid Passport ID\n");
+            Surname = surname;
+            //if (!PassportIdIsUnique(passportID)) throw new Exception("Invallid Passport ID\n");
             PassportID = passportID;
-            if (!LoginIsValid(login)) throw new Exception("Invalid login\n");
+            //if (!LoginIsValid(login)) throw new Exception("Invalid login\n");
             Login = login;
-            if (!PasswordIsValid(password)) throw new Exception("Invalid password\n");
+           // if (!PasswordIsValid(password)) throw new Exception("Invalid password\n");
             Password = password;
         }
 
@@ -68,7 +68,7 @@ namespace HospitalWithDB
             Picture = pic;
         }
 
-        public int showBalance()
+        public decimal showBalance()
         {
             return Balance;
         }

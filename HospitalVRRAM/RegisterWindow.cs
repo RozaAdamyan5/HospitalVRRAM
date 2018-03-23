@@ -8,18 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HospitalProjectVRRAM
+namespace HospitalForms
 {
-    public partial class Form2 : Form
+    public partial class RegisterWindow : Form
     {
-        public Form2()
+        public RegisterWindow()
         {
             InitializeComponent();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
+            password.UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password;
+            confirmPassword.UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password;
         }
     }
 }

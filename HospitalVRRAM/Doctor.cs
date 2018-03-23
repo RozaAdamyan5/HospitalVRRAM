@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HospitalWithDB
+namespace HospitalClasses
 {
-    class Doctor : User
+    public class Doctor : User
     {
         //  Properties  //
 
@@ -20,8 +20,8 @@ namespace HospitalWithDB
 
         //Constructor//
 
-        public Doctor(string name, string surename, int passportID, string login, string password,
-            string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surename, passportID, login, password)
+        public Doctor(string name, string surname, int passportID, string login, string password,
+            string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
             Speciality = speciality;
             ConsultationCost = consultationCost;
@@ -32,23 +32,23 @@ namespace HospitalWithDB
 
 
         // Methods //
-        
+
         public void WriteDiagnosis(Patient patient)
         {
-            
+
         }
-        
+
         public void ServePatient(Patient patient, Diagnosis diagnose)
         {
 
         }
-        
+
         public Patient[] ShowPatient()
         {
             return null;
         }
 
-        public Dictionary<Patient,DateTime> Calendar()
+        public Dictionary<Patient, DateTime> Calendar()
         {
             return null;
         }
@@ -58,7 +58,7 @@ namespace HospitalWithDB
             return null;
         }
 
-        public DateTime newPatient (Patient patient)
+        public DateTime newPatient(Patient patient)
         {
             //add in Dictionary of patietnts
             return new DateTime();

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HospitalWithDB
+namespace HospitalClasses
 {
-    class Admin : User
+    public class Admin : User
     {
         //  Properties  //
         // End Properties  //

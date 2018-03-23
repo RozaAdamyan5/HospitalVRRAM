@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HospitalWithDB
+namespace HospitalClasses
 {
-    class Diagnosis
+    public class Diagnosis
     {
         //  Properties  //
 
