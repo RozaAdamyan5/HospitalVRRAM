@@ -16,7 +16,7 @@ namespace HospitalClasses
         public DateTime DiagnoseDate { get;  }
         // End Properties  //
 
-        //Constructor//
+        //Constructor//,,,,,,
 
         public Diagnosis(string disease, DateTime consultationDate, Medicine[] prescribedMedicines)
         {
