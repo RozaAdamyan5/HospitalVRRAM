@@ -59,8 +59,16 @@ namespace HospitalClasses
             }
         }
 
-        //End Constructor//
+        public Doctor(string name, string surname, int passportID, string speciality,
+                      DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID)
+        {
+            Speciality = speciality;
+            GetEmployed = getEmployed;
+            ConsultationCost = consultationCost;
+        }
 
+        //End Constructor//
+        
 
         // Methods //
 
@@ -207,8 +215,6 @@ namespace HospitalClasses
                                     diagnoseDate = reader.GetDateTime(reader.GetOrdinal("DateOfDiagnosis"));
                                 }
                             }
-
-
                         }
                     }
                 }
@@ -220,8 +226,7 @@ namespace HospitalClasses
             {
                 Console.WriteLine(e.Message);
             }
-
-
+            
             return result;
         }
         public Dictionary<DateTime, Patient> Calendar()
@@ -244,6 +249,7 @@ namespace HospitalClasses
         {
             return new DateTime(0, 0, 0);
         }
+
         //End Methods //
     }
 }

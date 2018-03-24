@@ -23,8 +23,9 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public Patient(string name, string surename, int passportID, string login, string password,
-          string address, string insuranceCard, DateTime dateOfBirth) : base(name, surename, passportID, login, password)
+        public Patient(string name, string surename, int passportID, string login,
+                       string password, string address, string insuranceCard,
+                       DateTime dateOfBirth) : base(name, surename, passportID, login, password)
         {
             Address = address;
             InsurenceCard = insuranceCard;
@@ -57,17 +58,12 @@ namespace HospitalClasses
             }
         }
 
-        public Patient(string name, string surname, int passportID, string address, DateTime dateOfBirth)
+        public Patient(string name, string surname, int passportID, string address,
+                       DateTime dateOfBirth) : base(name, surname, passportID)
         {
-            Name = name;
-            Surname = surname;
-            PassportID = passportID;
             Address = address;
             DateOfBirth = dateOfBirth;
-            Login = "";
-            Password = "";
             InsurenceCard = "";
-
         }
         //End Constructor//
 
@@ -99,7 +95,7 @@ namespace HospitalClasses
                         while (reader0.Read())
                         {
                             string SQLcmd1 = "dbo.Drugs";
-                            //"select Name, Country, Price, ExpirationDaAte, Count(*) as count \r\n" +
+                            //"select Name, Country, Price, ExpirationDaAtet \r\n" +
                             //"from Medicine \r\n" +
                             //"join AssingnedTo on MedicineID = ID" +
                             //"where DiagnoseID = " + reader0["DiagnosesID"];
@@ -110,11 +106,11 @@ namespace HospitalClasses
 
                             using (var reader1 = (SqlDataReader)cmd1.ExecuteReader())
                             {
-                               Medicine[] medicine = new Medicine[(int)reader1["count"]];        // ?? should work :-/
-                                for (int i = 0; reader1.Read(); ++i)
+                                List<Medicine> medicine = new List<Medicine>();
+                                while (reader1.Read())
                                 {
-                                    medicine[i] = new Medicine((string)reader1["Name"], (string)reader1["Country"],
-                                                            (int)reader1["Price"], (DateTime)reader1["ExpirationDate"]);
+                                    medicine.Add(new Medicine((string)reader1["Name"], (string)reader1["Country"],
+                                                               (int)reader1["Price"], (DateTime)reader1["ExpirationDate"]));
                                 }
                                 Diagnosis diagnose = new Diagnosis((string)reader0["Discription"], (DateTime)reader0["DateOfDiagnosis"], medicine);
                                 history.Add(diagnose);
@@ -126,6 +122,7 @@ namespace HospitalClasses
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return null;
             }
             MyHistory = history;
             return history;
@@ -164,8 +161,9 @@ namespace HospitalClasses
         }
 
 
-        public Doctor[] SearchBySpeciality(string Speciality)
+        public List<Doctor> SearchBySpeciality(string Speciality)
         {
+            List<Doctor> doctors = new List<Doctor>();
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.FindDoctorBySpeciality";
@@ -182,22 +180,20 @@ namespace HospitalClasses
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {
-                        Doctor[] doctors = new Doctor[(int)reader["count"]];
-                        for (int i = 0; reader.Read(); ++i)
+                        while (reader.Read())
                         {
-                            doctors[i] = new Doctor((string)reader["Name"], (string)reader["Surename"], (int)reader["PasportID"],
-                                                    (string)reader["Login"], (string)reader["Password"], (string)reader["Speciality"],
-                                                    (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/);      //incompatibility between databases and classes
+                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surename"], (int)reader["PasportID"],
+                                                   (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
                         }
-                        return doctors;
                     }
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return null;
             }
-            return null;
+            return doctors;
         }
 
         public void changeAddress(string newAddress)

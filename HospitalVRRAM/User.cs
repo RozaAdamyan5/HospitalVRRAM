@@ -35,8 +35,13 @@ namespace HospitalClasses
             Password = password;
         }
 
-        protected User()
+        protected User(string name, string surname, int passportID)
         {
+            Name = name;
+            Surname = surname;
+            PassportID = passportID;
+            Login = "";
+            Password = "";
         }
         //End Constructor//
 
