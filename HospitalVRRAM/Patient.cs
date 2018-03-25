@@ -183,7 +183,7 @@ namespace HospitalClasses
                         while (reader.Read())
                         {
                             doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surename"], (int)reader["PasportID"],
-                                                   (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
+                                                   (int)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
                         }
                     }
                 }

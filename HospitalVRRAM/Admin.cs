@@ -18,7 +18,7 @@ namespace HospitalClasses
         //Constructor//
 
         public Admin(string name, string surname, int passportID, string login, string password)
-            : base(name, surename, passportID, login, password)
+            : base(name, surname, passportID, login, password)
         {
             string SQlcmd = "dbo.insertAdmin";
             var conn = HospitalConnection.CreateDbConnection();
@@ -152,15 +152,14 @@ namespace HospitalClasses
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
                             decimal consCost = (decimal)reader["ConsultationCost"];//must be added in db
-                            byte[] pic = reader["Picture"].ToString;//cant find normal cast
+                            byte[] pic = (byte[])reader["Picture"];//.ToString;//can't find normal cast
                             string phoneNumber = (string)reader["PhoneNumber"];
                             int speciality = (int)reader["Speciality"];
 
-                            Doctor pat = new Doctor(name,surname,passportID,login
-                                ,password,speciality,dateOfapproval,consCost);
+                            Doctor pat = new Doctor(name,surname,passportID,login,
+                                                    password,speciality,dateOfapproval,consCost);
                             docs.Add(pat);
                         }
-
                     }
                 }
                 return docs;

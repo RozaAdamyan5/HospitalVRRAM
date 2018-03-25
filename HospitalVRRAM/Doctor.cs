@@ -53,11 +53,20 @@ namespace HospitalClasses
                 Console.WriteLine(e.Message);
             }
         }
-        //End Constructor//
-        
 
-        // Methods //
-        public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
+        public Doctor(string name, string surname, int passportID,
+                      int speciality,DateTime getEmployed, 
+                      decimal consultationCost) : base(name, surname, passportID)
+        {
+            Speciality = speciality;
+            GetEmployed = getEmployed;
+            ConsultationCost = consultationCost;
+        }
+            //End Constructor//
+
+
+            // Methods //
+            public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
          //   patient.MyHistory.Add(diagnose);
 
@@ -204,8 +213,6 @@ namespace HospitalClasses
                     }
                 }
                 result = new Diagnosis(disease, diagnoseDate, medList);
-
-
             }
             catch (Exception e)
             {
