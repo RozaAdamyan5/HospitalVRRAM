@@ -75,7 +75,7 @@ namespace HospitalClasses
             if (existInDB == 1)
                 throw new Exception("Invallid Passport ID\n");
 
-            ////////////////////////
+            /////////////////////////
 
             conn = HospitalConnection.CreateDbConnection();
 
