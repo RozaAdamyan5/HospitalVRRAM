@@ -18,7 +18,7 @@ namespace HospitalClasses
         //Constructor//
 
         public Admin(string name, string surname, int passportID, string login, string password)
-            : base(name, surename, passportID, login, password)
+            : base(name, surname, passportID, login, password)
         {
             string SQlcmd = "dbo.insertAdmin";
             var conn = HospitalConnection.CreateDbConnection();
@@ -108,7 +108,7 @@ namespace HospitalClasses
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-                    cmd.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = doctor.PassportID;
+                    cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = doctor.PassportID;
 
                     cmd.ExecuteNonQuery();
                 }
