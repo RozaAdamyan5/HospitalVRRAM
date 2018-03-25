@@ -151,16 +151,15 @@ namespace HospitalClasses
                             string password = (string)reader["Password"];
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
-                            decimal consCost = (decimal)reader["ConsultationCost"];                     //must be added in db
-                            byte[] pic = Array.ConvertAll((char[])reader["Picture"], Convert.ToByte);   //cant find normal cast
+                            decimal consCost = (decimal)reader["ConsultationCost"];//must be added in db
+                            byte[] pic = (byte[])reader["Picture"];//.ToString;//can't find normal cast
                             string phoneNumber = (string)reader["PhoneNumber"];
                             int speciality = (int)reader["Speciality"];
 
-                            Doctor pat = new Doctor(name, surname, passportID, login
-                                , password, speciality, dateOfapproval, consCost);
+                            Doctor pat = new Doctor(name,surname,passportID,login,
+                                                    password,speciality,dateOfapproval,consCost);
                             docs.Add(pat);
                         }
-
                     }
                 }
                 return docs;

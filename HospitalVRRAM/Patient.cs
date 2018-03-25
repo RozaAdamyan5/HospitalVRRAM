@@ -23,9 +23,9 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public Patient(string name, string surname, int passportID, string login,
+        public Patient(string name, string surename, int passportID, string login,
                        string password, string address, string insuranceCard,
-                       DateTime dateOfBirth) : base(name, surname, passportID, login, password)
+                       DateTime dateOfBirth) : base(name, surename, passportID, login, password)
         {
             Address = address;
             InsurenceCard = insuranceCard;
@@ -40,7 +40,7 @@ namespace HospitalClasses
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.StoredProcedure);
                     cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = name;
-                    cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surname;
+                    cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surename;
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
@@ -182,7 +182,7 @@ namespace HospitalClasses
                     {
                         while (reader.Read())
                         {
-                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (int)reader["PassportID"], (string)reader["Login"], (string)reader["Password"],
+                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surename"], (int)reader["PasportID"],
                                                    (int)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
                         }
                     }
