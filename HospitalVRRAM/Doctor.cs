@@ -125,7 +125,7 @@ namespace HospitalClasses
                             int p = (int)reader["PassportID"];
                             string a = (string)reader["Address"];
                             DateTime d = (DateTime)reader["DateOfBirth"];
-                            Patient pat = new HospitalClasses.Patient(n, s, p, a, d);
+                            Patient pat = new Patient(n, s, p, a, d);
                             patients.Add(pat);
                         }
 
