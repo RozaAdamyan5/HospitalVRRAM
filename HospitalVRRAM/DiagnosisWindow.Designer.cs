@@ -139,7 +139,7 @@
             this.medicineName.Name = "medicineName";
             this.medicineName.Size = new System.Drawing.Size(262, 24);
             this.medicineName.TabIndex = 0;
-            this.medicineName.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.medicineName.SelectedIndexChanged += new System.EventHandler(this.checkDisableEnable);
             // 
             // pictureBox1
             // 
@@ -150,6 +150,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // finish
             // 
@@ -172,10 +173,11 @@
             // medicineListTable
             // 
             this.medicineListTable.AutoSize = true;
-            this.medicineListTable.ColumnCount = 3;
+            this.medicineListTable.ColumnCount = 4;
             this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 370F));
-            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
+            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.medicineListTable.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.medicineListTable.Location = new System.Drawing.Point(0, 0);
             this.medicineListTable.Name = "medicineListTable";

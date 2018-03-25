@@ -26,5 +26,6 @@ namespace HospitalForms
                 passwordBox.UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password;
 
         }
+
     }
 }

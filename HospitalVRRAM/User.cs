@@ -68,7 +68,7 @@ namespace HospitalClasses
                 return false;
         }
 
-        public void AddPicture(byte[] pic)
+        public virtual void AddPicture(byte[] pic)
         {
             Picture = pic;
         }
