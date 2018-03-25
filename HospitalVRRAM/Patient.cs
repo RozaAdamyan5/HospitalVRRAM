@@ -7,6 +7,9 @@ using System.Data;
 using System.Data.SqlClient;
 using HospitalForms;
 using HospitalConnections;
+using System.IO;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace HospitalClasses
 {
@@ -183,7 +186,7 @@ namespace HospitalClasses
                         while (reader.Read())
                         {
                             doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surename"], (int)reader["PasportID"],
-                                                   (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
+                                                   (int)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
                         }
                     }
                 }
@@ -225,6 +228,47 @@ namespace HospitalClasses
                 Console.WriteLine(e.Message);
             }
         }
+
+        public override void AddPicture(byte[] pic)
+        {
+
+            string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
+                       + "from Patients\r\n"
+                       + " where passportID =@passportID";
+
+            try
+            {
+                var conn = HospitalConnection.CreateDbConnection();
+                conn.Open();
+
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+
+                cmd.Parameters.Add("@passportID", SqlDbType.Char,9 ).Value = this.PassportID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Get the pointer for file
+                        var path = reader.GetString(reader.GetOrdinal("PathName"));
+                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
+
+                        var ms = new MemoryStream(imbytes);
+
+                        Image photo = Image.FromStream(ms);
+                        //must be done using our form
+                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
+                        //  pictureBox1.Image = photo;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         //End Methods //
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,19 +14,23 @@ namespace HospitalForms
 {
     public partial class PatientProfileWindow : Form
     {
-        public PatientProfileWindow(string name, string surname, string balance, string phoneNumber, string dateOfBirth)
+        Patient patient;
+
+        public PatientProfileWindow(Patient pat)
         {
             InitializeComponent();
-            nameLabel.Text = name;
-            surnameLabel.Text = surname;
-            balanceLabel.Text = balance;
-            phoneNumberLabel.Text = phoneNumber;
-            birthdateLabel.Text = dateOfBirth;
+            patient = pat;
         }
 
         private void PatientProfileWindow_Load(object sender, EventArgs e)
         {
-            // Maybe loading data about ptient's history from DB
+            nameLabel.Text = patient.Name;
+            surnameLabel.Text = patient.Surname;
+            balanceLabel.Text = patient.Balance.ToString();
+            phoneNumberLabel.Text = patient.PhoneNumber;
+            birthdateLabel.Text = patient.DateOfBirth.ToShortDateString();
+            if (patient.Picture != null)
+                profilePicBox.Image = (Bitmap)((new ImageConverter()).ConvertFrom(patient.Picture));
         }
 
         private void historyButton_Click(object sender, EventArgs e)
@@ -34,8 +39,56 @@ namespace HospitalForms
             this.Width = 750;
             universalPanel.BorderStyle = BorderStyle.Fixed3D;
             universalPanel.BackColor = Color.White;
-            // TODO
-            // Show history in universalPanel
+
+            DataGridView historyView = new DataGridView() { DefaultCellStyle = new DataGridViewCellStyle() { WrapMode = DataGridViewTriState.True },
+                                                            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
+                                                            ReadOnly = true};
+            DataSet set = new DataSet();
+            DataTable table = new DataTable("History");
+            set.Tables.Add(table);
+            historyView.DataSource = set.Tables["History"];
+
+            DataColumn disease = new DataColumn()   { ColumnName = "Disease", DataType =typeof(string) };
+            DataColumn medicine = new DataColumn()  { ColumnName = "Medicine", DataType = typeof(string),  };
+            DataColumn date = new DataColumn()      { ColumnName = "Date", DataType = typeof(DateTime) };
+
+            table.Columns.Add(disease);
+            table.Columns.Add(medicine);
+            table.Columns.Add(date);
+
+            //List<Diagnosis> diagnoses = patient.ShowMyHistory();
+            List<Diagnosis> diagnoses = new List<Diagnosis>();
+            diagnoses.Add(new Diagnosis("blssssssh", new DateTime(), new List<Medicine> { new Medicine("aaaaaa", "aa", 153, new DateTime()), new Medicine("wwwwwwwwwwww", "aa", 15, new DateTime()) }));
+            diagnoses.Add(new Diagnosis("aaa", new DateTime(), new List<Medicine>()));
+
+
+            foreach (var current in diagnoses)
+            {
+                DataRow diagnose = table.NewRow();
+                diagnose["Disease"] = current.Disease;
+                if (current.PrescribedMedicines.Count != 0)
+                {
+                    foreach (var currentMedicine in current.PrescribedMedicines)
+                    {
+                        if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
+                            diagnose["Medicine"] = "";
+                        else
+                            diagnose["Medicine"] += Environment.NewLine;
+
+                        diagnose["Medicine"] += currentMedicine.Name;
+       
+                    }
+                }
+                else
+                    diagnose["Medicine"] = "None";
+
+                diagnose["Date"] = current.DiagnoseDate.ToShortDateString();
+                table.Rows.Add(diagnose);
+            }
+
+            universalPanel.Controls.Add(historyView);
+            historyView.Dock = DockStyle.Fill;
+            historyView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
         }
 
         private void registerConsultation_Click(object sender, EventArgs e)
@@ -65,6 +118,33 @@ namespace HospitalForms
 
             universalPanel.Controls.AddRange(
                 new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
+        }
+
+        private void addPicture_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            OpenFileDialog selectPicture = new OpenFileDialog() { InitialDirectory = "C:\\", Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG" };
+            if (selectPicture.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = selectPicture.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            profilePicBox.Image = new Bitmap(myStream);
+                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
+                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
+                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                            addPicture.Text = "Change Picture"; addPicture.Left = 45;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace HospitalForms
+﻿namespace HospitalVRRAM
 {
-    partial class PatientProfileWindow
+    partial class AdminProfileWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatientProfileWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminProfileWindow));
             this.universalPanel = new System.Windows.Forms.Panel();
             this.changePassword = new System.Windows.Forms.Button();
-            this.registerConsultation = new System.Windows.Forms.Button();
-            this.historyButton = new System.Windows.Forms.Button();
+            this.allPatients = new System.Windows.Forms.Button();
+            this.allDoctors = new System.Windows.Forms.Button();
             this.balanceLabel = new System.Windows.Forms.Label();
             this.phoneNumberLabel = new System.Windows.Forms.Label();
             this.birthdateLabel = new System.Windows.Forms.Label();
@@ -44,7 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.profilePicBox = new System.Windows.Forms.PictureBox();
-            this.addPicture = new System.Windows.Forms.Label();
+            this.allMedicine = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +60,7 @@
             // changePassword
             // 
             this.changePassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.changePassword.Location = new System.Drawing.Point(240, 115);
+            this.changePassword.Location = new System.Drawing.Point(240, 165);
             this.changePassword.Name = "changePassword";
             this.changePassword.Size = new System.Drawing.Size(162, 42);
             this.changePassword.TabIndex = 28;
@@ -68,27 +68,27 @@
             this.changePassword.UseVisualStyleBackColor = true;
             this.changePassword.Click += new System.EventHandler(this.changePassword_Click);
             // 
-            // registerConsultation
+            // allPatients
             // 
-            this.registerConsultation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.registerConsultation.Location = new System.Drawing.Point(251, 65);
-            this.registerConsultation.Name = "registerConsultation";
-            this.registerConsultation.Size = new System.Drawing.Size(140, 42);
-            this.registerConsultation.TabIndex = 27;
-            this.registerConsultation.Text = "Register for Consultation";
-            this.registerConsultation.UseVisualStyleBackColor = true;
-            this.registerConsultation.Click += new System.EventHandler(this.registerConsultation_Click);
+            this.allPatients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allPatients.Location = new System.Drawing.Point(251, 65);
+            this.allPatients.Name = "allPatients";
+            this.allPatients.Size = new System.Drawing.Size(140, 42);
+            this.allPatients.TabIndex = 27;
+            this.allPatients.Text = "All Patients";
+            this.allPatients.UseVisualStyleBackColor = true;
+            this.allPatients.Click += new System.EventHandler(this.allPatients_Click);
             // 
-            // historyButton
+            // allDoctors
             // 
-            this.historyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.historyButton.Location = new System.Drawing.Point(251, 15);
-            this.historyButton.Name = "historyButton";
-            this.historyButton.Size = new System.Drawing.Size(140, 42);
-            this.historyButton.TabIndex = 26;
-            this.historyButton.Text = "My History";
-            this.historyButton.UseVisualStyleBackColor = true;
-            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
+            this.allDoctors.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allDoctors.Location = new System.Drawing.Point(251, 15);
+            this.allDoctors.Name = "allDoctors";
+            this.allDoctors.Size = new System.Drawing.Size(140, 42);
+            this.allDoctors.TabIndex = 26;
+            this.allDoctors.Text = "All Doctors";
+            this.allDoctors.UseVisualStyleBackColor = true;
+            this.allDoctors.Click += new System.EventHandler(this.allDoctors_Click);
             // 
             // balanceLabel
             // 
@@ -194,27 +194,27 @@
             this.profilePicBox.TabIndex = 15;
             this.profilePicBox.TabStop = false;
             // 
-            // addPicture
+            // allMedicine
             // 
-            this.addPicture.AutoSize = true;
-            this.addPicture.BackColor = System.Drawing.SystemColors.Control;
-            this.addPicture.Location = new System.Drawing.Point(55, 169);
-            this.addPicture.Name = "addPicture";
-            this.addPicture.Size = new System.Drawing.Size(62, 13);
-            this.addPicture.TabIndex = 30;
-            this.addPicture.Text = "Add Picture";
-            this.addPicture.Click += new System.EventHandler(this.addPicture_Click);
+            this.allMedicine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allMedicine.Location = new System.Drawing.Point(251, 115);
+            this.allMedicine.Name = "allMedicine";
+            this.allMedicine.Size = new System.Drawing.Size(140, 42);
+            this.allMedicine.TabIndex = 30;
+            this.allMedicine.Text = "All Medicine";
+            this.allMedicine.UseVisualStyleBackColor = true;
+            this.allMedicine.Click += new System.EventHandler(this.allMedicine_Click);
             // 
-            // PatientProfileWindow
+            // AdminProfileWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 401);
-            this.Controls.Add(this.addPicture);
+            this.Controls.Add(this.allMedicine);
             this.Controls.Add(this.universalPanel);
             this.Controls.Add(this.changePassword);
-            this.Controls.Add(this.registerConsultation);
-            this.Controls.Add(this.historyButton);
+            this.Controls.Add(this.allPatients);
+            this.Controls.Add(this.allDoctors);
             this.Controls.Add(this.balanceLabel);
             this.Controls.Add(this.phoneNumberLabel);
             this.Controls.Add(this.birthdateLabel);
@@ -226,12 +226,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.profilePicBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "PatientProfileWindow";
-            this.Text = "Patient";
-            this.Load += new System.EventHandler(this.PatientProfileWindow_Load);
+            this.Name = "AdminProfileWindow";
+            this.Text = "AdminProfileWindow";
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -242,8 +240,8 @@
 
         private System.Windows.Forms.Panel universalPanel;
         private System.Windows.Forms.Button changePassword;
-        private System.Windows.Forms.Button registerConsultation;
-        private System.Windows.Forms.Button historyButton;
+        private System.Windows.Forms.Button allPatients;
+        private System.Windows.Forms.Button allDoctors;
         private System.Windows.Forms.Label balanceLabel;
         private System.Windows.Forms.Label phoneNumberLabel;
         private System.Windows.Forms.Label birthdateLabel;
@@ -255,6 +253,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox profilePicBox;
-        private System.Windows.Forms.Label addPicture;
+        private System.Windows.Forms.Button allMedicine;
     }
 }
