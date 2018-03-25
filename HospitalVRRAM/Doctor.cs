@@ -142,6 +142,7 @@ namespace HospitalClasses
             }
             return null;
         }
+
         public Diagnosis PatientDiagnosis(Patient patient)
         {
             Diagnosis result = null;
@@ -229,11 +230,13 @@ namespace HospitalClasses
             
             return result;
         }
+
         public Dictionary<DateTime, Patient> Calendar()
         {
 
             return Patients;
         }
+
         public DateTime newPatient(Patient patient)
         {
             //add in Dictionary of patietnts

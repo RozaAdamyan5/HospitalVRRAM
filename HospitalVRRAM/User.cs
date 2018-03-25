@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using HospitalConnections;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace HospitalClasses
 {
@@ -19,6 +23,7 @@ namespace HospitalClasses
         public string PhoneNumber { get; set; }
         public decimal Balance { get; set; }
 
+
         // End Propertieselds  //
 
         //Constructor//
@@ -27,12 +32,15 @@ namespace HospitalClasses
         {
             Name = name;
             Surname = surname;
-            //if (!PassportIdIsUnique(passportID)) throw new Exception("Invallid Passport ID\n");
-            PassportID = passportID;
-            //if (!LoginIsValid(login)) throw new Exception("Invalid login\n");
-            Login = login;
-            // if (!PasswordIsValid(password)) throw new Exception("Invalid password\n");
-            Password = password;
+            if (PassportIdIsUnique(passportID))
+                PassportID = passportID;
+
+            if (LoginIsValid(login))
+                Login = login;
+
+            if (!PasswordIsValid(password))
+                Password = password;
+
         }
 
         protected User(string name, string surname, int passportID)
@@ -45,43 +53,159 @@ namespace HospitalClasses
         }
         //End Constructor//
 
+
         // Methods //
-        bool PassportIdIsUnique(int passport)
+        bool PassportIdIsUnique(int passportID)
         {
-            bool existInDB = true;
-            if (existInDB)
-                return false;
-            else
-                return true;
+            int existInDB = 0;
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.FindPatientPasspordID";
+
+            using (conn)
+            {
+                conn.Open();
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                cmd.Parameters.Add("@passportID", SqlDbType.NVarChar).Value = passportID;
+                cmd.ExecuteNonQuery();
+
+                existInDB = (int)cmd.ExecuteScalar();
+            }
+
+            if (existInDB == 1)
+                throw new Exception("Invallid Passport ID\n");
+
+            ////////////////////////
+
+            conn = HospitalConnection.CreateDbConnection();
+
+            SQLcmd = "dbo.FindDoctorPasspordID";
+
+            using (conn)
+            {
+                conn.Open();
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                cmd.Parameters.Add("@passportID", SqlDbType.NVarChar).Value = passportID;
+                cmd.ExecuteNonQuery();
+
+                existInDB = (int)cmd.ExecuteScalar();
+            }
+
+            if (existInDB == 1)
+                throw new Exception("Invallid Passport ID\n");
+
+            return true;
         }
+
         public bool LoginIsValid(string login)
         {
             //validation
-            return false;
+            if(login.Length < 8)
+            {
+                throw new Exception("login must be at least 8 characters.");
+            }
+            
+            else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
+            {
+                throw new Exception("login must have SOMETHING@pat.host form");
+            }
+            else
+            {
+                int existInDB = 0;
+                var conn = HospitalConnection.CreateDbConnection();
+
+                string SQLcmd = "dbo.FindPatientLogin";
+
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                    cmd.ExecuteNonQuery();
+
+                    existInDB = (int)cmd.ExecuteScalar();
+                }
+
+                if (existInDB == 1)
+                    throw new Exception("this login already exists");
+
+                /////////
+
+                conn = HospitalConnection.CreateDbConnection();
+
+                SQLcmd = "dbo.FindDoctortLogin";
+
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                    cmd.ExecuteNonQuery();
+
+                    existInDB = (int)cmd.ExecuteScalar();
+                }
+
+                if (existInDB == 1)
+                    throw new Exception("this login already exists");
+            }
+
+            return true;
         }
+
         public bool PasswordIsValid(string password)
         {
-            bool isValid = true;
-            if (isValid)
-                return true;
-            else
-                return false;
+            var input = password;
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new Exception("Password should not be empty");
+            }
+
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasMiniMaxChars = new Regex(@".{8,15}");
+            var hasLowerChar = new Regex(@"[a-z]+");
+            var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+
+            if (!hasLowerChar.IsMatch(input))
+            {
+                throw new Exception("Password should contain At least one lower case letter");
+            }
+            else if (!hasUpperChar.IsMatch(input))
+            {
+                throw new Exception("Password should contain At least one upper case letter");
+            }
+            else if (!hasMiniMaxChars.IsMatch(input))
+            {
+                throw new Exception("Password should not be less than or greater than 12 characters");
+            }
+            else if (!hasNumber.IsMatch(input))
+            {
+                throw new Exception("Password should contain At least one numeric value");
+            }
+            else if (!hasSymbols.IsMatch(input))
+            {
+                throw new Exception("Password should contain At least one special case characters");
+            }
+
+            return true;
         }
 
         public void AddPicture(byte[] pic)
         {
             Picture = pic;
-        }
+            //TODO
+        } // TODO
 
-        public decimal showBalance()
+        public decimal ShowBalance()
         {
             return Balance;
-        }
+        } // TODO
 
         public void ChageBalance(int amountForChange)
         {
             Balance += amountForChange;
-        }
+        } // TODO
 
 
         //End Methods //
