@@ -10,8 +10,8 @@ namespace HospitalClasses
     {
 
         //  Properties  //
-        public string Name { get; }
-        public string Surname { get; }
+        public string Name { get; protected set; }
+        public string Surname { get; protected set; }
         public int PassportID { get; protected set; }
         public string Login { get; protected set; }
         public string Password { get; protected set; }
@@ -31,14 +31,21 @@ namespace HospitalClasses
             PassportID = passportID;
             //if (!LoginIsValid(login)) throw new Exception("Invalid login\n");
             Login = login;
-           // if (!PasswordIsValid(password)) throw new Exception("Invalid password\n");
+            // if (!PasswordIsValid(password)) throw new Exception("Invalid password\n");
             Password = password;
         }
 
+        protected User(string name, string surname, int passportID)
+        {
+            Name = name;
+            Surname = surname;
+            PassportID = passportID;
+            Login = "";
+            Password = "";
+        }
         //End Constructor//
 
         // Methods //
-        // TODO
         bool PassportIdIsUnique(int passport)
         {
             bool existInDB = true;
@@ -47,13 +54,11 @@ namespace HospitalClasses
             else
                 return true;
         }
-        // TODO
         public bool LoginIsValid(string login)
         {
             //validation
             return false;
         }
-        // TODO
         public bool PasswordIsValid(string password)
         {
             bool isValid = true;

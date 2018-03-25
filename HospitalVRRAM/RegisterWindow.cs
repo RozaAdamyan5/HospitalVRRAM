@@ -17,6 +17,12 @@ namespace HospitalForms
             InitializeComponent();
             password.UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password;
             confirmPassword.UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password;
+            
+        }
+
+        private void RegisterWindow_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawLine(new Pen(Color.FromArgb(100, 0, 0, 0)), 25, 330, 415, 330);
         }
     }
 }
