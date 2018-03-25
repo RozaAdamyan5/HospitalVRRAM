@@ -134,6 +134,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DatabaseVRRAM.sql" />
     <Content Include="Resources\fileclose.png" />
     <Content Include="Resources\HospitalIcon.png" />
     <Content Include="Resources\WindowIcon.ico" />
