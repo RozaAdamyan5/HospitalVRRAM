@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,10 @@ namespace HospitalForms
     {
         Patient patient;
 
-        public PatientProfileWindow(Patient patient)
+        public PatientProfileWindow(Patient pat)
         {
             InitializeComponent();
-            this.patient = patient;
+            patient = pat;
         }
 
         private void PatientProfileWindow_Load(object sender, EventArgs e)
@@ -117,6 +118,33 @@ namespace HospitalForms
 
             universalPanel.Controls.AddRange(
                 new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
+        }
+
+        private void addPicture_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            OpenFileDialog selectPicture = new OpenFileDialog() { InitialDirectory = "C:\\", Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG" };
+            if (selectPicture.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = selectPicture.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            profilePicBox.Image = new Bitmap(myStream);
+                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
+                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
+                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                            addPicture.Text = "Change Picture"; addPicture.Left = 45;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
         }
     }
 }

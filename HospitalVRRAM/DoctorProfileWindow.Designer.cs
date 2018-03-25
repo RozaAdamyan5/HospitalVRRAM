@@ -44,6 +44,7 @@
             this.myPatients = new System.Windows.Forms.Button();
             this.changePassword = new System.Windows.Forms.Button();
             this.universalPanel = new System.Windows.Forms.Panel();
+            this.addPicture = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -193,11 +194,23 @@
             this.universalPanel.Size = new System.Drawing.Size(300, 300);
             this.universalPanel.TabIndex = 14;
             // 
+            // addPicture
+            // 
+            this.addPicture.AutoSize = true;
+            this.addPicture.BackColor = System.Drawing.SystemColors.Control;
+            this.addPicture.Location = new System.Drawing.Point(55, 169);
+            this.addPicture.Name = "addPicture";
+            this.addPicture.Size = new System.Drawing.Size(62, 13);
+            this.addPicture.TabIndex = 15;
+            this.addPicture.Text = "Add Picture";
+            this.addPicture.Click += new System.EventHandler(this.addPicture_Click);
+            // 
             // DoctorProfileWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 401);
+            this.Controls.Add(this.addPicture);
             this.Controls.Add(this.universalPanel);
             this.Controls.Add(this.changePassword);
             this.Controls.Add(this.myPatients);
@@ -242,5 +255,6 @@
         private System.Windows.Forms.Button myPatients;
         private System.Windows.Forms.Button changePassword;
         private System.Windows.Forms.Panel universalPanel;
+        private System.Windows.Forms.Label addPicture;
     }
 }
