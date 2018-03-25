@@ -60,6 +60,7 @@
             this.signUp.TabIndex = 1;
             this.signUp.Text = "Sign Up";
             this.signUp.UseVisualStyleBackColor = true;
+            this.signUp.Click += new System.EventHandler(this.signUp_Click);
             // 
             // loginBox
             // 

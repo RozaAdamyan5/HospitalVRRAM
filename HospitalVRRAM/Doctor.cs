@@ -7,6 +7,9 @@ using System.Data;
 using System.Data.SqlClient;
 using HospitalForms;
 using HospitalConnections;
+using System.IO;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace HospitalClasses
 {
@@ -136,6 +139,7 @@ namespace HospitalClasses
             }
             return patients;
         }
+
         public Diagnosis PatientDiagnosis(Patient patient)
         {
             Diagnosis result = null;
@@ -240,6 +244,45 @@ namespace HospitalClasses
         private DateTime FreeTime()
         {
             return new DateTime(0, 0, 0);
+        }
+        public override void AddPicture(byte[] pic)
+        {
+
+            string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
+                       + "from Medicine\r\n"
+                       + " where passportID=@passportID";
+
+            try
+            {
+                var conn = HospitalConnection.CreateDbConnection();
+                conn.Open();
+
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Get the pointer for file
+                        var path = reader.GetString(reader.GetOrdinal("PathName"));
+                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
+
+                        var ms = new MemoryStream(imbytes);
+
+                        Image photo = Image.FromStream(ms);
+                        //must be done using our form
+                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
+                        //  pictureBox1.Image = photo;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         //End Methods //
