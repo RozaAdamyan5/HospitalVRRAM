@@ -27,7 +27,7 @@ namespace HospitalForms
             surnameLabel.Text = patient.Surname;
             balanceLabel.Text = patient.Balance.ToString();
             phoneNumberLabel.Text = patient.PhoneNumber;
-            birthdateLabel.Text = patient.DateOfBirth.ToString();
+            birthdateLabel.Text = patient.DateOfBirth.ToShortDateString();
             if (patient.Picture != null)
                 profilePicBox.Image = (Bitmap)((new ImageConverter()).ConvertFrom(patient.Picture));
         }

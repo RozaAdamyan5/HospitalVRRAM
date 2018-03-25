@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.showPassword = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.loginSuffix = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,23 +64,25 @@
             // 
             // loginBox
             // 
-            this.loginBox.Location = new System.Drawing.Point(150, 124);
+            this.loginBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginBox.Location = new System.Drawing.Point(145, 124);
             this.loginBox.Name = "loginBox";
-            this.loginBox.Size = new System.Drawing.Size(200, 20);
+            this.loginBox.Size = new System.Drawing.Size(117, 21);
             this.loginBox.TabIndex = 2;
             // 
             // passwordBox
             // 
-            this.passwordBox.Location = new System.Drawing.Point(150, 164);
+            this.passwordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.passwordBox.Location = new System.Drawing.Point(145, 164);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.Size = new System.Drawing.Size(200, 20);
+            this.passwordBox.Size = new System.Drawing.Size(200, 21);
             this.passwordBox.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(50, 123);
+            this.label1.Location = new System.Drawing.Point(45, 123);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 20);
             this.label1.TabIndex = 5;
@@ -89,7 +92,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(50, 163);
+            this.label2.Location = new System.Drawing.Point(45, 163);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 20);
             this.label2.TabIndex = 5;
@@ -108,7 +111,7 @@
             // showPassword
             // 
             this.showPassword.AutoSize = true;
-            this.showPassword.Location = new System.Drawing.Point(150, 194);
+            this.showPassword.Location = new System.Drawing.Point(145, 194);
             this.showPassword.Name = "showPassword";
             this.showPassword.Size = new System.Drawing.Size(101, 17);
             this.showPassword.TabIndex = 7;
@@ -126,11 +129,28 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
+            // loginSuffix
+            // 
+            this.loginSuffix.AutoCompleteCustomSource.AddRange(new string[] {
+            "@pat.hosp",
+            "@doc.hosp",
+            "@adm.hosp"});
+            this.loginSuffix.FormattingEnabled = true;
+            this.loginSuffix.Items.AddRange(new object[] {
+            "@pat.hosp",
+            "@doc.hosp",
+            "@adm.hosp"});
+            this.loginSuffix.Location = new System.Drawing.Point(265, 124);
+            this.loginSuffix.Name = "loginSuffix";
+            this.loginSuffix.Size = new System.Drawing.Size(80, 21);
+            this.loginSuffix.TabIndex = 9;
+            // 
             // LoginWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 261);
+            this.Controls.Add(this.loginSuffix);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.showPassword);
             this.Controls.Add(this.label3);
@@ -163,6 +183,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox showPassword;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ComboBox loginSuffix;
     }
 }
 
