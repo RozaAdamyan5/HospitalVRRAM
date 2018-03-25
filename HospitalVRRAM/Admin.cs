@@ -108,7 +108,7 @@ namespace HospitalClasses
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-                    cmd.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = doctor.PassportID;
+                    cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = doctor.PassportID;
 
                     cmd.ExecuteNonQuery();
                 }
