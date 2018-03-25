@@ -14,7 +14,7 @@ namespace HospitalClasses
     {
         //  Properties  //
 
-        public string Speciality { get; set; }
+        public int Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
         public Dictionary<DateTime, Patient> Patients { get; set; }
@@ -25,13 +25,8 @@ namespace HospitalClasses
         //Constructor//
 
         public Doctor(string name, string surname, int passportID, string login, string password,
-            string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
+           int speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
-            Speciality = speciality;
-            ConsultationCost = consultationCost;
-            GetEmployed = getEmployed;
-
-
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
             try
@@ -58,23 +53,13 @@ namespace HospitalClasses
                 Console.WriteLine(e.Message);
             }
         }
-
-        public Doctor(string name, string surname, int passportID, string speciality,
-                      DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID)
-        {
-            Speciality = speciality;
-            GetEmployed = getEmployed;
-            ConsultationCost = consultationCost;
-        }
-
         //End Constructor//
-
+        
 
         // Methods //
-
         public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
-            patient.MyHistory.Add(diagnose);
+         //   patient.MyHistory.Add(diagnose);
 
             var conn = HospitalConnection.CreateDbConnection();
             string sSQL = "sp_WriteDiagnos";
@@ -128,7 +113,7 @@ namespace HospitalClasses
                             int p = (int)reader["PassportID"];
                             string a = (string)reader["Address"];
                             DateTime d = (DateTime)reader["DateOfBirth"];
-                            Patient pat = new HospitalClasses.Patient(n, s, p, a, d);
+                            Patient pat = new Patient(n, s, p, a, d);
                             patients.Add(pat);
                         }
 
@@ -140,7 +125,7 @@ namespace HospitalClasses
             {
                 Console.WriteLine(e.Message);
             }
-            return null;
+            return patients;
         }
         public Diagnosis PatientDiagnosis(Patient patient)
         {
@@ -226,7 +211,7 @@ namespace HospitalClasses
             {
                 Console.WriteLine(e.Message);
             }
-
+            
             return result;
         }
         public Dictionary<DateTime, Patient> Calendar()
