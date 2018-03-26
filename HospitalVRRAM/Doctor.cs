@@ -69,12 +69,12 @@ namespace HospitalClasses
 
 
             // Methods //
-            public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
+        public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
-         //   patient.MyHistory.Add(diagnose);
 
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_WriteDiagnos";
+            string sSQL = "sp_WriteDiagnosInDiagnosis";
+            string sSQL1 = "sp_AddMedicineInAssignedTo";
             try
             {
                 using (conn)
@@ -87,14 +87,25 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
                     cmd.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
                     cmd.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
-                    cmd.Parameters.Add("@medicine", SqlDbType.Int).Value = diagnose.PrescribedMedicines;//grel sra hamar tostring
 
                     cmd.ExecuteNonQuery();
                 }
 
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
+
+
+                    //cmd1.Parameters.Add(" @description", SqlDbType.NVarChar, 20).Value = diagnose.Disease;
+                    //cmd1.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
+                    //cmd1.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
+                    //cmd1.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
+                    //must be to do
+                    // cmd.ExecuteNonQuery();
+                }
 
             }
-
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);

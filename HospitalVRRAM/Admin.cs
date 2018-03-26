@@ -20,27 +20,28 @@ namespace HospitalClasses
         public Admin(string name, string surname, int passportID, string login, string password)
             : base(name, surname, passportID, login, password)
         {
-            string SQlcmd = "dbo.insertAdmin";
-            var conn = HospitalConnection.CreateDbConnection();
-            try
-            {
-                using (conn)
-                {
-                    conn.Open();
-                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = name;
-                    cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surname;
-                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
-                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
+            // must read from config
+            //string SQlcmd = "dbo.insertAdmin";
+            //var conn = HospitalConnection.CreateDbConnection();
+            //try
+            //{
+            //    using (conn)
+            //    {
+            //        conn.Open();
+            //        var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.StoredProcedure);
+            //        cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = name;
+            //        cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surname;
+            //        cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
+            //        cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
+            //        cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
 
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            //        cmd.ExecuteNonQuery();
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
 
         }
 
@@ -75,6 +76,9 @@ namespace HospitalClasses
         }
         public void ChangePrice(Medicine medicine, decimal price)
         {
+            if (price < 0)
+                throw new Exception("Price must be poisitive.");
+
             var conn = HospitalConnection.CreateDbConnection();
             string sSQL = "sp_ChangeMedcinePrice";
             try
@@ -147,8 +151,6 @@ namespace HospitalClasses
                             string name = (string)reader["Name"];
                             string surname = (string)reader["surname"];
                             int passportID = (int)reader["PassportID"];
-                            string login = (string)reader["Login"];
-                            string password = (string)reader["Password"];
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
                             decimal consCost = (decimal)reader["ConsultationCost"];//must be added in db
@@ -156,8 +158,7 @@ namespace HospitalClasses
                             string phoneNumber = (string)reader["PhoneNumber"];
                             int speciality = (int)reader["Speciality"];
 
-                            Doctor pat = new Doctor(name,surname,passportID,login,
-                                                    password,speciality,dateOfapproval,consCost);
+                            Doctor pat = new Doctor(name,surname,passportID,speciality,dateOfapproval,consCost);
                             docs.Add(pat);
                         }
                     }

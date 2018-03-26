@@ -28,7 +28,7 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public User(string name, string surname, int passportID, string login, string password)
+        protected User(string name, string surname, int passportID, string login, string password)
         {
             Name = name;
             Surname = surname;
@@ -55,7 +55,7 @@ namespace HospitalClasses
 
 
         // Methods //
-        bool PassportIdIsUnique(int passportID)
+       public  bool PassportIdIsUnique(int passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -97,6 +97,48 @@ namespace HospitalClasses
             return true;
         }
 
+        public bool LoginIdIsUnique(string login)
+        {
+            int existInDB = 0;
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.FindPatientLogin";
+
+            using (conn)
+            {
+                conn.Open();
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                cmd.ExecuteNonQuery();
+
+                existInDB = (int)cmd.ExecuteScalar();
+            }
+
+            if (existInDB == 1)
+                return false;
+
+            /////////
+
+            conn = HospitalConnection.CreateDbConnection();
+
+            SQLcmd = "dbo.FindDoctortLogin";
+
+            using (conn)
+            {
+                conn.Open();
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                cmd.ExecuteNonQuery();
+
+                existInDB = (int)cmd.ExecuteScalar();
+            }
+
+            if (existInDB == 1)
+                return false;
+
+            return true;
+        }
+
         public bool LoginIsValid(string login)
         {
             //validation
@@ -107,46 +149,11 @@ namespace HospitalClasses
             
             else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
             {
-                throw new Exception("login must have SOMETHING@pat.host form");
+                throw new Exception("login must have SOMETHING@pat.hosp form");
             }
-            else
+            else if(!LoginIdIsUnique(login))
             {
-                int existInDB = 0;
-                var conn = HospitalConnection.CreateDbConnection();
-
-                string SQLcmd = "dbo.FindPatientLogin";
-
-                using (conn)
-                {
-                    conn.Open();
-                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
-                    cmd.ExecuteNonQuery();
-
-                    existInDB = (int)cmd.ExecuteScalar();
-                }
-
-                if (existInDB == 1)
-                    throw new Exception("this login already exists");
-
-                /////////
-
-                conn = HospitalConnection.CreateDbConnection();
-
-                SQLcmd = "dbo.FindDoctortLogin";
-
-                using (conn)
-                {
-                    conn.Open();
-                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
-                    cmd.ExecuteNonQuery();
-
-                    existInDB = (int)cmd.ExecuteScalar();
-                }
-
-                if (existInDB == 1)
-                    throw new Exception("this login already exists");
+                throw new Exception("this login already exists");
             }
 
             return true;
@@ -191,7 +198,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public virtual void AddPicture(byte[] pic)
+        public virtual void AddPicture(User user, byte[] pic)
         {
             Picture = pic;
             //TODO

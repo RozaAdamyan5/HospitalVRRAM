@@ -80,19 +80,16 @@
 --	CONSTRAINT 	PK_Assign	PRIMARY KEY (DiagnoseID,MedicineID),
 --);
 ----------------------------------------------------------------------------------------------
- Create procedure dbo.sp_AddMedecine  
- @[ID]				int		,
- @[Name1] 			NVARCHAR    ,
- @Country			NVARCHAR,
- @ExpirationDate	DATETIME	,
- @Price			    SMALLMONEY,
- @Picture			VARBINARY 
- AS
- BEGIN
-   insert into Medicine(ID,[Name] ,Country	,ExpirationDate	,Price,Picture)
-   values (@[ID] , @[Name] ,@Country	,@ExpirationDate,@Price,@Picture)
- END					
-						
-						
-									
-								
+ --Create procedure sp_AddMedecine  
+ --@[ID]				int		,
+ --@[Name1] 			NVARCHAR    ,
+ --@Country			NVARCHAR, 
+ --@ExpirationDate	DATETIME	,
+ --@Price			    SMALLMONEY,
+ --@Picture			VARBINARY 
+ --AS
+ --BEGIN
+ --  insert into Medicine(ID,[Name] ,Country	,ExpirationDate	,Price,Picture)
+ --  values (@[ID] , @[Name] ,@Country	,@ExpirationDate,@Price,@Picture)
+ --END					
+--chem karoxanum
