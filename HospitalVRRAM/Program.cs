@@ -20,10 +20,9 @@ namespace HospitalVRRAM
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new RegisterWindow());
             //Application.Run(new LoginWindow());
-            Application.Run(new DiagnosisWindow("Name Surname"));
-            //Application.Run(new DoctorProfileWindow(new Doctor("Name", "Surname", 15, "blah", "aaa", "aaa", new DateTime(1991, 01, 10), 1000)));
-            //Application.Run(new PatientProfileWindow(new Patient("Name", "Surname", 551, "099999999", "fsafa", "afasfa", "aaaa", new DateTime(1999, 10, 10))));
-            //Application.Run(new AdminProfileWindow());
+            //Application.Run(new DiagnosisWindow("Name Surname"));
+            Application.Run(new DoctorProfileWindow(new Doctor("Name", "Surname", 15, "blah", "aaa", "aaa", new DateTime(1991, 01, 10), 1000)));
+            Application.Run(new PatientProfileWindow("Name", "Surname", "1500", "099999999", "01/10/1991"));
         }
     }
 }
