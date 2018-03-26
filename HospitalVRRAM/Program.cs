@@ -21,8 +21,8 @@ namespace HospitalVRRAM
             //Application.Run(new RegisterWindow());
             //Application.Run(new LoginWindow());
             //Application.Run(new DiagnosisWindow("Name Surname"));
-            Application.Run(new DoctorProfileWindow(new Doctor("Name", "Surname", 15, "blah", "aaa", "aaa", new DateTime(1991, 01, 10), 1000)));
-            Application.Run(new PatientProfileWindow("Name", "Surname", "1500", "099999999", "01/10/1991"));
+            Application.Run(new DoctorProfileWindow(new Doctor("Name", "Surname", 15, "blah", "aaa", 0, new DateTime(1991, 01, 10), 1000)));
+            Application.Run(new PatientProfileWindow(new Patient("Name", "Surname", 0, "099999999",  new DateTime(0,0,0))));
         }
     }
 }
