@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HospitalClasses;
+using System.Drawing.Drawing2D;
 
 namespace HospitalForms
 {
@@ -18,12 +19,12 @@ namespace HospitalForms
         static Bitmap removeIcon;
         Doctor doctor;
         Patient patient;
-        List<Tuple<string, int>> prescribed = new List<Tuple<string, int>>();
+        List<string> prescribed = new List<string>();
 
         public DiagnosisWindow(string patientsName)
         {
             InitializeComponent();
-            nameEdit.Text += patientsName;
+            fullName.Text = patientsName;
             removeIcon = new Bitmap((Bitmap)(global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
         }
 
@@ -45,35 +46,22 @@ namespace HospitalForms
 
         private void loadTable()
         {
-            medicineListTable.Controls.Add(new Label() { Text = "No" });
+            medicineListTable.Controls.Add(new Label() { Text = "No",  });
             medicineListTable.Controls.Add(new Label() { Text = "Medicine" });
-            medicineListTable.Controls.Add(new Label() { Text = "Count" });
             medicineListTable.Controls.Add(new Label() { Text = " " });
         }
 
         private void checkDisableEnable(object sender, EventArgs e)
         {
-            if (medicineName.SelectedIndex == -1)
-            {
-                addMedicine.Enabled = false;
-                medicineCount.Enabled = false;
-            }
-            else
-            {
-                medicineCount.Enabled = true;
-                if (Convert.ToInt32(medicineCount.Value) == 0)
-                    addMedicine.Enabled = false;
-                else
-                    addMedicine.Enabled = true;
-            }
+            addMedicine.Enabled = medicineName.SelectedIndex != -1;
         }
 
         private void AddMedicine_Click(object sender, EventArgs e)
         {
-            prescribed.Add(new Tuple<string, int>(medicineName.Text, Convert.ToInt32(medicineCount.Value)));
+            prescribed.Add(medicineName.Text);
+            medicineName.Items.RemoveAt(medicineName.SelectedIndex);
             updateTable();
             medicineName.SelectedIndex = -1;
-            medicineCount.Value = 0;
             medicineListTable.RowCount++;
             checkDisableEnable(sender, e);
         }
@@ -86,8 +74,7 @@ namespace HospitalForms
             foreach(var row in prescribed)
             {
                 medicineListTable.Controls.Add(new Label() { Text = (prescribed.IndexOf(row) + 1).ToString()});
-                medicineListTable.Controls.Add(new Label() { Text = row.Item1 });
-                medicineListTable.Controls.Add(new Label() { Text = row.Item2.ToString() });
+                medicineListTable.Controls.Add(new Label() { Text = row });
                 Label removeLabel = new Label() { Image = removeIcon };
                 removeLabel.Click += (sender, e) => deleteClicked(sender, e, prescribed.IndexOf(row));
                 medicineListTable.Controls.Add(removeLabel);
@@ -99,6 +86,23 @@ namespace HospitalForms
             prescribed.RemoveAt(index);
             updateTable();
         }
-    
+
+        private void DiagnosisWindow_Paint(object sender, PaintEventArgs e)
+        {
+            if (this.ClientRectangle.IsEmpty)
+                return;
+            using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
+                                                               Color.GhostWhite,
+                                                               Color.LightGreen,
+                                                               90F))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+        }
+
+        private void DiagnosisWindow_Resize(object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
     }
 }
