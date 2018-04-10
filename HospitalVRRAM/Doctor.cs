@@ -26,7 +26,6 @@ namespace HospitalClasses
 
 
         //Constructor//
-
         public Doctor(string name, string surname, int passportID, string login, string password,
            int speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
@@ -57,9 +56,8 @@ namespace HospitalClasses
             }
         }
 
-        public Doctor(string name, string surname, int passportID,
-                      int speciality,DateTime getEmployed, 
-                      decimal consultationCost) : base(name, surname, passportID)
+        public Doctor(string name, string surname, int passportID,int speciality,
+            DateTime getEmployed,decimal consultationCost) : base(name, surname, passportID)
         {
             Speciality = speciality;
             GetEmployed = getEmployed;
