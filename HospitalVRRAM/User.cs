@@ -144,16 +144,16 @@ namespace HospitalClasses
             //validation
             if(login.Length < 8)
             {
-                throw new Exception("login must be at least 8 characters.");
+                throw new Exception("Login must be at least 8 characters.");
             }
             
-            else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
-            {
-                throw new Exception("login must have SOMETHING@pat.hosp form");
-            }
+            //else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
+            //{
+            //    throw new Exception("login must have SOMETHING@pat.hosp form");
+            //}
             else if(!LoginIdIsUnique(login))
             {
-                throw new Exception("this login already exists");
+                throw new Exception("This login already exists");
             }
 
             return true;

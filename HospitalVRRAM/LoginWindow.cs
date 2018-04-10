@@ -45,5 +45,15 @@ namespace HospitalForms
         {
             this.Invalidate();
         }
+
+        private void loginBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

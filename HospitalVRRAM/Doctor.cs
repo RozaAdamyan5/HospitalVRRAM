@@ -73,7 +73,7 @@ namespace HospitalClasses
         {
 
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_WriteDiagnosInDiagnosis";
+            string sSQL = "sp_WriteDiagnosInDiagnoses";
             string sSQL1 = "sp_AddMedicineInAssignedTo";
             try
             {

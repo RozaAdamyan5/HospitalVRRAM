@@ -110,6 +110,7 @@ namespace HospitalClasses
             }
             return patient;
         }
+
         public DateTime RequestForConsult(Doctor doctor)
         {
             return doctor.newPatient(this);
