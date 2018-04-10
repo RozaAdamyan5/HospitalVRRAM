@@ -45,22 +45,25 @@
             this.label1 = new System.Windows.Forms.Label();
             this.profilePicBox = new System.Windows.Forms.PictureBox();
             this.allMedicine = new System.Windows.Forms.Button();
+            this.addPicture = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
             this.SuspendLayout();
             // 
             // universalPanel
             // 
-            this.universalPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.universalPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.universalPanel.Location = new System.Drawing.Point(420, 15);
+            this.universalPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.universalPanel.BackColor = System.Drawing.Color.Transparent;
+            this.universalPanel.Location = new System.Drawing.Point(470, 15);
             this.universalPanel.Name = "universalPanel";
-            this.universalPanel.Size = new System.Drawing.Size(300, 300);
+            this.universalPanel.Size = new System.Drawing.Size(500, 500);
             this.universalPanel.TabIndex = 29;
             // 
             // changePassword
             // 
+            this.changePassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.changePassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.changePassword.Location = new System.Drawing.Point(240, 165);
+            this.changePassword.Location = new System.Drawing.Point(289, 165);
             this.changePassword.Name = "changePassword";
             this.changePassword.Size = new System.Drawing.Size(162, 42);
             this.changePassword.TabIndex = 28;
@@ -70,8 +73,9 @@
             // 
             // allPatients
             // 
+            this.allPatients.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.allPatients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allPatients.Location = new System.Drawing.Point(251, 65);
+            this.allPatients.Location = new System.Drawing.Point(300, 65);
             this.allPatients.Name = "allPatients";
             this.allPatients.Size = new System.Drawing.Size(140, 42);
             this.allPatients.TabIndex = 27;
@@ -81,8 +85,9 @@
             // 
             // allDoctors
             // 
+            this.allDoctors.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.allDoctors.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allDoctors.Location = new System.Drawing.Point(251, 15);
+            this.allDoctors.Location = new System.Drawing.Point(300, 15);
             this.allDoctors.Name = "allDoctors";
             this.allDoctors.Size = new System.Drawing.Size(140, 42);
             this.allDoctors.TabIndex = 26;
@@ -93,95 +98,105 @@
             // balanceLabel
             // 
             this.balanceLabel.AutoSize = true;
-            this.balanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.balanceLabel.Location = new System.Drawing.Point(170, 310);
+            this.balanceLabel.BackColor = System.Drawing.Color.Transparent;
+            this.balanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.balanceLabel.Location = new System.Drawing.Point(170, 390);
             this.balanceLabel.Name = "balanceLabel";
-            this.balanceLabel.Size = new System.Drawing.Size(0, 20);
+            this.balanceLabel.Size = new System.Drawing.Size(0, 22);
             this.balanceLabel.TabIndex = 25;
             // 
             // phoneNumberLabel
             // 
             this.phoneNumberLabel.AutoSize = true;
-            this.phoneNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phoneNumberLabel.Location = new System.Drawing.Point(170, 280);
+            this.phoneNumberLabel.BackColor = System.Drawing.Color.Transparent;
+            this.phoneNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.phoneNumberLabel.Location = new System.Drawing.Point(170, 355);
             this.phoneNumberLabel.Name = "phoneNumberLabel";
-            this.phoneNumberLabel.Size = new System.Drawing.Size(0, 20);
+            this.phoneNumberLabel.Size = new System.Drawing.Size(0, 22);
             this.phoneNumberLabel.TabIndex = 24;
             // 
             // birthdateLabel
             // 
             this.birthdateLabel.AutoSize = true;
-            this.birthdateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.birthdateLabel.Location = new System.Drawing.Point(170, 250);
+            this.birthdateLabel.BackColor = System.Drawing.Color.Transparent;
+            this.birthdateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.birthdateLabel.Location = new System.Drawing.Point(170, 320);
             this.birthdateLabel.Name = "birthdateLabel";
-            this.birthdateLabel.Size = new System.Drawing.Size(0, 20);
+            this.birthdateLabel.Size = new System.Drawing.Size(0, 22);
             this.birthdateLabel.TabIndex = 23;
             // 
             // surnameLabel
             // 
             this.surnameLabel.AutoSize = true;
-            this.surnameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.surnameLabel.Location = new System.Drawing.Point(170, 220);
+            this.surnameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.surnameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.surnameLabel.Location = new System.Drawing.Point(170, 285);
             this.surnameLabel.Name = "surnameLabel";
-            this.surnameLabel.Size = new System.Drawing.Size(0, 20);
+            this.surnameLabel.Size = new System.Drawing.Size(0, 22);
             this.surnameLabel.TabIndex = 22;
             // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameLabel.Location = new System.Drawing.Point(170, 190);
+            this.nameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.nameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.nameLabel.Location = new System.Drawing.Point(170, 250);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(0, 20);
+            this.nameLabel.Size = new System.Drawing.Size(0, 22);
             this.nameLabel.TabIndex = 21;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(20, 310);
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.label5.Location = new System.Drawing.Point(20, 390);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 20);
+            this.label5.Size = new System.Drawing.Size(80, 22);
             this.label5.TabIndex = 20;
             this.label5.Text = "Balance:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(20, 280);
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.label4.Location = new System.Drawing.Point(20, 355);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 20);
+            this.label4.Size = new System.Drawing.Size(132, 22);
             this.label4.TabIndex = 19;
             this.label4.Text = "Phone number:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(20, 250);
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.label3.Location = new System.Drawing.Point(20, 320);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 20);
+            this.label3.Size = new System.Drawing.Size(113, 22);
             this.label3.TabIndex = 18;
             this.label3.Text = "Date of birth:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(20, 220);
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.label2.Location = new System.Drawing.Point(20, 285);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 20);
+            this.label2.Size = new System.Drawing.Size(87, 22);
             this.label2.TabIndex = 17;
             this.label2.Text = "Surname:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(20, 190);
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.label1.Location = new System.Drawing.Point(20, 250);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 20);
+            this.label1.Size = new System.Drawing.Size(62, 22);
             this.label1.TabIndex = 16;
             this.label1.Text = "Name:";
             // 
@@ -190,14 +205,15 @@
             this.profilePicBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.profilePicBox.Location = new System.Drawing.Point(25, 15);
             this.profilePicBox.Name = "profilePicBox";
-            this.profilePicBox.Size = new System.Drawing.Size(122, 152);
+            this.profilePicBox.Size = new System.Drawing.Size(150, 180);
             this.profilePicBox.TabIndex = 15;
             this.profilePicBox.TabStop = false;
             // 
             // allMedicine
             // 
+            this.allMedicine.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.allMedicine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allMedicine.Location = new System.Drawing.Point(251, 115);
+            this.allMedicine.Location = new System.Drawing.Point(300, 115);
             this.allMedicine.Name = "allMedicine";
             this.allMedicine.Size = new System.Drawing.Size(140, 42);
             this.allMedicine.TabIndex = 30;
@@ -205,11 +221,37 @@
             this.allMedicine.UseVisualStyleBackColor = true;
             this.allMedicine.Click += new System.EventHandler(this.allMedicine_Click);
             // 
+            // addPicture
+            // 
+            this.addPicture.AutoSize = true;
+            this.addPicture.BackColor = System.Drawing.Color.Transparent;
+            this.addPicture.Location = new System.Drawing.Point(71, 198);
+            this.addPicture.Name = "addPicture";
+            this.addPicture.Size = new System.Drawing.Size(62, 13);
+            this.addPicture.TabIndex = 31;
+            this.addPicture.Text = "Add Picture";
+            this.addPicture.Click += new System.EventHandler(this.addPicture_Click);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label6.Location = new System.Drawing.Point(910, 580);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 20);
+            this.label6.TabIndex = 32;
+            this.label6.Text = "Log out";
+            // 
             // AdminProfileWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 401);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1034, 636);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.addPicture);
             this.Controls.Add(this.allMedicine);
             this.Controls.Add(this.universalPanel);
             this.Controls.Add(this.changePassword);
@@ -229,7 +271,12 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "AdminProfileWindow";
-            this.Text = "AdminProfileWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Admin";
+            this.TopMost = true;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.AdminProfileWindow_Paint);
+            this.Resize += new System.EventHandler(this.AdminProfileWindow_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -254,5 +301,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox profilePicBox;
         private System.Windows.Forms.Button allMedicine;
+        private System.Windows.Forms.Label addPicture;
+        private System.Windows.Forms.Label label6;
     }
 }

@@ -71,7 +71,7 @@ namespace HospitalClasses
         {
 
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_WriteDiagnosInDiagnosis";
+            string sSQL = "sp_WriteDiagnosInDiagnoses";
             string sSQL1 = "sp_AddMedicineInAssignedTo";
             try
             {
@@ -256,7 +256,7 @@ namespace HospitalClasses
         {
             return new DateTime(0, 0, 0);
         }
-        public override void AddPicture(byte[] pic)
+        public void AddPicture(byte[] pic)
         {
 
             string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
