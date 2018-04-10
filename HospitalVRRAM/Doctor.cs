@@ -69,12 +69,12 @@ namespace HospitalClasses
 
 
             // Methods //
-            public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
+        public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
-         //   patient.MyHistory.Add(diagnose);
 
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_WriteDiagnos";
+            string sSQL = "sp_WriteDiagnosInDiagnosis";
+            string sSQL1 = "sp_AddMedicineInAssignedTo";
             try
             {
                 using (conn)
@@ -87,14 +87,25 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
                     cmd.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
                     cmd.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
-                    cmd.Parameters.Add("@medicine", SqlDbType.Int).Value = diagnose.PrescribedMedicines;//grel sra hamar tostring
 
                     cmd.ExecuteNonQuery();
                 }
 
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
+
+
+                    //cmd1.Parameters.Add(" @description", SqlDbType.NVarChar, 20).Value = diagnose.Disease;
+                    //cmd1.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
+                    //cmd1.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
+                    //cmd1.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
+                    //must be to do
+                    // cmd.ExecuteNonQuery();
+                }
 
             }
-
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -150,10 +161,10 @@ namespace HospitalClasses
                              + "From AssignedTo \r\n"
                              + "join Medicine on AssignedTo.MedicineID=Medicine.MedicineID \r\n"
                              + "join Diagnosis on Diagnosis.DiagnoseID=AssignedTo.DiagnoseID\r\n"
-                             + "Where doctorId =@doctID and patientID=@patID\r\n";
+                             + "Where patientID=@patID\r\n";
             string sSQL2 = "Select Description,DateOfDiagnosis\r\n"
                            + "From Diagnoses\r\n"
-                           + "Where doctorId=@doctorID and patientID=@patID\r\n";
+                           + "Where patientID=@patID\r\n";
 
             List<Medicine> medList = new List<Medicine>();
 
@@ -175,17 +186,10 @@ namespace HospitalClasses
                         SqlDbType = SqlDbType.SmallInt,
                         Value = patient,
                     };
-                    SqlParameter parameter1 = new SqlParameter
-                    {
-                        ParameterName = "@docID",
-                        SqlDbType = SqlDbType.SmallInt,
-                        Value = patient,
-                    };
+
                     cmd.Parameters.Add(parameter);
-                    cmd.Parameters.Add(parameter1);
 
                     cmd2.Parameters.Add(parameter);
-                    cmd2.Parameters.Add(parameter1);
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
@@ -238,6 +242,7 @@ namespace HospitalClasses
 
             return Patients;
         }
+
         public DateTime newPatient(Patient patient)
         {
             //add in Dictionary of patietnts
@@ -253,46 +258,45 @@ namespace HospitalClasses
         {
             return new DateTime(0, 0, 0);
         }
-        //must be written
-        //public override void AddPictureINDB(byte[] pic)
-        //{
+        public void AddPicture(byte[] pic)
+        {
 
-        //    string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
-        //               + "from Medicine\r\n"
-        //               + " where passportID=@passportID";
+            string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
+                       + "from Medicine\r\n"
+                       + " where passportID=@passportID";
 
-        //    try
-        //    {
-        //        var conn = HospitalConnection.CreateDbConnection();
-        //        conn.Open();
+            try
+            {
+                var conn = HospitalConnection.CreateDbConnection();
+                conn.Open();
 
         //        var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
-        //        cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
 
-        //        using (SqlDataReader reader = cmd.ExecuteReader())
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                // Get the pointer for file
-        //                var path = reader.GetString(reader.GetOrdinal("PathName"));
-        //                var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Get the pointer for file
+                        var path = reader.GetString(reader.GetOrdinal("PathName"));
+                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
 
-        //                var ms = new MemoryStream(imbytes);
+                        var ms = new MemoryStream(imbytes);
 
-        //                Image photo = Image.FromStream(ms);
-        //                //must be done using our form
-        //                //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
-        //                //  pictureBox1.Image = photo;
-        //            }
-        //        }
+                        Image photo = Image.FromStream(ms);
+                        //must be done using our form
+                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
+                        //  pictureBox1.Image = photo;
+                    }
+                }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         //End Methods //
     }

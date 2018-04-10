@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,20 @@ namespace HospitalForms
 
         private void RegisterWindow_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawLine(new Pen(Color.FromArgb(100, 0, 0, 0)), 25, 330, 415, 330);
+            if (this.ClientRectangle.IsEmpty)
+                return;
+            using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
+                                                               Color.GhostWhite,
+                                                               Color.SteelBlue,
+                                                               90F))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+        }
+
+        private void RegisterWindow_Resize(object sender, EventArgs e)
+        {
+            this.Invalidate();
         }
     }
 }

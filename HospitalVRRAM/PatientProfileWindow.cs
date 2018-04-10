@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +17,10 @@ namespace HospitalForms
     {
         Patient patient;
 
-        public PatientProfileWindow(Patient patient)
+        public PatientProfileWindow(Patient pat)
         {
             InitializeComponent();
-            this.patient = patient;
+            patient = pat;
         }
 
         private void PatientProfileWindow_Load(object sender, EventArgs e)
@@ -27,7 +29,7 @@ namespace HospitalForms
             surnameLabel.Text = patient.Surname;
             balanceLabel.Text = patient.Balance.ToString();
             phoneNumberLabel.Text = patient.PhoneNumber;
-            birthdateLabel.Text = patient.DateOfBirth.ToString();
+            birthdateLabel.Text = patient.DateOfBirth.ToShortDateString();
             if (patient.Picture != null)
                 profilePicBox.Image = (Bitmap)((new ImageConverter()).ConvertFrom(patient.Picture));
         }
@@ -35,9 +37,6 @@ namespace HospitalForms
         private void historyButton_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            this.Width = 750;
-            universalPanel.BorderStyle = BorderStyle.Fixed3D;
-            universalPanel.BackColor = Color.White;
 
             DataGridView historyView = new DataGridView() { DefaultCellStyle = new DataGridViewCellStyle() { WrapMode = DataGridViewTriState.True },
                                                             AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
@@ -93,9 +92,6 @@ namespace HospitalForms
         private void registerConsultation_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            this.Width = 750;
-            universalPanel.BorderStyle = BorderStyle.Fixed3D;
-            universalPanel.BackColor = Color.White;
             // TODO
             // Show registration for consultation form in universalPanel
         }
@@ -103,20 +99,64 @@ namespace HospitalForms
         private void changePassword_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            this.Width = 750;
-            universalPanel.BorderStyle = BorderStyle.None;
-            universalPanel.BackColor = DefaultBackColor;
 
-            Label oldPasswordLabel = new Label() { Text = "Old Password", Width = 100, Left = 20, Top = 22 };
-            Label newPasswordLabel = new Label() { Text = "New Password", Width = 100, Left = 20, Top = 52 };
-            Label confirmPasswordLabel = new Label() { Text = "Confirm Password", Width = 100, Left = 20, Top = 82 };
-            TextBox oldPassword = new TextBox() { Width = 150, Height = 20, Left = 140, Top = 20, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password };
-            TextBox newPassword = new TextBox() { Width = 150, Height = 20, Left = 140, Top = 50, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password };
-            TextBox confirmPassword = new TextBox() { Width = 150, Height = 20, Left = 140, Top = 80, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password };
-            Button saveButton = new Button() { Text = "Save", Left = 215, Top = 110 };
+            var tmpFont = new Font("Microsoft Sans Serif", 10F);
+
+            Label oldPasswordLabel = new Label() { Text = "Old Password", Width = 140, Left = 20, Top = 22, Font = tmpFont };
+            Label newPasswordLabel = new Label() { Text = "New Password", Width = 140, Left = 20, Top = 52, Font = tmpFont };
+            Label confirmPasswordLabel = new Label() { Text = "Confirm Password", Width = 140, Left = 20, Top = 82, Font = tmpFont };
+            TextBox oldPassword = new TextBox() { Width = 180, Height = 23, Left = 160, Top = 20, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password, Font = tmpFont };
+            TextBox newPassword = new TextBox() { Width = 180, Height = 23, Left = 160, Top = 50, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password, Font = tmpFont };
+            TextBox confirmPassword = new TextBox() { Width = 180, Height = 23, Left = 160, Top = 80, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password, Font = tmpFont };
+            Button saveButton = new Button() { Text = "Save", Left = 260, Top = 110, Font = tmpFont, Height = 30 };
 
             universalPanel.Controls.AddRange(
                 new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
+        }
+
+        private void addPicture_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            OpenFileDialog selectPicture = new OpenFileDialog() { InitialDirectory = "C:\\", Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG" };
+            if (selectPicture.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = selectPicture.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            profilePicBox.Image = new Bitmap(myStream);
+                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
+                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
+                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                            addPicture.Text = "Change Picture"; addPicture.Left = 45;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
+        }
+
+        private void PatientProfileWindow_Paint(object sender, PaintEventArgs e)
+        {
+            if (this.ClientRectangle.IsEmpty)
+                return;
+            using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
+                                                               Color.GhostWhite,
+                                                               Color.SteelBlue,
+                                                               90F))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+        }
+
+        private void PatientProfileWindow_Resize(object sender, EventArgs e)
+        {
+            this.Invalidate();
         }
     }
 }
