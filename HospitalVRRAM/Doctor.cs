@@ -17,7 +17,7 @@ namespace HospitalClasses
     {
         //  Properties  //
 
-        public int Speciality { get; set; }
+        public string Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
         public Dictionary<DateTime, Patient> Patients { get; set; }
@@ -28,7 +28,7 @@ namespace HospitalClasses
         //Constructor//
 
         public Doctor(string name, string surname, int passportID, string login, string password,
-           int speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
+           string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
@@ -44,7 +44,7 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
 
-                    cmd.Parameters.Add("@Speciality", SqlDbType.TinyInt).Value = speciality;
+                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
 
@@ -55,10 +55,14 @@ namespace HospitalClasses
             {
                 Console.WriteLine(e.Message);
             }
+
+            Speciality = speciality;
+            GetEmployed = getEmployed;
+            ConsultationCost = consultationCost;
         }
 
         public Doctor(string name, string surname, int passportID,
-                      int speciality,DateTime getEmployed, 
+                      string speciality, DateTime getEmployed, 
                       decimal consultationCost) : base(name, surname, passportID)
         {
             Speciality = speciality;
@@ -239,14 +243,13 @@ namespace HospitalClasses
 
         public Dictionary<DateTime, Patient> Calendar()
         {
-
             return Patients;
         }
 
-        public DateTime newPatient(Patient patient)
+        public void newPatient(Patient patient, DateTime dTime)
         {
             //add in Dictionary of patietnts
-            return new DateTime();
+            Patients[dTime] = patient;
         }
 
         public void ServePatient(Patient patient, Diagnosis diagnose)
@@ -254,10 +257,53 @@ namespace HospitalClasses
 
         }
 
-        private DateTime FreeTime()
+        public DateTime FreeTime(DateTime day)
         {
-            return new DateTime(0, 0, 0);
+            DateTime current = new DateTime(day.Year, day.Month, day.Day, day.Hour, day.Minute, 0);
+
+            DateTime ll = new DateTime(day.Year, day.Month, day.Day, 9, 0, 0), rr = new DateTime(day.Year, day.Month, day.Day, 18, 40, 0);
+
+            Patients = new Dictionary<DateTime, Patient>();
+            Patients[current] = new Patient("aa", "aaa", 5413, "asa", DateTime.Now);
+
+            for(int i = 0; i < 60 * 10; i++)
+            {
+                current = current.AddMinutes(i);
+
+                bool valid = true;
+                for(int j = -19; j < 20; j++)
+                    if (Patients != null && Patients.ContainsKey(current.AddMinutes(j)))
+                    {
+                        valid = false;
+                        break;
+                    }
+
+                if (valid && current >= ll && current <= rr)
+                {
+                    return current;
+                }
+
+                current = current.AddMinutes(-2 * i);
+
+                valid = true;
+                for (int j = -19; j < 20; j++)
+                    if (Patients != null && Patients.ContainsKey(current.AddMinutes(j)))
+                    {
+                        valid = false;
+                        break;
+                    }
+
+                if (valid && current >= ll && current <= rr)
+                {
+                    return current;
+                }
+
+                current = current.AddMinutes(i);
+            }
+
+            throw new Exception();
         }
+
         public void AddPicture(byte[] pic)
         {
 

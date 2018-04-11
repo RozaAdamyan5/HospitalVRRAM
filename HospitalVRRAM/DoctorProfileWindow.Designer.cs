@@ -46,13 +46,14 @@
             this.universalPanel = new System.Windows.Forms.Panel();
             this.addPicture = new System.Windows.Forms.Label();
             this.calendarPanel = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.patientsOfDay = new System.Windows.Forms.TableLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.currentDate = new System.Windows.Forms.Label();
             this.calendar = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
-            this.currentDate = new System.Windows.Forms.Label();
-            this.patientsOfDay = new System.Windows.Forms.TableLayoutPanel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
             this.calendarPanel.SuspendLayout();
             this.SuspendLayout();
@@ -230,17 +231,85 @@
             // calendarPanel
             // 
             this.calendarPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.calendarPanel.AutoScroll = true;
             this.calendarPanel.BackColor = System.Drawing.Color.Transparent;
+            this.calendarPanel.Controls.Add(this.label10);
+            this.calendarPanel.Controls.Add(this.patientsOfDay);
             this.calendarPanel.Controls.Add(this.label9);
             this.calendarPanel.Controls.Add(this.label8);
             this.calendarPanel.Controls.Add(this.label7);
-            this.calendarPanel.Controls.Add(this.patientsOfDay);
             this.calendarPanel.Controls.Add(this.currentDate);
             this.calendarPanel.Controls.Add(this.calendar);
             this.calendarPanel.Location = new System.Drawing.Point(470, 15);
             this.calendarPanel.Name = "calendarPanel";
-            this.calendarPanel.Size = new System.Drawing.Size(500, 500);
+            this.calendarPanel.Size = new System.Drawing.Size(521, 500);
             this.calendarPanel.TabIndex = 16;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(402, 266);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 20);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "Status";
+            // 
+            // patientsOfDay
+            // 
+            this.patientsOfDay.AutoSize = true;
+            this.patientsOfDay.ColumnCount = 4;
+            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
+            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
+            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.patientsOfDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.patientsOfDay.Location = new System.Drawing.Point(7, 288);
+            this.patientsOfDay.Name = "patientsOfDay";
+            this.patientsOfDay.RowCount = 1;
+            this.patientsOfDay.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.patientsOfDay.Size = new System.Drawing.Size(488, 30);
+            this.patientsOfDay.TabIndex = 7;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(256, 266);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(99, 20);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Time Interval";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label8.Location = new System.Drawing.Point(59, 266);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(138, 20);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Patient\'s full name";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(11, 265);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(25, 20);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "№";
+            // 
+            // currentDate
+            // 
+            this.currentDate.AutoSize = true;
+            this.currentDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.currentDate.Location = new System.Drawing.Point(3, 10);
+            this.currentDate.Name = "currentDate";
+            this.currentDate.Size = new System.Drawing.Size(96, 20);
+            this.currentDate.TabIndex = 2;
+            this.currentDate.Text = "Year, Month";
             // 
             // calendar
             // 
@@ -272,61 +341,6 @@
             this.label6.Size = new System.Drawing.Size(63, 20);
             this.label6.TabIndex = 17;
             this.label6.Text = "Log out";
-            // 
-            // currentDate
-            // 
-            this.currentDate.AutoSize = true;
-            this.currentDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.currentDate.Location = new System.Drawing.Point(3, 10);
-            this.currentDate.Name = "currentDate";
-            this.currentDate.Size = new System.Drawing.Size(96, 20);
-            this.currentDate.TabIndex = 2;
-            this.currentDate.Text = "Year, Month";
-            // 
-            // patientsOfDay
-            // 
-            this.patientsOfDay.AutoSize = true;
-            this.patientsOfDay.ColumnCount = 3;
-            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.patientsOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
-            this.patientsOfDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
-            this.patientsOfDay.Location = new System.Drawing.Point(7, 287);
-            this.patientsOfDay.Name = "patientsOfDay";
-            this.patientsOfDay.RowCount = 1;
-            this.patientsOfDay.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.patientsOfDay.Size = new System.Drawing.Size(490, 30);
-            this.patientsOfDay.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label7.Location = new System.Drawing.Point(10, 265);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(24, 20);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "№";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label8.Location = new System.Drawing.Point(58, 268);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(123, 17);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Patient\'s full name";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label9.Location = new System.Drawing.Point(305, 268);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 17);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "Actions";
             // 
             // DoctorProfileWindow
             // 
@@ -396,6 +410,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TableLayoutPanel patientsOfDay;
     }
 }

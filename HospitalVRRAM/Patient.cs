@@ -110,9 +110,10 @@ namespace HospitalClasses
             }
             return patient;
         }
-        public DateTime RequestForConsult(Doctor doctor)
+
+        public void RequestForConsult(Doctor doctor, DateTime perfectTime)
         {
-            return doctor.newPatient(this);
+            doctor.newPatient(this, perfectTime);
         }
 
         public List<Diagnosis> ShowMyHistory()
@@ -225,7 +226,7 @@ namespace HospitalClasses
                         while (reader.Read())
                         {
                             doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (int)reader["PasportID"],
-                                                   (int)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
+                                                   (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], (decimal)reader["ConsultationCost"]));      //incompatibility between databases and classes
                         }
                     }
                 }

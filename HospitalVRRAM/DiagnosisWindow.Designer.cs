@@ -44,10 +44,12 @@
             this.historyPanel = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.fullName = new System.Windows.Forms.Label();
+            this.medicineCount = new System.Windows.Forms.NumericUpDown();
             this.AddNewMedicine.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.scrollablePanel.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.medicineCount)).BeginInit();
             this.SuspendLayout();
             // 
             // patientHistory
@@ -105,6 +107,7 @@
             // AddNewMedicine
             // 
             this.AddNewMedicine.BackColor = System.Drawing.Color.Transparent;
+            this.AddNewMedicine.Controls.Add(this.medicineCount);
             this.AddNewMedicine.Controls.Add(this.addMedicine);
             this.AddNewMedicine.Controls.Add(this.medicineName);
             this.AddNewMedicine.Location = new System.Drawing.Point(51, 290);
@@ -115,7 +118,7 @@
             // addMedicine
             // 
             this.addMedicine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.addMedicine.Location = new System.Drawing.Point(535, 8);
+            this.addMedicine.Location = new System.Drawing.Point(569, 8);
             this.addMedicine.Name = "addMedicine";
             this.addMedicine.Size = new System.Drawing.Size(85, 27);
             this.addMedicine.TabIndex = 2;
@@ -129,9 +132,9 @@
             this.medicineName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.medicineName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.medicineName.FormattingEnabled = true;
-            this.medicineName.Location = new System.Drawing.Point(12, 7);
+            this.medicineName.Location = new System.Drawing.Point(45, 7);
             this.medicineName.Name = "medicineName";
-            this.medicineName.Size = new System.Drawing.Size(410, 28);
+            this.medicineName.Size = new System.Drawing.Size(371, 28);
             this.medicineName.TabIndex = 0;
             this.medicineName.SelectedIndexChanged += new System.EventHandler(this.checkDisableEnable);
             // 
@@ -172,17 +175,17 @@
             // 
             this.medicineListTable.AutoSize = true;
             this.medicineListTable.BackColor = System.Drawing.Color.Transparent;
-            this.medicineListTable.ColumnCount = 3;
-            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 432F));
-            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
+            this.medicineListTable.ColumnCount = 4;
+            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 374F));
+            this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.medicineListTable.Font = new System.Drawing.Font("Consolas", 12F);
             this.medicineListTable.Location = new System.Drawing.Point(0, 0);
             this.medicineListTable.Name = "medicineListTable";
             this.medicineListTable.RowCount = 1;
             this.medicineListTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.medicineListTable.Size = new System.Drawing.Size(649, 30);
+            this.medicineListTable.Size = new System.Drawing.Size(633, 30);
             this.medicineListTable.TabIndex = 13;
             // 
             // historyPanel
@@ -213,6 +216,15 @@
             this.fullName.Size = new System.Drawing.Size(155, 31);
             this.fullName.TabIndex = 20;
             this.fullName.Text = "Name Surname";
+            // 
+            // medicineCount
+            // 
+            this.medicineCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.5F);
+            this.medicineCount.Location = new System.Drawing.Point(453, 7);
+            this.medicineCount.Name = "medicineCount";
+            this.medicineCount.Size = new System.Drawing.Size(82, 28);
+            this.medicineCount.TabIndex = 3;
+            this.medicineCount.ValueChanged += new System.EventHandler(this.checkDisableEnable);
             // 
             // DiagnosisWindow
             // 
@@ -249,6 +261,7 @@
             this.scrollablePanel.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.medicineCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -272,6 +285,7 @@
         private System.Windows.Forms.Panel historyPanel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label fullName;
+        private System.Windows.Forms.NumericUpDown medicineCount;
     }
 }
 

@@ -43,7 +43,7 @@ begin
 end
 go 
 
-create proc dbo.FindDoctorBySpeciality(@Speciality tinyint /*should be varchar*/)
+create proc dbo.FindDoctorBySpeciality(@Speciality varchar(28) )
 as
 begin
 	select *
@@ -60,3 +60,99 @@ begin
 	where PassportID = @PassportID
 end
 go 
+
+CREATE PROC dbo.FindPatientPasspordID
+@passpordID varchar(20)
+AS
+BEGIN
+	IF(exists (select *
+				from Patient
+				where PassportID = @passpordID))
+	BEGIN 
+	RETURN 1
+	END
+
+	ELSE
+	BEGIN
+	RETURN 0
+	END
+END
+go
+
+CREATE PROC dbo.FindDoctorPasspordID
+@passpordID varchar(20)
+AS
+BEGIN
+	IF(exists (select *
+				from Doctor
+				where PassportID = @passpordID))
+	BEGIN 
+	RETURN 1
+	END
+
+	ELSE
+	BEGIN
+	RETURN 0
+	END
+END
+go
+
+CREATE PROC dbo.FindPatientLogin
+@login varchar(20)
+AS
+BEGIN
+	IF(exists (select *
+				from Patient
+				where Login = @login))
+	BEGIN 
+	RETURN 1
+	END
+
+	ELSE
+	BEGIN
+	RETURN 0
+	END
+END
+go
+
+CREATE PROC dbo.FindDoctortLogin
+@login varchar(20)
+AS
+BEGIN
+	IF(exists (select *
+				from Doctor
+				where Login = @login))
+	BEGIN 
+	RETURN 1
+	END
+
+	ELSE
+	BEGIN
+	RETURN 0
+	END
+END
+go
+
+create proc dbo.sp_WriteDiagnosInDiagnoses(@description nvarchar(20), @dateOfDiagnoses datetime,
+										   @patientID char(9), @DoctorID char(9))
+as
+begin
+	insert into Diagnoses values(@description, @dateOfDiagnoses, @patientID, @DoctorID)
+end
+go
+
+create proc dbo.sp_AddMedicineInAssignedTo(@diagnoseID int, @medicineID int)
+as
+begin
+	insert into AssignedTo values(@diagnoseID, @medicineID)
+end
+go
+
+create proc dbo.ReadMyHistory(@PassportID int)
+as
+begin
+	select [Description], DateOfDiagnosis, DiagnosesID
+	from Diagnoses
+	where PatientID = @PassportID
+end
+go

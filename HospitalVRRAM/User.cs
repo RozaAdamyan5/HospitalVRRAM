@@ -55,7 +55,7 @@ namespace HospitalClasses
 
 
         // Methods //
-       public  bool PassportIdIsUnique(int passportID)
+        public bool PassportIdIsUnique(int passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -142,18 +142,18 @@ namespace HospitalClasses
         public bool LoginIsValid(string login)
         {
             //validation
-            if(login.Length < 8)
+            if (login.Length < 8)
             {
-                throw new Exception("login must be at least 8 characters.");
+                throw new Exception("Login must be at least 8 characters.");
             }
-            
-            else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
+
+            //else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
+            //{
+            //    throw new Exception("login must have SOMETHING@pat.hosp form");
+            //}
+            else if (!LoginIdIsUnique(login))
             {
-                throw new Exception("login must have SOMETHING@pat.hosp form");
-            }
-            else if(!LoginIdIsUnique(login))
-            {
-                throw new Exception("this login already exists");
+                throw new Exception("This login already exists");
             }
 
             return true;
@@ -200,19 +200,19 @@ namespace HospitalClasses
 
         public virtual void AddPicture(byte[] pic)
         {
-            Picture = pic;
-            //TODO
-        } // TODO
+            //must be implemented by derived classes
 
-        public decimal ShowBalance()
+        }
+
+        public virtual decimal ShowBalance()
         {
             return Balance;
-        } // TODO
+        }
 
-        public void ChageBalance(int amountForChange)
+        public virtual void ChageBalance(int amountForChange)
         {
             Balance += amountForChange;
-        } // TODO
+        }
 
 
         //End Methods //
