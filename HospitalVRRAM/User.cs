@@ -146,12 +146,12 @@ namespace HospitalClasses
             {
                 throw new Exception("Login must be at least 8 characters.");
             }
-
+            
             //else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
             //{
             //    throw new Exception("login must have SOMETHING@pat.hosp form");
             //}
-            else if (!LoginIdIsUnique(login))
+            else if(!LoginIdIsUnique(login))
             {
                 throw new Exception("This login already exists");
             }
@@ -200,19 +200,19 @@ namespace HospitalClasses
 
         public virtual void AddPicture(byte[] pic)
         {
-            //must be implemented by derived classes
-
-        }
+           //must be implemented by derived classes
+            
+        } 
 
         public virtual decimal ShowBalance()
         {
             return Balance;
-        }
+        } 
 
         public virtual void ChageBalance(int amountForChange)
         {
             Balance += amountForChange;
-        }
+        } 
 
 
         //End Methods //

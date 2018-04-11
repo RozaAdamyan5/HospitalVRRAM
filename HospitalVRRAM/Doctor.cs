@@ -26,7 +26,6 @@ namespace HospitalClasses
 
 
         //Constructor//
-
         public Doctor(string name, string surname, int passportID, string login, string password,
            string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
@@ -44,21 +43,21 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
 
-                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = speciality;
+                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar,28).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
 
                     cmd.ExecuteNonQuery();
                 }
+                
+                Speciality = speciality;
+                GetEmployed = getEmployed;
+                ConsultationCost = consultationCost;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
-            Speciality = speciality;
-            GetEmployed = getEmployed;
-            ConsultationCost = consultationCost;
         }
 
         public Doctor(string name, string surname, int passportID,
@@ -73,11 +72,11 @@ namespace HospitalClasses
 
 
             // Methods //
-        public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
+        private void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
 
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_WriteDiagnosInDiagnosis";
+            string sSQL = "sp_WriteDiagnosInDiagnoses";
             string sSQL1 = "sp_AddMedicineInAssignedTo";
             try
             {
@@ -160,15 +159,9 @@ namespace HospitalClasses
             Diagnosis result = null;
 
             var conn = HospitalConnection.CreateDbConnection();
-            //this two querys must be procedures 
-            string sSQL1 = "Select Medicine.name,Medicine.country,Medicine.price,Medicine.ExpiryDate \r\n"
-                             + "From AssignedTo \r\n"
-                             + "join Medicine on AssignedTo.MedicineID=Medicine.MedicineID \r\n"
-                             + "join Diagnosis on Diagnosis.DiagnoseID=AssignedTo.DiagnoseID\r\n"
-                             + "Where patientID=@patID\r\n";
-            string sSQL2 = "Select Description,DateOfDiagnosis\r\n"
-                           + "From Diagnoses\r\n"
-                           + "Where patientID=@patID\r\n";
+          
+            string sSQL1 = "dbo.GetDiagnoseMedicine";
+            string sSQL2 = "dbo.GetDiagnose";
 
             List<Medicine> medList = new List<Medicine>();
 
@@ -180,20 +173,11 @@ namespace HospitalClasses
             {
                 using (conn)
                 {
-                    var cmd = HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.Text);
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
 
-                    var cmd2 = HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.Text);
-
-                    SqlParameter parameter = new SqlParameter
-                    {
-                        ParameterName = "@patID",
-                        SqlDbType = SqlDbType.SmallInt,
-                        Value = patient,
-                    };
-
-                    cmd.Parameters.Add(parameter);
-
-                    cmd2.Parameters.Add(parameter);
+                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
+                    cmd2.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
@@ -252,7 +236,7 @@ namespace HospitalClasses
             Patients[dTime] = patient;
         }
 
-        public void ServePatient(Patient patient, Diagnosis diagnose)
+        public void ServePatient(Patient patient, Diagnosis diagnose,DateTime time)
         {
 
         }
@@ -292,6 +276,10 @@ namespace HospitalClasses
                         valid = false;
                         break;
                     }
+            WriteDiagnosis(patient, diagnose);
+            patient.MyHistory.Add(diagnose);
+            Patients.Remove(time);
+        }
 
                 if (valid && current >= ll && current <= rr)
                 {
@@ -303,8 +291,7 @@ namespace HospitalClasses
 
             throw new Exception();
         }
-
-        public void AddPicture(byte[] pic)
+        public override void AddPicture(byte[] pic)
         {
 
             string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
@@ -316,7 +303,7 @@ namespace HospitalClasses
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+            var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
                 cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
 
@@ -343,6 +330,12 @@ namespace HospitalClasses
                 MessageBox.Show(ex.Message);
             }
         }
+
+        //public decimal ShowBalance()
+        //{
+
+        //    return Balance;
+        //}
 
         //End Methods //
     }

@@ -128,8 +128,7 @@ namespace HospitalClasses
         public void AddDoctor(Doctor doctor)
         {
             Doctor a = new Doctor(doctor.Name, doctor.Surname, doctor.PassportID, doctor.Login,
-                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost);//constructor will add to db
-
+                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost);//Constructor add in database
         }
         public List<Doctor> ShowDoctors()
         {
@@ -170,6 +169,11 @@ namespace HospitalClasses
                 Console.WriteLine(e.Message);
             }
             return docs;
+        }
+
+        public virtual void AddPicture()
+        {
+
         }
     }
 }

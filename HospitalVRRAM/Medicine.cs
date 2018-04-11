@@ -79,44 +79,8 @@ namespace HospitalClasses
         }
 
 
-        public void ChangePrice(decimal newPrice)
-        {
-            if (newPrice > 0)
-            {
-                Price = newPrice;
-
-                var conn = HospitalConnection.CreateDbConnection();
-                //must be sql procedure that changes the price
-                string SQLcmd = "dbo.ChangeMedicinePrice";
-
-                try
-                {
-                    using (conn)
-                    {
-                        conn.Open();
-                        var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                        cmd.Parameters.Add("@newPrice", SqlDbType.SmallMoney).Value = newPrice;
-
-
-
-                        cmd.ExecuteNonQuery();
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-            else
-            {
-                throw new Exception("Sorry but price can not be negative ...");
-            }
-        }
     }
 
     //End Methods //
-
-
 
 }
