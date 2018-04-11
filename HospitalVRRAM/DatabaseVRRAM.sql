@@ -13,9 +13,10 @@ CREATE TABLE Doctor(
 	PhoneNumber		    CHAR(9),
 	Speciality 		    varchar 		  NOT NULL,
 	DateOfApproval		DATETIME,
+	DateOfBirth	        DATETIME,
 	[Login]		        varchar(8)		 UNIQUE NOT NULL,
 	[Password]		    varchar(20)       NOT NULL,
-  ConsultationCost    SMALLMONEY       NOT NULL,
+  ConsultationCost      SMALLMONEY       NOT NULL,
 );
 
 

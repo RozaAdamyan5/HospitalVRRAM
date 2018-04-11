@@ -42,6 +42,14 @@ begin
 end
 go
 
+create proc dbo.SignInDoctor(@login varchar(8),@password varchar(20))
+as 
+begin 
+	Select *
+	From Doctor
+	Where [Login]=@login and [Password]=@password 
+end 
+go
 --create proc dbo.ShowBalance(@patId char(9))
 --as 
 --begin 
