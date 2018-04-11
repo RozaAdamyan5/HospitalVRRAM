@@ -43,7 +43,7 @@ begin
 end
 go 
 
-create proc dbo.FindDoctorBySpeciality(@Speciality tinyint /*should be varchar*/)
+create proc dbo.FindDoctorBySpeciality(@Speciality varchar(28) )
 as
 begin
 	select *

@@ -38,13 +38,9 @@ namespace HospitalForms
         {
             universalPanel.Controls.Clear();
 
-            DataGridView historyView = new DataGridView() { DefaultCellStyle = new DataGridViewCellStyle() { WrapMode = DataGridViewTriState.True },
-                                                            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
-                                                            ReadOnly = true};
-            DataSet set = new DataSet();
+            DataGridView historyView = new DataGridView() { ReadOnly = true, BackgroundColor = Color.White, Width = 500, Height = 200 };
             DataTable table = new DataTable("History");
-            set.Tables.Add(table);
-            historyView.DataSource = set.Tables["History"];
+            historyView.DataSource = table;
 
             DataColumn disease = new DataColumn()   { ColumnName = "Disease", DataType =typeof(string) };
             DataColumn medicine = new DataColumn()  { ColumnName = "Medicine", DataType = typeof(string),  };
@@ -56,8 +52,8 @@ namespace HospitalForms
 
             //List<Diagnosis> diagnoses = patient.ShowMyHistory();
             List<Diagnosis> diagnoses = new List<Diagnosis>();
-            diagnoses.Add(new Diagnosis("blssssssh", new DateTime(), new List<Medicine> { new Medicine("aaaaaa", "aa", 153, new DateTime()), new Medicine("wwwwwwwwwwww", "aa", 15, new DateTime()) }));
-            diagnoses.Add(new Diagnosis("aaa", new DateTime(), new List<Medicine>()));
+            diagnoses.Add(new Diagnosis("blssssssh", new DateTime(2018, 04, 12), new List<Medicine> { new Medicine("aaaaaa", "aa", 153, new DateTime()), new Medicine("wwwwwwwwwwww", "aa", 15, new DateTime()) }));
+            diagnoses.Add(new Diagnosis("aaa", new DateTime(2018, 04, 13), new List<Medicine>()));
 
 
             foreach (var current in diagnoses)
@@ -71,7 +67,7 @@ namespace HospitalForms
                         if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
                             diagnose["Medicine"] = "";
                         else
-                            diagnose["Medicine"] += Environment.NewLine;
+                            diagnose["Medicine"] += "   |   ";
 
                         diagnose["Medicine"] += currentMedicine.Name;
        
@@ -80,20 +76,91 @@ namespace HospitalForms
                 else
                     diagnose["Medicine"] = "None";
 
-                diagnose["Date"] = current.DiagnoseDate.ToShortDateString();
+                diagnose["Date"] = current.DiagnoseDate;
                 table.Rows.Add(diagnose);
             }
 
+            /*for(int i = 0; i < 40; i++)
+            {
+                DataRow diagnose = table.NewRow();
+                diagnose["Disease"] = "aaa";
+                diagnose["Medicine"] = "aaaaaa";
+                diagnose["Date"] = new DateTime();
+                table.Rows.Add(diagnose);
+            }*/
+
             universalPanel.Controls.Add(historyView);
-            historyView.Dock = DockStyle.Fill;
-            historyView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+
+            foreach(DataGridViewColumn col in historyView.Columns)
+            {
+                col.Width = 152;
+            }
+
+            if (historyView.Rows.Count > 6)
+                historyView.Height = (500 < 25 * (historyView.Rows.Count + 1) ? 500 : 25 * (historyView.Rows.Count + 1));
         }
 
         private void registerConsultation_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            // TODO
             // Show registration for consultation form in universalPanel
+
+            List<Doctor> allDoctors = new List<Doctor>() {  new Doctor("Doc1", "ads", 156, "aa", new DateTime(), Convert.ToDecimal(15)),
+                                                            new Doctor("Doc2", "abs", 156, "aa", new DateTime(), Convert.ToDecimal(15)),
+                                                            new Doctor("Doc4", "acs", 156, "aaa", new DateTime(), Convert.ToDecimal(15))};
+
+            Label consultation = new Label() { Text = "Consultation", Font = new Font("Segoe Print", 13F), Left = 10, Top = 10, Width = 300 };
+            ComboBox doctorSelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 80, Width = 200 };
+            foreach(var doc in allDoctors)
+            {
+                doctorSelect.Items.Add(doc.Name + " " + doc.Surname);
+            }
+            DateTimePicker dtPick = new DateTimePicker() { Font = new Font("Consolas", 11F), Left = 220, Top = 80, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MMM/yyyy HH:mm" };
+            Button requestConsultation = new Button() { Text = "Send Request", Left = 300, Top = 130, Width = 150, Height = 25, Font = new Font("Microsoft Sans Serif", 9.5F) };
+
+            doctorSelect.SelectedIndexChanged += (senderr, ee) => DoctorSelect_SelectedIndexChanged(senderr, ee, requestConsultation, dtPick);
+            requestConsultation.Click += (senderr, ee) => RequestConsultation_Click(senderr, ee, allDoctors[doctorSelect.SelectedIndex], doctorSelect, dtPick);
+
+            dtPick.Enabled = requestConsultation.Enabled = false;
+            universalPanel.Controls.AddRange(new Control[] { consultation, doctorSelect, dtPick, requestConsultation });
+        }
+
+        private void RequestConsultation_Click(object sender, EventArgs e, Doctor doc, ComboBox docComb, DateTimePicker dtPk)
+        {
+            try
+            {
+                DateTime perfectTime = doc.FreeTime(dtPk.Value);
+
+                DialogResult res = MessageBox.Show(
+                    "Doctor have free time at " + perfectTime.ToString("hh:mm") + @"
+Press OK to register for that time, or Cancel and try other time", "Consultation", MessageBoxButtons.OKCancel);
+
+                if(res == DialogResult.OK)
+                {
+                    // Register Consultation
+                    docComb.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    @"This doctor is busy whole day
+Please choose other doctor or other day");
+            }
+        }
+
+        private void DoctorSelect_SelectedIndexChanged(object sender, EventArgs e, Button send, DateTimePicker dtPk)
+        {
+            if (((ComboBox)sender).SelectedIndex != -1)
+            {
+                send.Enabled = true;
+                dtPk.Enabled = true;
+            }
+            else
+            {
+                send.Enabled = false;
+                dtPk.Enabled = false;
+            }
         }
 
         private void changePassword_Click(object sender, EventArgs e)

@@ -33,7 +33,7 @@ namespace HospitalClasses
             Address = address;
             InsurenceCard = insuranceCard;
             DateOfBirth = dateOfBirth;
-
+            Initialization();
             string SQlcmd = "dbo.insertPatient";
             var conn = HospitalConnection.CreateDbConnection();
             try
@@ -111,20 +111,18 @@ namespace HospitalClasses
             return patient;
         }
 
-        public DateTime RequestForConsult(Doctor doctor)
+        public void RequestForConsult(Doctor doctor, DateTime perfectTime)
         {
-            return doctor.newPatient(this);
+            doctor.newPatient(this, perfectTime);
         }
 
-        public List<Diagnosis> ShowMyHistory()
+        private void Initialization()
         {
             List<Diagnosis> history = new List<Diagnosis>();
 
             var conn = HospitalConnection.CreateDbConnection();
 
-            string SQLcmd0 = "dbo.ReadMyHistory"; //"select Discription, DateOfDiagnosis, DiagnosesID \r\n" +
-                                                  //"from Diagnoses \r\n" +
-                                                  //"where PatientID='" + this.PassportID + "'";
+            string SQLcmd0 = "dbo.ReadMyHistory";
             try
             {
                 using (conn)
@@ -138,10 +136,7 @@ namespace HospitalClasses
                         while (reader0.Read())
                         {
                             string SQLcmd1 = "dbo.Drugs";
-                            //"select Name, Country, Price, ExpirationDaAtet \r\n" +
-                            //"from Medicine \r\n" +
-                            //"join AssingnedTo on MedicineID = ID" +
-                            //"where DiagnoseID = " + reader0["DiagnosesID"];
+
 
 
                             var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd1, CommandType.Text);
@@ -165,10 +160,13 @@ namespace HospitalClasses
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                return null;
             }
             MyHistory = history;
-            return history;
+        }
+
+        public List<Diagnosis> ShowMyHistory()
+        {
+            return MyHistory;
         }
 
         public void ChangeBalance(decimal moneyToAdd /*can be negative*/)
@@ -181,9 +179,7 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.changeBalance";
-            //"update Patient \r\n" +
-            //"set Balance = " + Balance + "\r\n" +
-            //"where PassportID = '" + PassportID + "'";
+         
             try
             {
                 using (conn)
@@ -226,7 +222,7 @@ namespace HospitalClasses
                         while (reader.Read())
                         {
                             doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (int)reader["PasportID"],
-                                                   (int)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
+                                                   (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], (decimal)reader["ConsultationCost"]));      //incompatibility between databases and classes
                         }
                     }
                 }
@@ -246,9 +242,7 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.ChangePatientAddress";
-            //"update Patient \r\n" +
-            //                "set Address = '" + Address + "'\r\n" +
-            //                "where PassportID = '" + PassportID + "'";
+          
             try
             {
                 using (conn)
@@ -269,7 +263,7 @@ namespace HospitalClasses
             }
         }
 
-        public void AddPicture(byte[] pic)
+        public override void AddPicture(byte[] pic)
         {
 
             string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
@@ -296,9 +290,7 @@ namespace HospitalClasses
                         var ms = new MemoryStream(imbytes);
 
                         Image photo = Image.FromStream(ms);
-                        //must be done using our form
-                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
-                        //  pictureBox1.Image = photo;
+                       
                     }
                 }
 

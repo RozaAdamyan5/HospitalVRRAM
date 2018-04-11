@@ -19,7 +19,7 @@ namespace HospitalForms
         static Bitmap removeIcon;
         Doctor doctor;
         Patient patient;
-        List<string> prescribed = new List<string>();
+        List< Tuple<string, int> > prescribed = new List<Tuple<string, int> >();
 
         public DiagnosisWindow(string patientsName)
         {
@@ -40,7 +40,7 @@ namespace HospitalForms
 
             loadTable();
 
-            checkDisableEnable(sender, e);
+            checkDisableEnable(0, EventArgs.Empty);
 
         }
 
@@ -48,22 +48,38 @@ namespace HospitalForms
         {
             medicineListTable.Controls.Add(new Label() { Text = "No",  });
             medicineListTable.Controls.Add(new Label() { Text = "Medicine" });
+            medicineListTable.Controls.Add(new Label() { Text = "Count" });
             medicineListTable.Controls.Add(new Label() { Text = " " });
         }
 
         private void checkDisableEnable(object sender, EventArgs e)
         {
-            addMedicine.Enabled = medicineName.SelectedIndex != -1;
+            if (medicineName.SelectedIndex != -1)
+            {
+                medicineCount.Enabled = true;
+                if (Convert.ToInt32(medicineCount.Value) == 0)
+                    addMedicine.Enabled = false;
+                else
+                    addMedicine.Enabled = true;
+            }
+            else
+            {
+                addMedicine.Enabled = medicineCount.Enabled = false;
+            }
+            
         }
 
         private void AddMedicine_Click(object sender, EventArgs e)
         {
-            prescribed.Add(medicineName.Text);
+            prescribed.Add(new Tuple<string, int>(medicineName.Text, Convert.ToInt32(medicineCount.Value)));
+
             medicineName.Items.RemoveAt(medicineName.SelectedIndex);
             updateTable();
             medicineName.SelectedIndex = -1;
+            medicineCount.Value = 0;
             medicineListTable.RowCount++;
-            checkDisableEnable(sender, e);
+
+            checkDisableEnable(0, EventArgs.Empty);
         }
 
         private void updateTable()
@@ -74,7 +90,8 @@ namespace HospitalForms
             foreach(var row in prescribed)
             {
                 medicineListTable.Controls.Add(new Label() { Text = (prescribed.IndexOf(row) + 1).ToString()});
-                medicineListTable.Controls.Add(new Label() { Text = row });
+                medicineListTable.Controls.Add(new Label() { Text = row.Item1 });
+                medicineListTable.Controls.Add(new Label() { Text = row.Item2.ToString() });
                 Label removeLabel = new Label() { Image = removeIcon };
                 removeLabel.Click += (sender, e) => deleteClicked(sender, e, prescribed.IndexOf(row));
                 medicineListTable.Controls.Add(removeLabel);
@@ -84,6 +101,7 @@ namespace HospitalForms
         private void deleteClicked(object sender, EventArgs e, int index)
         {
             prescribed.RemoveAt(index);
+
             updateTable();
         }
 

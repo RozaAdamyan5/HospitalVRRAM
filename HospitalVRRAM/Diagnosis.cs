@@ -12,11 +12,10 @@ namespace HospitalClasses
 
         public string Disease { get; }
         public List<Medicine> PrescribedMedicines { get; }
-        // Can Doctor add medicines after writing diagnosis ? 
         public DateTime DiagnoseDate { get; }
         // End Properties  //
 
-        //Constructor//,,,,,,
+        //Constructor//
 
         public Diagnosis(string disease, DateTime consultationDate, List<Medicine> prescribedMedicines)
         {
