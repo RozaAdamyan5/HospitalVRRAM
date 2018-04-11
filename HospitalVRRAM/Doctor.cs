@@ -286,11 +286,34 @@ namespace HospitalClasses
             }
         }
 
-        //public decimal ShowBalance()
-        //{
+        private void InitBalance()
+        {
+            decimal balance=0;
+            var conn = HospitalConnection.CreateDbConnection();
+            //must be done
+            string SQLcmd = "dbo.ShowBalance";
 
-        //    return Balance;
-        //}
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.SmallMoney).Value = PassportID;
+
+                    using (var reader = (SqlDataReader)cmd.ExecuteReader())
+                    {
+                        balance = (decimal)reader["Balance"];
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            Balance=balance;
+        }
 
         //End Methods //
     }
