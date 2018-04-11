@@ -238,7 +238,9 @@ namespace HospitalClasses
 
         public void ServePatient(Patient patient, Diagnosis diagnose,DateTime time)
         {
-
+            WriteDiagnosis(patient, diagnose);
+            patient.MyHistory.Add(diagnose);
+            Patients.Remove(time);
         }
 
         public DateTime FreeTime(DateTime day)
@@ -276,10 +278,6 @@ namespace HospitalClasses
                         valid = false;
                         break;
                     }
-            WriteDiagnosis(patient, diagnose);
-            patient.MyHistory.Add(diagnose);
-            Patients.Remove(time);
-        }
 
                 if (valid && current >= ll && current <= rr)
                 {
