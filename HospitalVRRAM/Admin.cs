@@ -153,9 +153,9 @@ namespace HospitalClasses
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
                             decimal consCost = (decimal)reader["ConsultationCost"];//must be added in db
-                            byte[] pic = (byte[])reader["Picture"];//.ToString;//can't find normal cast
+                            byte[] pic = (byte[])reader["Picture"];
                             string phoneNumber = (string)reader["PhoneNumber"];
-                            int speciality = (int)reader["Speciality"];
+                            string speciality = (string)reader["Speciality"];
 
                             Doctor pat = new Doctor(name,surname,passportID,speciality,dateOfapproval,consCost);
                             docs.Add(pat);

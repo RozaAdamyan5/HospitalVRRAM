@@ -17,7 +17,7 @@ namespace HospitalClasses
     {
         //  Properties  //
 
-        public int Speciality { get; set; }
+        public string Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
         public Dictionary<DateTime, Patient> Patients { get; set; }
@@ -27,7 +27,7 @@ namespace HospitalClasses
 
         //Constructor//
         public Doctor(string name, string surname, int passportID, string login, string password,
-           int speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
+           string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
@@ -60,8 +60,9 @@ namespace HospitalClasses
             }
         }
 
-        public Doctor(string name, string surname, int passportID,int speciality,
-            DateTime getEmployed,decimal consultationCost) : base(name, surname, passportID)
+        public Doctor(string name, string surname, int passportID,
+                      string speciality, DateTime getEmployed, 
+                      decimal consultationCost) : base(name, surname, passportID)
         {
             Speciality = speciality;
             GetEmployed = getEmployed;
@@ -226,13 +227,13 @@ namespace HospitalClasses
 
         public Dictionary<DateTime, Patient> Calendar()
         {
-
             return Patients;
         }
 
-        public void newPatient(Patient patient,DateTime time)
+        public void newPatient(Patient patient, DateTime dTime)
         {
-            Patients.Add(time,patient);
+            //add in Dictionary of patietnts
+            Patients[dTime] = patient;
         }
 
         public void ServePatient(Patient patient, Diagnosis diagnose,DateTime time)
@@ -242,9 +243,51 @@ namespace HospitalClasses
             Patients.Remove(time);
         }
 
-        private List<DateTime> FreeTime(DateTime day)
+        public DateTime FreeTime(DateTime day)
         {
-            return null;
+            DateTime current = new DateTime(day.Year, day.Month, day.Day, day.Hour, day.Minute, 0);
+
+            DateTime ll = new DateTime(day.Year, day.Month, day.Day, 9, 0, 0), rr = new DateTime(day.Year, day.Month, day.Day, 18, 40, 0);
+
+            Patients = new Dictionary<DateTime, Patient>();
+            Patients[current] = new Patient("aa", "aaa", 5413, "asa", DateTime.Now);
+
+            for(int i = 0; i < 60 * 10; i++)
+            {
+                current = current.AddMinutes(i);
+
+                bool valid = true;
+                for(int j = -19; j < 20; j++)
+                    if (Patients != null && Patients.ContainsKey(current.AddMinutes(j)))
+                    {
+                        valid = false;
+                        break;
+                    }
+
+                if (valid && current >= ll && current <= rr)
+                {
+                    return current;
+                }
+
+                current = current.AddMinutes(-2 * i);
+
+                valid = true;
+                for (int j = -19; j < 20; j++)
+                    if (Patients != null && Patients.ContainsKey(current.AddMinutes(j)))
+                    {
+                        valid = false;
+                        break;
+                    }
+
+                if (valid && current >= ll && current <= rr)
+                {
+                    return current;
+                }
+
+                current = current.AddMinutes(i);
+            }
+
+            throw new Exception();
         }
         public override void AddPicture(byte[] pic)
         {

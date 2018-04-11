@@ -22,6 +22,9 @@ namespace HospitalForms
         {
             InitializeComponent();
             doctor = doc;
+        }
+
+        private void DoctorProfileWindow_Load(object sender, EventArgs e) {
             nameLabel.Text = doctor.Name;
             surnameLabel.Text = doctor.Surname;
             balanceLabel.Text = doctor.Balance.ToString();
@@ -49,19 +52,15 @@ namespace HospitalForms
             int monthStartDay = (int)currentMonth.DayOfWeek;
             int countOfDays = DateTime.DaysInMonth(currentMonth.Year, currentMonth.Month);
 
-            for(int i = 0; i < monthStartDay; i++)  calendar.Controls.Add(new Label() { Text = "", Width = 30, Height = 30, TextAlign = ContentAlignment.MiddleRight });
+            for (int i = 0; i < monthStartDay; i++) calendar.Controls.Add(new Label() { Text = "", Width = 30, Height = 30, TextAlign = ContentAlignment.MiddleRight });
 
             for (int i = 0; i < countOfDays; i++)
             {
                 var lbl = new Label() { Text = (i + 1).ToString(), Width = (i > 8 ? 41 : 37), Height = 30, TextAlign = ContentAlignment.MiddleRight, Font = calendarFont };
                 calendar.Controls.Add(lbl);
-                lbl.Click += (sender, e) => showPatientsOfSpecifiedDay(sender, e, new DateTime(currentMonth.Year, currentMonth.Month, int.Parse(lbl.Text)));
+                lbl.Click += (senderr, ee) => showPatientsOfSpecifiedDay(senderr, ee, new DateTime(currentMonth.Year, currentMonth.Month, int.Parse(lbl.Text)));
             }
             if (monthStartDay + countOfDays <= 35) calendar.Height -= 25;
-        }
-
-        private void DoctorProfileWindow_Load(object sender, EventArgs e) {
-            // Maybe loading data about doctor's patients from DB
         }
 
         private void showPatientsOfSpecifiedDay(object sender, EventArgs e, DateTime date)
@@ -77,18 +76,36 @@ namespace HospitalForms
             calendarInfo[new DateTime(2018, 4, 1, 18, 20, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 1, 0, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 2, 0, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 10, 1, 20, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 10, 2, 10, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 10, 3, 10, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 10, 4, 05, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 11, 0, 20, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 11, 0, 40, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 11, 1, 20, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 11, 4, 05, 0)] = tmp;
 
             foreach (var info in calendarInfo)
             {
                 if (info.Key.Date.Equals(date.Date))
                 {
                     patientsOfDay.Controls.Add(new Label() { Text = patientsOfDay.RowCount.ToString() });
-                    patientsOfDay.Controls.Add(new Label() { Text = (info.Value.Name + " " + info.Value.Surname), Width = 220 });
-                    patientsOfDay.Controls.Add(new Label() { Text = (info.Key.ToShortTimeString()) });
+                    patientsOfDay.Controls.Add(new Label() { Text = (info.Value.Name + " " + info.Value.Surname), Width = 190 });
+                    patientsOfDay.Controls.Add(new Label() { Text = (info.Key.ToShortTimeString() + "-" + info.Key.AddMinutes(20).ToShortTimeString()), Width = 140 });
+                    Label status = new Label() { Width = 80 };
+                    if (DateTime.Now > info.Key.AddMinutes(20))
+                    {
+                        status.Text = "Served";
+                        status.ForeColor = Color.Green;
+                    }
+                    else if (DateTime.Now > info.Key)
+                    {
+                        status.Text = "Waiting...";
+                        status.ForeColor = Color.Gray;
+                        //status.Click += Function that links to diagnose writing window
+                    }
+                    else
+                    {
+                        status.Text = "Not Yet";
+                        status.ForeColor = Color.Black;
+                    }
+                    patientsOfDay.Controls.Add(status);
                     patientsOfDay.RowCount++;
                 }
             }
@@ -105,6 +122,61 @@ namespace HospitalForms
             universalPanel.Controls.Clear();
             // TODO
             // Show patients table in universalPanel
+
+            universalPanel.Controls.Clear();
+            
+            DataGridView servedPatients = new DataGridView() { ReadOnly = true, BackgroundColor = Color.White, Width = 500, Height = 200 };
+            DataTable table = new DataTable("Patients");
+            servedPatients.DataSource = table;
+
+            DataColumn name = new DataColumn() { ColumnName = "Name", DataType = typeof(string) };
+            DataColumn surname = new DataColumn() { ColumnName = "Surname", DataType = typeof(string) };
+            DataColumn passId = new DataColumn() { ColumnName = "Passport ID", DataType = typeof(int) };
+            DataColumn address = new DataColumn() { ColumnName = "Address", DataType = typeof(string) };
+            DataColumn dateOfBirth = new DataColumn() { ColumnName = "Date Of Birth", DataType = typeof(DateTime) };
+
+            table.Columns.Add(name);
+            table.Columns.Add(surname);
+            table.Columns.Add(passId);
+            table.Columns.Add(address);
+            table.Columns.Add(dateOfBirth);
+
+            //List<Patient> patients = doctor.ShowPatient();
+            List<Patient> patients = new List<Patient>() {
+                new Patient("Aa", "Aaa", 123, "Aaaa", DateTime.Now), new Patient("Bb", "BBs", 156, "AD", DateTime.Now)};
+            
+
+            foreach (var current in patients)
+            {
+                DataRow patient = table.NewRow();
+                patient["Name"] = current.Name;
+                patient["Surname"] = current.Surname;
+                patient["Passport ID"] = current.PassportID;
+                patient["Address"] = current.Address;
+                patient["Date Of Birth"] = current.DateOfBirth;
+
+                table.Rows.Add(patient);
+            }
+
+            /*for(int i = 0; i < 40; i++)
+            {
+                DataRow diagnose = table.NewRow();
+                diagnose["Disease"] = "aaa";
+                diagnose["Medicine"] = "aaaaaa";
+                diagnose["Date"] = new DateTime();
+                table.Rows.Add(diagnose);
+            }*/
+
+            universalPanel.Controls.Add(servedPatients);
+
+            foreach (DataGridViewColumn col in servedPatients.Columns)
+            {
+                col.Width = 152;
+            }
+
+            if (servedPatients.Rows.Count > 6)
+                servedPatients.Height = (500 < 25 * (servedPatients.Rows.Count + 1) ? 500 : 25 * (servedPatients.Rows.Count + 1));
+            
             universalPanel.BringToFront();
         }
 

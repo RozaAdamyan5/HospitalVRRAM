@@ -110,9 +110,10 @@ namespace HospitalClasses
             }
             return patient;
         }
-        public void  RequestForConsult(Doctor doctor,DateTime time)
+
+        public void RequestForConsult(Doctor doctor, DateTime perfectTime)
         {
-             doctor.newPatient(this,time);
+            doctor.newPatient(this, perfectTime);
         }
 
         private void Initialization()
@@ -221,7 +222,7 @@ namespace HospitalClasses
                         while (reader.Read())
                         {
                             doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (int)reader["PasportID"],
-                                                   (int)reader["Speciality"], (DateTime)reader["DateOfApproval"], 0/*(decimal)reader[""]*/));      //incompatibility between databases and classes
+                                                   (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], (decimal)reader["ConsultationCost"]));      //incompatibility between databases and classes
                         }
                     }
                 }

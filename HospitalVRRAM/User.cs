@@ -55,7 +55,7 @@ namespace HospitalClasses
 
 
         // Methods //
-       public  bool PassportIdIsUnique(int passportID)
+        public bool PassportIdIsUnique(int passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -142,7 +142,7 @@ namespace HospitalClasses
         public bool LoginIsValid(string login)
         {
             //validation
-            if(login.Length < 8)
+            if (login.Length < 8)
             {
                 throw new Exception("Login must be at least 8 characters.");
             }
