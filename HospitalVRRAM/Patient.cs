@@ -206,9 +206,6 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.FindDoctorBySpeciality";
-            //"select *, Count(*) as count \r\n" +
-            //"from Doctor \r\n" +
-            //"where Speciality = " + Speciality;
             try
             {
                 using (conn)

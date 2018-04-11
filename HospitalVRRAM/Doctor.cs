@@ -29,6 +29,7 @@ namespace HospitalClasses
         public Doctor(string name, string surname, int passportID, string login, string password,
            string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
         {
+            Initialization();
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
             try
@@ -43,13 +44,13 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
 
-                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar,28).Value = speciality;
+                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 28).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
 
                     cmd.ExecuteNonQuery();
                 }
-                
+
                 Speciality = speciality;
                 GetEmployed = getEmployed;
                 ConsultationCost = consultationCost;
@@ -60,18 +61,50 @@ namespace HospitalClasses
             }
         }
 
+        private void Initialization()
+        {
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.ShowDoctorQueue";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Patient patient = new Patient((string)reader["Name"], (string)reader["Surname"], (int)reader["PasportID"],
+                                (string)reader["Address"], (DateTime)reader["DateOfBirth"]);
+                            DateTime date = (DateTime)reader["Time"];
+                            Patients.Add(date, patient);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+
+
         public Doctor(string name, string surname, int passportID,
-                      string speciality, DateTime getEmployed, 
+                      string speciality, DateTime getEmployed,
                       decimal consultationCost) : base(name, surname, passportID)
         {
             Speciality = speciality;
             GetEmployed = getEmployed;
             ConsultationCost = consultationCost;
         }
-            //End Constructor//
+        //End Constructor//
 
 
-            // Methods //
+        // Methods //
         private void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
 
@@ -159,7 +192,7 @@ namespace HospitalClasses
             Diagnosis result = null;
 
             var conn = HospitalConnection.CreateDbConnection();
-          
+
             string sSQL1 = "dbo.GetDiagnoseMedicine";
             string sSQL2 = "dbo.GetDiagnose";
 
@@ -221,7 +254,7 @@ namespace HospitalClasses
             {
                 Console.WriteLine(e.Message);
             }
-            
+
             return result;
         }
 
@@ -232,11 +265,29 @@ namespace HospitalClasses
 
         public void newPatient(Patient patient, DateTime dTime)
         {
-            //add in Dictionary of patietnts
             Patients[dTime] = patient;
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.AddPatientToQueue";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@DocID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@PatID", SqlDbType.Char, 9).Value = patient.PassportID;
+                    cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = dTime;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
-        public void ServePatient(Patient patient, Diagnosis diagnose,DateTime time)
+        public void ServePatient(Patient patient, Diagnosis diagnose, DateTime time)
         {
             WriteDiagnosis(patient, diagnose);
             patient.MyHistory.Add(diagnose);
@@ -252,12 +303,12 @@ namespace HospitalClasses
             Patients = new Dictionary<DateTime, Patient>();
             Patients[current] = new Patient("aa", "aaa", 5413, "asa", DateTime.Now);
 
-            for(int i = 0; i < 60 * 10; i++)
+            for (int i = 0; i < 60 * 10; i++)
             {
                 current = current.AddMinutes(i);
 
                 bool valid = true;
-                for(int j = -19; j < 20; j++)
+                for (int j = -19; j < 20; j++)
                     if (Patients != null && Patients.ContainsKey(current.AddMinutes(j)))
                     {
                         valid = false;
@@ -301,7 +352,7 @@ namespace HospitalClasses
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-            var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
                 cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
 
@@ -338,3 +389,4 @@ namespace HospitalClasses
         //End Methods //
     }
 }
+_

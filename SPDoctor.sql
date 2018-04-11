@@ -50,3 +50,29 @@ go
 --        Where patientID=@patID
 --end
 
+
+
+create proc dbo.ShowDoctorQueue(@PassportID int)
+as
+begin
+	select [Time],(SELECT PassportID,name,Surname,Address,DateOfBirth,InsuranceCard
+					FROM  Patient
+					WHERE Patient.PassportID = Queues.PatID )
+	from Queues
+	where DocID = @PassportID
+end
+go
+
+
+ Create procedure AddPatientToQueue  
+ (@DocID	CHAR(9)		 ,
+  @PatID	CHAR(9)		, 
+  @Date		DATETIME	)
+ AS
+ BEGIN
+   insert into Queues(DocID ,PatID	, Time	,CostOfConsult)
+   values (@DocID, @PatID, @Date, (SELECT Doctor.ConsultationCost
+									FROM Doctor
+									where Doctor.PassportID = @DocID))
+ END					
+GO
