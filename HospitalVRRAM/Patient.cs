@@ -72,7 +72,7 @@ namespace HospitalClasses
 
         // Methods //
 
-        public static Patient SignUp(string login,string password)
+        public static Patient SignIn(string login,string password)
         {
             Patient patient = null;
             string SQlcmd = "dbo.SignUpPatient";
@@ -97,9 +97,13 @@ namespace HospitalClasses
                             string surename = (string)reader["Surename"];
                             int passportID = (int)reader["PassportID"];
                             string address = (string)reader["Address"];
+                            byte[] picture = (byte[])reader["Picture"];
                             string insuranceCard = (string)reader["InsuranceCard"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
+                            string phoneNumber = (string)reader["PhoneNumber"];
                             patient = new Patient(name, surename, passportID, login, password, address, insuranceCard, dateOfBirth);
+                            patient.Picture = picture;
+                            patient.PhoneNumber = phoneNumber;
                         }
                     }
                 }

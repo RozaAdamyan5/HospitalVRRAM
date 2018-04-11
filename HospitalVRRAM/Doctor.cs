@@ -16,7 +16,7 @@ namespace HospitalClasses
     public class Doctor : User
     {
         //  Properties  //
-
+        public DateTime  DateOfBirth { get; private set; }
         public string Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
@@ -27,7 +27,7 @@ namespace HospitalClasses
 
         //Constructor//
         public Doctor(string name, string surname, int passportID, string login, string password,
-           string speciality, DateTime getEmployed, decimal consultationCost) : base(name, surname, passportID, login, password)
+           string speciality, DateTime getEmployed, decimal consultationCost,DateTime dateOfBirth) : base(name, surname, passportID, login, password)
         {
             Initialization();
             string SQlcmd = "dbo.insertDoctor";
@@ -43,7 +43,7 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
-
+                    cmd.Parameters.Add("@DateOfBirth",SqlDbType.DateTime).Value = dateOfBirth;
                     cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 28).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
@@ -380,12 +380,85 @@ namespace HospitalClasses
             }
         }
 
-        //public decimal ShowBalance()
-        //{
 
-        //    return Balance;
-        //}
+        private void InitBalance()
+        {
+            decimal balance = 0;
+            var conn = HospitalConnection.CreateDbConnection();
+            //must be done
+            string SQLcmd = "dbo.ShowBalance";
 
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.SmallMoney).Value = PassportID;
+
+                    using (var reader = (SqlDataReader)cmd.ExecuteReader())
+                    {
+                        balance = (decimal)reader["Balance"];
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            Balance = balance;
+        }
+        public static Doctor SignIn(string login, string password)
+        {
+            Doctor doc = null;
+            var connection = HospitalConnection.CreateDbConnection();
+            string sSQL = "dbo.SignInDoctor";
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(connection, sSQL, CommandType.StoredProcedure);
+
+
+                    cmd.Parameters.Add("@login", SqlDbType.VarChar, 8).Value = login;
+                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 20).Value = password;
+
+                    using (var reader = (SqlDataReader)cmd.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            throw new Exception("Wrong password or login.");
+                        }
+                        else
+                        {
+                            string name = (string)reader["Name"];
+                            string surename = (string)reader["Surename"];
+                            int passportID = (int)reader["PassportID"];
+                            string speciality = (string)reader["Speciality"];
+                            byte[] picture = (byte[])reader["Picture"];
+                            DateTime getEmployed = (DateTime)reader["DateOfApproval"];
+                            DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
+                            decimal consultationCost = (decimal)reader["ConsultationCost"];
+                            string phoneNumber = (string)reader["PhoneNumber"];
+                            doc = new Doctor(name, surename, passportID, speciality, getEmployed, consultationCost);
+                            doc.Picture = picture;
+                            doc.DateOfBirth = dateOfBirth;
+                            doc.PhoneNumber = phoneNumber;
+                          
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return doc;
+        }
         //End Methods //
     }
 }
