@@ -29,6 +29,7 @@ namespace HospitalClasses
         public Doctor(string name, string surname, string passportID, string login, string password,
            string speciality, DateTime getEmployed, decimal consultationCost,DateTime dateOfBirth) : base(name, surname, passportID, login, password)
         {
+            Initialization();
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
             try
@@ -57,6 +58,36 @@ namespace HospitalClasses
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private void Initialization()
+        {
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.ShowDoctorQueue";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Patient patient = new Patient((string)reader["Name"], (string)reader["Surname"], (string)reader["PasportID"],
+                                (string)reader["Address"], (DateTime)reader["DateOfBirth"]);
+                            DateTime date = (DateTime)reader["Time"];
+                            Patients.Add(date, patient);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -232,8 +263,26 @@ namespace HospitalClasses
 
         public void newPatient(Patient patient, DateTime dTime)
         {
-            //add in Dictionary of patietnts
             Patients[dTime] = patient;
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.AddPatientToQueue";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@DocID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@PatID", SqlDbType.Char, 9).Value = patient.PassportID;
+                    cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = dTime;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         public void ServePatient(Patient patient, Diagnosis diagnose, DateTime time)
@@ -409,5 +458,5 @@ namespace HospitalClasses
             return doc;
         }
         //End Methods //
-    }
+    };
 }
