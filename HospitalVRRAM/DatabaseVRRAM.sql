@@ -5,35 +5,35 @@ use Vrram
 -------------------------------------------------------------------------------------------
 
 CREATE TABLE Doctor(
-	PassportID			CHAR(9)			PRIMARY KEY CHECK(PassportID LIKE '[0-9]*'),
-	[Name] 				NVARCHAR(20)	NOT NULL,
-	Surname			    NVARCHAR(20) 	NOT NULL,
+	PassportID			CHAR(9)				PRIMARY KEY CHECK(PassportID LIKE '[0-9]*'),
+	[Name] 				NVARCHAR(20)		NOT NULL,
+	Surname			    NVARCHAR(20) 		NOT NULL,
 	Balance			    SMALLMONEY,
 	Picture			    VARBINARY,
 	PhoneNumber		    CHAR(9),
-	Speciality 		    varchar 		  NOT NULL,
+	Speciality 		    VARCHAR(20)			NOT NULL,
 	DateOfApproval		DATETIME,
 	DateOfBirth	        DATETIME,
-	[Login]		        varchar(8)		 UNIQUE NOT NULL,
-	[Password]		    varchar(20)       NOT NULL,
-  ConsultationCost      SMALLMONEY       NOT NULL,
+	[Login]		        varchar(20)			UNIQUE NOT NULL,
+	[Password]		    varchar(20)			NOT NULL,
+	ConsultationCost    SMALLMONEY			NOT NULL,
 );
 
 
 -------------------------------------------------------------------------------------------
 
 CREATE TABLE Patient(	
-	PassportID		CHAR(9)	PRIMARY KEY CHECK(PassportID LIKE '[0-9]*'),
-	[Name]			NVARCHAR(20) 	NOT NULL,
-	Surname 		NVARCHAR(20) 	NOT NULL,
+	PassportID		CHAR(9)				PRIMARY KEY CHECK(PassportID LIKE '[0-9]*'),
+	[Name]			NVARCHAR(20) 		NOT NULL,
+	Surname 		NVARCHAR(20) 		NOT NULL,
 	Balance		    SMALLMONEY,
 	Picture		    VARBINARY,
 	PhoneNumber	    CHAR(9),
 	[Address]	    NVARCHAR(20),
 	DateOfBirth	    DATETIME,
-	InsuranceCard	CHAR(9)  		UNIQUE,
-	[Login]		    varchar(8)      UNIQUE NOT NULL,
-	[Password]		varchar(20)      NOT NULL,
+	InsuranceCard	CHAR(9)  			UNIQUE,
+	[Login]		    varchar(20)			UNIQUE NOT NULL,
+	[Password]		varchar(20)			NOT NULL,
 );
 
 -------------------------------------------------------------------------------------------

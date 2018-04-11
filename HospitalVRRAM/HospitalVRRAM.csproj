@@ -147,6 +147,10 @@
     <Content Include="Resources\fileclose.png" />
     <Content Include="Resources\HospitalIcon.png" />
     <Content Include="Resources\WindowIcon.ico" />
+    <Content Include="SPAdmin.sql" />
+    <Content Include="SPDoctor.sql" />
+    <Content Include="SPPatient.sql" />
+    <Content Include="SPUser.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

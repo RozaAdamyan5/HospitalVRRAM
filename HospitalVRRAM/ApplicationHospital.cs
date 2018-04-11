@@ -36,9 +36,13 @@ namespace HospitalVRRAM
         public void InitializeLogin()
         {
             login = new LoginWindow();
-            //login.signInClicked += (sender, e) => { login.Hide(); registration.Show(); };
+            login.patientSignedIn += (sender, e) => {
+                login.Hide();
+                InitializePatientWindow(e.patient);
+                patientProfile.Show(); };
+            login.doctorSignedIn += (sender, e) => { login.Hide(); InitializeDoctorWindow(e.doctor); doctorProfile.Show(); };
             login.signUpClicked += (sender, e) => { login.Hide(); registration.Show(); };
-            login.FormClosed += (seder, e) => { this.Close(); };
+            login.FormClosed += (sender, e) => { this.Close(); };
         }
 
         public void InitializeRegister()
@@ -47,6 +51,17 @@ namespace HospitalVRRAM
             registration.registrationCompleted += (sender, e) => { login.Show(); registration.clearFields(); registration.Hide(); };
             registration.goBackClicked += (sender, e) => { login.Show(); registration.Hide(); };
             registration.FormClosed += (sender, e) => { this.Close(); };
+        }
+
+        public void InitializePatientWindow(Patient patient)
+        {
+            patientProfile = new PatientProfileWindow(patient);
+            patientProfile.FormClosed += (sender, e) => { this.Close(); };
+        }
+
+        public void InitializeDoctorWindow(Doctor doctor)
+        {
+            doctorProfile = new DoctorProfileWindow(doctor);
         }
     }
 }

@@ -43,14 +43,14 @@ namespace HospitalForms
             // doctors = Admin.ShowDoctors();
 
             doctors = new List<Doctor>() {
-                new Doctor("Aaa", "BBB", 513, "aaa", new DateTime(), 686),
-                new Doctor("Aba", "BtB", 513, "aaa", new DateTime(), 686),
-                new Doctor("Aca", "BrB", 513, "aaa", new DateTime(), 686),
-                new Doctor("Ada", "BBe", 513, "aaa", new DateTime(), 686),
-                new Doctor("Aea", "BcB", 513, "aaa", new DateTime(), 686),
-                new Doctor("Ara", "BrB", 513, "aaa", new DateTime(), 686),
-                new Doctor("Ata", "BBe", 513, "aaa", new DateTime(), 686),
-                new Doctor("Aya", "BcB", 513, "aaa", new DateTime(), 686)};
+                new Doctor("Aaa", "BBB", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Aba", "BtB", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Aca", "BrB", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Ada", "BBe", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Aea", "BcB", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Ara", "BrB", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Ata", "BBe", "aaaaaaa", "aaa", new DateTime(), 686),
+                new Doctor("Aya", "BcB", "aaaaaaa", "aaa", new DateTime(), 686)};
         }
 
         private void allDoctors_Click(object sender, EventArgs e)
@@ -101,7 +101,7 @@ namespace HospitalForms
 
         private void addDoctor_Click(object sender, EventArgs e)
         {
-            Doctor doctor = new Doctor(newName.Text, newSurname.Text, int.Parse(newPassportID.Text),
+            Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text,
                 newSpec.Text, DateTime.Parse(newEmployDate.Text), decimal.Parse(newCost.Text));
 
 

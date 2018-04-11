@@ -23,6 +23,20 @@ namespace HospitalForms
             patient = pat;
         }
 
+        public byte[] imageToByteArray(System.Drawing.Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
+        }
+
+        public Bitmap byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Bitmap returnImage = new Bitmap(ms);
+            return returnImage;
+        }
+
         private void PatientProfileWindow_Load(object sender, EventArgs e)
         {
             nameLabel.Text = patient.Name;
@@ -30,8 +44,11 @@ namespace HospitalForms
             balanceLabel.Text = patient.Balance.ToString();
             phoneNumberLabel.Text = patient.PhoneNumber;
             birthdateLabel.Text = patient.DateOfBirth.ToShortDateString();
-            if (patient.Picture != null)
-                profilePicBox.Image = (Bitmap)((new ImageConverter()).ConvertFrom(patient.Picture));
+            if (patient.Picture.Length > 4)
+            {
+                addPicture.Text = "Change Picture"; addPicture.Left = 60;
+                profilePicBox.Image = byteArrayToImage(patient.Picture);
+            }
         }
 
         private void historyButton_Click(object sender, EventArgs e)
@@ -105,9 +122,9 @@ namespace HospitalForms
             universalPanel.Controls.Clear();
             // Show registration for consultation form in universalPanel
 
-            List<Doctor> allDoctors = new List<Doctor>() {  new Doctor("Doc1", "ads", 156, "aa", new DateTime(), Convert.ToDecimal(15)),
-                                                            new Doctor("Doc2", "abs", 156, "aa", new DateTime(), Convert.ToDecimal(15)),
-                                                            new Doctor("Doc4", "acs", 156, "aaa", new DateTime(), Convert.ToDecimal(15))};
+            List<Doctor> allDoctors = new List<Doctor>() {  new Doctor("Doc1", "ads", "aaaaa", "aa", new DateTime(), Convert.ToDecimal(15)),
+                                                            new Doctor("Doc2", "abs", "aaaaa", "aa", new DateTime(), Convert.ToDecimal(15)),
+                                                            new Doctor("Doc4", "acs", "aaaaa", "aaa", new DateTime(), Convert.ToDecimal(15))};
 
             Label consultation = new Label() { Text = "Consultation", Font = new Font("Segoe Print", 13F), Left = 10, Top = 10, Width = 300 };
             ComboBox doctorSelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 80, Width = 200 };
@@ -194,10 +211,9 @@ Please choose other doctor or other day");
                         using (myStream)
                         {
                             profilePicBox.Image = new Bitmap(myStream);
-                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
-                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
-                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                            addPicture.Text = "Change Picture"; addPicture.Left = 45;
+                            
+                            patient.AddPicture(imageToByteArray(new Bitmap(myStream)));
+                            addPicture.Text = "Change Picture"; addPicture.Left = 60;
                         }
                     }
                 }

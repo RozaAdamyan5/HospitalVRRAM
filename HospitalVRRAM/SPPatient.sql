@@ -1,13 +1,13 @@
-create proc dbo.insertPatient(@Name nvarchar(20),@Surname nvarchar(20),@PassportID char(9),@Login varchar(8),
-							  @Password varchar(8),@InsuranceCard char(9),@Address nvarchar(20),@DateOfBirth datetime)
+create proc dbo.insertPatient(@Name nvarchar(20),@Surname nvarchar(20),@PassportID char(9),@Login varchar(20),
+							  @Password varchar(20),@InsuranceCard char(9),@Address nvarchar(20),@DateOfBirth datetime, @PhoneNumber char(9))
 as
 begin
-	insert into Patient values(@PassportID,@Name,@Surname,0,0,0,@Address,
+	insert into Patient values(@PassportID,@Name,@Surname,0,0,@PhoneNumber,@Address,
 							   @DateOfBirth,@InsuranceCard,@Login,@Password)
 end
 go
 
-create proc dbo.SignUpPatient(@Login varchar(8),@Password varchar(8))
+create proc dbo.SignUpPatient(@Login varchar(20),@Password varchar(20))
 as
 begin
 	select * from Patient
@@ -29,7 +29,7 @@ as
 begin
 	select Name,Country,Price,ExpirationDate
 	from Medicine
-	join  AssignedTo on MedicineID = ID
+	join  AssignedTo on Name = AssignedTo.Medicine
 	where DiagnoseID = @DiagnosisID
 end
 go			   
@@ -43,7 +43,7 @@ begin
 end
 go 
 
-create proc dbo.FindDoctorBySpeciality(@Speciality varchar(28) )
+create proc dbo.FindDoctorBySpeciality(@Speciality varchar(20) )
 as
 begin
 	select *
@@ -141,23 +141,9 @@ begin
 end
 go
 
-create proc dbo.sp_AddMedicineInAssignedTo(@diagnoseID int, @medicineID int)
+create proc dbo.sp_AddMedicineInAssignedTo(@diagnoseID int, @medicine nvarchar(20), @cnt int)
 as
 begin
-	insert into AssignedTo values(@diagnoseID, @medicineID)
+	insert into AssignedTo values(@diagnoseID, @medicine, @cnt)
 end
 go
-
-create proc dbo.ReadMyHistory(@PassportID int)
-as
-begin
-	select [Description], DateOfDiagnosis, DiagnosesID
-	from Diagnoses
-	where PatientID = @PassportID
-end
-go
-
-
-
-
-

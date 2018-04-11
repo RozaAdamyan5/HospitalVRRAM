@@ -82,16 +82,18 @@ namespace HospitalForms
             {
                 try
                 {
-                    //Doctor doctor = Doctor.SignIn(loginBox.Text, passwordBox.Text);
-                    //patientSignedIn(this, new PatientPassEventArgs(patient));
+                    Doctor doctor = Doctor.SignIn(loginBox.Text, passwordBox.Text);
+                    doctorSignedIn(this, new DoctorPassEventArgs(doctor));
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error");
                 }
             }
+            if (loginSuffix.SelectedIndex == 2)
+            {
 
-                //signInClicked(this, EventArgs.Empty);
+            }
         }
     }
 

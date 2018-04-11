@@ -165,6 +165,7 @@
             this.password.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.password.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.password.Location = new System.Drawing.Point(716, 302);
+            this.password.MaxLength = 20;
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(200, 24);
             this.password.TabIndex = 8;
@@ -175,6 +176,7 @@
             this.confirmPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.confirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.confirmPassword.Location = new System.Drawing.Point(716, 337);
+            this.confirmPassword.MaxLength = 20;
             this.confirmPassword.Name = "confirmPassword";
             this.confirmPassword.Size = new System.Drawing.Size(200, 24);
             this.confirmPassword.TabIndex = 9;
@@ -242,6 +244,7 @@
             this.passportID.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.passportID.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.passportID.Location = new System.Drawing.Point(191, 372);
+            this.passportID.MaxLength = 9;
             this.passportID.Name = "passportID";
             this.passportID.Size = new System.Drawing.Size(200, 24);
             this.passportID.TabIndex = 3;
@@ -285,7 +288,7 @@
             this.insuranceCard.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.insuranceCard.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.insuranceCard.Location = new System.Drawing.Point(191, 442);
-            this.insuranceCard.MaxLength = 20;
+            this.insuranceCard.MaxLength = 9;
             this.insuranceCard.Name = "insuranceCard";
             this.insuranceCard.Size = new System.Drawing.Size(200, 24);
             this.insuranceCard.TabIndex = 5;

@@ -16,7 +16,7 @@ namespace HospitalClasses
         //  Properties  //
         public string Name { get; protected set; }
         public string Surname { get; protected set; }
-        public int PassportID { get; protected set; }
+        public string PassportID { get; protected set; }
         public string Login { get; protected set; }
         public string Password { get; protected set; }
         public byte[] Picture { get; protected set; }
@@ -28,22 +28,22 @@ namespace HospitalClasses
 
         //Constructor//
 
-        protected User(string name, string surname, int passportID, string login, string password)
+        protected User(string name, string surname, string passportID, string login, string password)
         {
             Name = name;
             Surname = surname;
-            if (PassportIdIsUnique(passportID))
+            //if (PassportIdIsUnique(passportID))
                 PassportID = passportID;
 
-            if (LoginIsValid(login))
+            //if (LoginIsValid(login))
                 Login = login;
 
-            if (!PasswordIsValid(password))
+            //if (!PasswordIsValid(password))
                 Password = password;
 
         }
 
-        protected User(string name, string surname, int passportID)
+        protected User(string name, string surname, string passportID)
         {
             Name = name;
             Surname = surname;
@@ -55,7 +55,7 @@ namespace HospitalClasses
 
 
         // Methods //
-        public static bool PassportIdIsUnique(int passportID)
+        public static bool PassportIdIsUnique(string passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -66,7 +66,7 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@passportID", SqlDbType.NVarChar).Value = passportID;
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = passportID;
                 cmd.ExecuteNonQuery();
 
                 existInDB = (int)cmd.ExecuteScalar();
@@ -85,7 +85,7 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@passportID", SqlDbType.NVarChar).Value = passportID;
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = passportID;
                 cmd.ExecuteNonQuery();
 
                 existInDB = (int)cmd.ExecuteScalar();
@@ -108,7 +108,7 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
                 cmd.ExecuteNonQuery();
 
                 existInDB = (int)cmd.ExecuteScalar();
@@ -127,7 +127,7 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
                 cmd.ExecuteNonQuery();
 
                 existInDB = (int)cmd.ExecuteScalar();

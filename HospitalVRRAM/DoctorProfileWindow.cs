@@ -69,7 +69,7 @@ namespace HospitalForms
             patientsOfDay.RowCount = 1;
             //var calendarInfo = doctor.Calendar();
             Dictionary<DateTime, Patient> calendarInfo = new Dictionary<DateTime, Patient>();
-            Patient tmp = new Patient("Name", "Surname", 6514651, "Ggg", DateTime.Today);
+            Patient tmp = new Patient("Name", "Surname", "aaaaaaa", "Ggg", DateTime.Today);
 
             calendarInfo[new DateTime(2018, 4, 1, 15, 0, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 1, 16, 0, 0)] = tmp;
@@ -143,7 +143,7 @@ namespace HospitalForms
 
             //List<Patient> patients = doctor.ShowPatient();
             List<Patient> patients = new List<Patient>() {
-                new Patient("Aa", "Aaa", 123, "Aaaa", DateTime.Now), new Patient("Bb", "BBs", 156, "AD", DateTime.Now)};
+                new Patient("Aa", "Aaa", "aaa", "Aaaa", DateTime.Now), new Patient("Bb", "BBs", "aaaa", "AD", DateTime.Now)};
             
 
             foreach (var current in patients)

@@ -26,7 +26,7 @@ namespace HospitalClasses
 
 
         //Constructor//
-        public Doctor(string name, string surname, int passportID, string login, string password,
+        public Doctor(string name, string surname, string passportID, string login, string password,
            string speciality, DateTime getEmployed, decimal consultationCost,DateTime dateOfBirth) : base(name, surname, passportID, login, password)
         {
             string SQlcmd = "dbo.insertDoctor";
@@ -40,10 +40,10 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = name;
                     cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surname;
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
-                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
+                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 20).Value = login;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = password;
                     cmd.Parameters.Add("@DateOfBirth",SqlDbType.DateTime).Value = dateOfBirth;
-                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 28).Value = speciality;
+                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
 
@@ -60,7 +60,7 @@ namespace HospitalClasses
             }
         }
 
-        public Doctor(string name, string surname, int passportID,
+        public Doctor(string name, string surname, string passportID,
                       string speciality, DateTime getEmployed,
                       decimal consultationCost) : base(name, surname, passportID)
         {
@@ -86,7 +86,7 @@ namespace HospitalClasses
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
 
-                    cmd.Parameters.Add(" @description", SqlDbType.NVarChar, 20).Value = diagnose.Disease;
+                    cmd.Parameters.Add("@description", SqlDbType.NVarChar, 20).Value = diagnose.Disease;
                     cmd.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
                     cmd.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
                     cmd.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
@@ -136,7 +136,7 @@ namespace HospitalClasses
                         {
                             string n = (string)reader["Name"];
                             string s = (string)reader["surname"];
-                            int p = (int)reader["PassportID"];
+                            string p = (string)reader["PassportID"];
                             string a = (string)reader["Address"];
                             DateTime d = (DateTime)reader["DateOfBirth"];
                             Patient pat = new Patient(n, s, p, a, d);
@@ -250,7 +250,7 @@ namespace HospitalClasses
             DateTime ll = new DateTime(day.Year, day.Month, day.Day, 9, 0, 0), rr = new DateTime(day.Year, day.Month, day.Day, 18, 40, 0);
 
             Patients = new Dictionary<DateTime, Patient>();
-            Patients[current] = new Patient("aa", "aaa", 5413, "asa", DateTime.Now);
+            Patients[current] = new Patient("aa", "aaa", "aaa", "asa", DateTime.Now);
 
             for (int i = 0; i < 60 * 10; i++)
             {
@@ -384,7 +384,7 @@ namespace HospitalClasses
                         {
                             string name = (string)reader["Name"];
                             string surename = (string)reader["Surename"];
-                            int passportID = (int)reader["PassportID"];
+                            string passportID = (string)reader["PassportID"];
                             string speciality = (string)reader["Speciality"];
                             byte[] picture = (byte[])reader["Picture"];
                             DateTime getEmployed = (DateTime)reader["DateOfApproval"];

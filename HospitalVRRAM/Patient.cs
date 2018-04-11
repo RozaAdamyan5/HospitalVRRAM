@@ -26,9 +26,9 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public Patient(string name, string surname, int passportID, string login,
+        public Patient(string name, string surname, string passportID, string login,
                        string password, string address, string insuranceCard,
-                       DateTime dateOfBirth) : base(name, surname, passportID, login, password)
+                       DateTime dateOfBirth, string phoneNumber) : base(name, surname, passportID, login, password)
         {
             Address = address;
             InsurenceCard = insuranceCard;
@@ -45,9 +45,9 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = name;
                     cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surname;
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
-                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
-
+                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 20).Value = login;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = password;
+                    cmd.Parameters.Add("@PhoneNumber", SqlDbType.Char, 9).Value = phoneNumber;
                     cmd.Parameters.Add("@InsuranceCard", SqlDbType.Char, 9).Value = insuranceCard;
                     cmd.Parameters.Add("@Address", SqlDbType.NVarChar, 20).Value = address;
                     cmd.Parameters.Add("@DateOfBirth", SqlDbType.DateTime).Value = dateOfBirth;
@@ -61,7 +61,7 @@ namespace HospitalClasses
             }
         }
 
-        public Patient(string name, string surname, int passportID, string address,
+        public Patient(string name, string surname, string passportID, string address,
                        DateTime dateOfBirth) : base(name, surname, passportID)
         {
             Address = address;
@@ -72,7 +72,7 @@ namespace HospitalClasses
 
         // Methods //
 
-        public static Patient SignIn(string login,string password)
+        public static Patient SignIn(string login, string password)
         {
             Patient patient = null;
             string SQlcmd = "dbo.SignUpPatient";
@@ -83,25 +83,29 @@ namespace HospitalClasses
                 {
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
-                    using (var reader = (SqlDataReader)cmd.ExecuteReader())
+                    cmd.Parameters.Add("@Login", SqlDbType.VarChar, 20).Value = login;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = password;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        reader.Read();
                         if (!reader.HasRows)
                         {
                             throw new Exception("Wrong password or login.");
                         }
                         else
                         {
+                            string passportID = (string)reader["PassportID"];//(reader["PassportID"] != null ? (string)reader["PassportID"] : null);
                             string name = (string)reader["Name"];
-                            string surename = (string)reader["Surename"];
-                            int passportID = (int)reader["PassportID"];
+                            string surname = (string)reader["Surname"];
                             string address = (string)reader["Address"];
                             byte[] picture = (byte[])reader["Picture"];
                             string insuranceCard = (string)reader["InsuranceCard"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             string phoneNumber = (string)reader["PhoneNumber"];
-                            patient = new Patient(name, surename, passportID, login, password, address, insuranceCard, dateOfBirth);
+                            patient = new Patient(name, surname, passportID, address, dateOfBirth);
+                            patient.Login = login;
+                            patient.Password = password;
+                            patient.InsurenceCard = insuranceCard;
                             patient.Picture = picture;
                             patient.PhoneNumber = phoneNumber;
                         }
@@ -173,7 +177,7 @@ namespace HospitalClasses
             return MyHistory;
         }
 
-        public void ChangeBalance(decimal moneyToAdd /*can be negative*/)
+        public void ChangeBalance(decimal moneyToAdd)       // Can be negative
         {
             if (Balance <= -moneyToAdd)
                 Balance = 0;
@@ -189,9 +193,9 @@ namespace HospitalClasses
                 using (conn)
                 {
                     conn.Open();
-                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.Text);
-                    cmd.Parameters.Add("@PassportID", SqlDbType.SmallMoney).Value = PassportID;
-                    cmd.Parameters.Add("@Balance", SqlDbType.Char, 9).Value = Balance;
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@Balance", SqlDbType.SmallMoney).Value = Balance;
 
                     cmd.ExecuteNonQuery();
 
@@ -219,13 +223,13 @@ namespace HospitalClasses
                 {
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("@Speciality", SqlDbType.TinyInt).Value = Speciality;
+                    cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = Speciality;
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (int)reader["PasportID"],
+                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (string)reader["PasportID"],
                                                    (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], (decimal)reader["ConsultationCost"]));      //incompatibility between databases and classes
                         }
                     }
@@ -270,9 +274,10 @@ namespace HospitalClasses
         public override void AddPicture(byte[] pic)
         {
 
-            string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
-                       + "from Patients\r\n"
-                       + " where passportID =@passportID";
+            string sSQL = "update Patient\r\n" +
+                            "set Picture = @pic" +
+                         " where passportID = @passportID";
+            this.Picture = pic;
 
             try
             {
@@ -281,22 +286,10 @@ namespace HospitalClasses
 
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
-                cmd.Parameters.Add("@passportID", SqlDbType.Char,9 ).Value = this.PassportID;
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
+                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Get the pointer for file
-                        var path = reader.GetString(reader.GetOrdinal("PathName"));
-                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
-
-                        var ms = new MemoryStream(imbytes);
-
-                        Image photo = Image.FromStream(ms);
-                       
-                    }
-                }
+                cmd.ExecuteNonQuery();
 
             }
             catch (Exception ex)

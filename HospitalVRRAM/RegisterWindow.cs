@@ -93,7 +93,7 @@ namespace HospitalForms
             try
             {
                 checkIfValid();
-                // Register a patient - write info to database
+                new Patient(name.Text, surname.Text, passportID.Text, login.Text, password.Text, address.Text, insuranceCard.Text, birthDate.Value, phoneNumber.Text);
                 registrationCompleted(this, EventArgs.Empty);
             }
             catch(Exception ex)

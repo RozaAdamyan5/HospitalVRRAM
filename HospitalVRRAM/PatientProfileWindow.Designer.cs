@@ -205,6 +205,7 @@
             this.profilePicBox.Location = new System.Drawing.Point(25, 15);
             this.profilePicBox.Name = "profilePicBox";
             this.profilePicBox.Size = new System.Drawing.Size(150, 180);
+            this.profilePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.profilePicBox.TabIndex = 15;
             this.profilePicBox.TabStop = false;
             // 

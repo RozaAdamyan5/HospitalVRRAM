@@ -17,7 +17,7 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public Admin(string name, string surname, int passportID, string login, string password)
+        public Admin(string name, string surname, string passportID, string login, string password)
             : base(name, surname, passportID, login, password)
         {
             // must read from config
@@ -128,7 +128,7 @@ namespace HospitalClasses
         public void AddDoctor(Doctor doctor)
         {
             Doctor a = new Doctor(doctor.Name, doctor.Surname, doctor.PassportID, doctor.Login,
-                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost);//Constructor add in database
+                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost, doctor.DateOfBirth);//Constructor add in database
         }
         public List<Doctor> ShowDoctors()
         {
@@ -149,7 +149,7 @@ namespace HospitalClasses
                         {
                             string name = (string)reader["Name"];
                             string surname = (string)reader["surname"];
-                            int passportID = (int)reader["PassportID"];
+                            string passportID = (string)reader["PassportID"];
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
                             decimal consCost = (decimal)reader["ConsultationCost"];//must be added in db
