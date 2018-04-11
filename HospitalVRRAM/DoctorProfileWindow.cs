@@ -68,8 +68,6 @@ namespace HospitalForms
         {
             patientsOfDay.Controls.Clear();
             patientsOfDay.RowCount = 1;
-            int a = 2;
-            a /= 0;
             //var calendarInfo = doctor.Calendar();
             Dictionary<DateTime, Patient> calendarInfo = new Dictionary<DateTime, Patient>();
             Patient tmp = new Patient("Name", "Surname", 6514651, "Ggg", DateTime.Today);
