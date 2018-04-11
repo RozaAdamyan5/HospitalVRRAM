@@ -200,19 +200,19 @@ namespace HospitalClasses
 
         public virtual void AddPicture(byte[] pic)
         {
-            Picture = pic;
-            //TODO
-        } // TODO
+           //must be implemented by derived classes
+            
+        } 
 
-        public decimal ShowBalance()
+        public virtual decimal ShowBalance()
         {
             return Balance;
-        } // TODO
+        } 
 
-        public void ChageBalance(int amountForChange)
+        public virtual void ChageBalance(int amountForChange)
         {
             Balance += amountForChange;
-        } // TODO
+        } 
 
 
         //End Methods //

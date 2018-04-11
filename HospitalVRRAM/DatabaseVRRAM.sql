@@ -51,7 +51,7 @@
 --CREATE TABLE Medicine 
 --(	
 --	ID				INT			PRIMARY KEY ,
---    [Name] 			NVARCHAR(20) 	NOT NULL,
+--    [Name] 			NVARCHAR(20) 	NOT NULL,//it must be unique
 --	Country			NVARCHAR(20) 	NOT NULL,
 --	ExpirationDate	DATETIME		NOT NULL,
 --	Price			SMALLMONEY		NOT NULL,

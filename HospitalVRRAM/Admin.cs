@@ -88,7 +88,7 @@ namespace HospitalClasses
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-                    cmd.Parameters.Add("@Name", SqlDbType.Char, 20).Value = medicine.Name;////name must be unique
+                    cmd.Parameters.Add("@Name", SqlDbType.Char, 20).Value = medicine.Name;
                     cmd.Parameters.Add("@Price", SqlDbType.SmallMoney).Value = price;
 
                     cmd.ExecuteNonQuery();
@@ -170,6 +170,11 @@ namespace HospitalClasses
                 Console.WriteLine(e.Message);
             }
             return docs;
+        }
+
+        public virtual void AddPicture()
+        {
+
         }
     }
 }
