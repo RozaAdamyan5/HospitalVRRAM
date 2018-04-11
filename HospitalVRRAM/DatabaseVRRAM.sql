@@ -39,7 +39,7 @@
 
 --CREATE TABLE Diagnoses
 --(
---	DiagnosesID		INT			    PRIMARY KEY IDENTITY(10000, 1),
+--	DiagnosesID		INT			PRIMARY KEY IDENTITY(10000, 1),
 --	[Description]	NVARCHAR(20) 	NOT NULL,
 --	DateOfDiagnosis	DATETIME		NOT NULL,
 --	PatientID 		char(9)			FOREIGN KEY REFERENCES Patient(PassportID),
