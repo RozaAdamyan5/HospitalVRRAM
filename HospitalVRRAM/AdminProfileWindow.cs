@@ -13,7 +13,7 @@ using HospitalClasses;
 using HospitalForms;
 
 
-namespace HospitalVRRAM
+namespace HospitalForms
 {
     public partial class AdminProfileWindow : Form
     {

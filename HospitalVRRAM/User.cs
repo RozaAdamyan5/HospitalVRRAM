@@ -55,7 +55,7 @@ namespace HospitalClasses
 
 
         // Methods //
-        public bool PassportIdIsUnique(int passportID)
+        public static bool PassportIdIsUnique(int passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -97,7 +97,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public bool LoginIdIsUnique(string login)
+        public static bool LoginIdIsUnique(string login)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -139,7 +139,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public bool LoginIsValid(string login)
+        public static bool LoginIsValid(string login)
         {
             //validation
             if (login.Length < 8)
@@ -147,19 +147,19 @@ namespace HospitalClasses
                 throw new Exception("Login must be at least 8 characters.");
             }
             
-            //else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
-            //{
-            //    throw new Exception("login must have SOMETHING@pat.hosp form");
-            //}
-            else if(!LoginIdIsUnique(login))
+            /*else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
+            {
+                throw new Exception("login must have SOMETHING@pat.hosp form");
+            }*/
+            /*else if(!LoginIdIsUnique(login))
             {
                 throw new Exception("This login already exists");
-            }
+            }*/
 
             return true;
         }
 
-        public bool PasswordIsValid(string password)
+        public static bool PasswordIsValid(string password)
         {
             var input = password;
 

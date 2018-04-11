@@ -1,4 +1,4 @@
-﻿namespace HospitalVRRAM
+﻿namespace HospitalForms
 {
     partial class AdminProfileWindow
     {

@@ -72,7 +72,7 @@ namespace HospitalClasses
 
         // Methods //
 
-        public static Patient SignUp(string login,string password)
+        public static Patient SignIn(string login,string password)
         {
             Patient patient = null;
             string SQlcmd = "dbo.SignUpPatient";

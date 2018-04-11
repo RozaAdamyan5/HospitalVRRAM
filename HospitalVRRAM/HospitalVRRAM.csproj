@@ -54,6 +54,12 @@
     <Compile Include="AdminProfileWindow.Designer.cs">
       <DependentUpon>AdminProfileWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApplicationHospital.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationHospital.Designer.cs">
+      <DependentUpon>ApplicationHospital.cs</DependentUpon>
+    </Compile>
     <Compile Include="Diagnosis.cs" />
     <Compile Include="DiagnosisWindow.cs">
       <SubType>Form</SubType>
@@ -99,6 +105,9 @@
     <Compile Include="User.cs" />
     <EmbeddedResource Include="AdminProfileWindow.resx">
       <DependentUpon>AdminProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationHospital.resx">
+      <DependentUpon>ApplicationHospital.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DiagnosisWindow.resx">
       <DependentUpon>DiagnosisWindow.cs</DependentUpon>

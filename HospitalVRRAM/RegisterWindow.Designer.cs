@@ -36,7 +36,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.name = new System.Windows.Forms.TextBox();
-            this.surName = new System.Windows.Forms.TextBox();
+            this.surname = new System.Windows.Forms.TextBox();
             this.login = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
             this.confirmPassword = new System.Windows.Forms.TextBox();
@@ -53,6 +53,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.passMatch = new System.Windows.Forms.Label();
+            this.back = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -133,24 +135,27 @@
             this.name.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.name.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.name.Location = new System.Drawing.Point(191, 267);
+            this.name.MaxLength = 20;
             this.name.Name = "name";
             this.name.Size = new System.Drawing.Size(200, 24);
             this.name.TabIndex = 0;
             // 
-            // surName
+            // surname
             // 
-            this.surName.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.surName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.surName.Location = new System.Drawing.Point(191, 302);
-            this.surName.Name = "surName";
-            this.surName.Size = new System.Drawing.Size(200, 24);
-            this.surName.TabIndex = 1;
+            this.surname.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.surname.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.surname.Location = new System.Drawing.Point(191, 302);
+            this.surname.MaxLength = 20;
+            this.surname.Name = "surname";
+            this.surname.Size = new System.Drawing.Size(200, 24);
+            this.surname.TabIndex = 1;
             // 
             // login
             // 
             this.login.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.login.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.login.Location = new System.Drawing.Point(716, 267);
+            this.login.MaxLength = 10;
             this.login.Name = "login";
             this.login.Size = new System.Drawing.Size(120, 24);
             this.login.TabIndex = 7;
@@ -163,6 +168,7 @@
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(200, 24);
             this.password.TabIndex = 8;
+            this.password.TextChanged += new System.EventHandler(this.password_TextChanged);
             // 
             // confirmPassword
             // 
@@ -172,6 +178,7 @@
             this.confirmPassword.Name = "confirmPassword";
             this.confirmPassword.Size = new System.Drawing.Size(200, 24);
             this.confirmPassword.TabIndex = 9;
+            this.confirmPassword.TextChanged += new System.EventHandler(this.confirmPassword_TextChanged);
             // 
             // signUp
             // 
@@ -183,6 +190,7 @@
             this.signUp.TabIndex = 10;
             this.signUp.Text = "Sign Up";
             this.signUp.UseVisualStyleBackColor = true;
+            this.signUp.Click += new System.EventHandler(this.signUp_Click);
             // 
             // pictureBox1
             // 
@@ -224,6 +232,7 @@
             this.address.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.address.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.address.Location = new System.Drawing.Point(191, 407);
+            this.address.MaxLength = 20;
             this.address.Name = "address";
             this.address.Size = new System.Drawing.Size(200, 24);
             this.address.TabIndex = 4;
@@ -266,6 +275,7 @@
             this.phoneNumber.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.phoneNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.phoneNumber.Location = new System.Drawing.Point(191, 477);
+            this.phoneNumber.MaxLength = 9;
             this.phoneNumber.Name = "phoneNumber";
             this.phoneNumber.Size = new System.Drawing.Size(200, 24);
             this.phoneNumber.TabIndex = 6;
@@ -275,6 +285,7 @@
             this.insuranceCard.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.insuranceCard.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.insuranceCard.Location = new System.Drawing.Point(191, 442);
+            this.insuranceCard.MaxLength = 20;
             this.insuranceCard.Name = "insuranceCard";
             this.insuranceCard.Size = new System.Drawing.Size(200, 24);
             this.insuranceCard.TabIndex = 5;
@@ -314,11 +325,38 @@
             this.textBox1.TabIndex = 30;
             this.textBox1.Text = "@pat.hosp";
             // 
+            // passMatch
+            // 
+            this.passMatch.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.passMatch.AutoSize = true;
+            this.passMatch.BackColor = System.Drawing.Color.Transparent;
+            this.passMatch.ForeColor = System.Drawing.Color.Red;
+            this.passMatch.Location = new System.Drawing.Point(720, 363);
+            this.passMatch.Name = "passMatch";
+            this.passMatch.Size = new System.Drawing.Size(120, 13);
+            this.passMatch.TabIndex = 31;
+            this.passMatch.Text = "*Passwords don\'t match";
+            this.passMatch.Visible = false;
+            // 
+            // back
+            // 
+            this.back.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.back.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.back.Location = new System.Drawing.Point(76, 550);
+            this.back.Name = "back";
+            this.back.Size = new System.Drawing.Size(95, 26);
+            this.back.TabIndex = 32;
+            this.back.Text = "Go Back";
+            this.back.UseVisualStyleBackColor = true;
+            this.back.Click += new System.EventHandler(this.back_Click);
+            // 
             // RegisterWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 636);
+            this.Controls.Add(this.back);
+            this.Controls.Add(this.passMatch);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.phoneNumber);
             this.Controls.Add(this.insuranceCard);
@@ -335,7 +373,7 @@
             this.Controls.Add(this.confirmPassword);
             this.Controls.Add(this.password);
             this.Controls.Add(this.login);
-            this.Controls.Add(this.surName);
+            this.Controls.Add(this.surname);
             this.Controls.Add(this.name);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -368,7 +406,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox name;
-        private System.Windows.Forms.TextBox surName;
+        private System.Windows.Forms.TextBox surname;
         private System.Windows.Forms.TextBox login;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.TextBox confirmPassword;
@@ -385,5 +423,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label passMatch;
+        private System.Windows.Forms.Button back;
     }
 }
