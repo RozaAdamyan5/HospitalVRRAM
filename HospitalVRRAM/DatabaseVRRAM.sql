@@ -76,9 +76,9 @@ CREATE TABLE Queues
 CREATE TABLE AssignedTo
 (
 	DiagnoseID		INT		NOT NULL	FOREIGN KEY REFERENCES Diagnoses(DiagnosesID),
-	MedicineID		INT		FOREIGN KEY REFERENCES Medicine(ID),
+	Medicine		NVarchar(20)		FOREIGN KEY REFERENCES Medicine(name),
     [Count]			INT		NOT NULL   CHECK  ([Count]>1) ,
      
-	CONSTRAINT 	PK_Assign	PRIMARY KEY (DiagnoseID,MedicineID),
+	CONSTRAINT 	PK_Assign	PRIMARY KEY (DiagnoseID,Medicine),
 );
 
