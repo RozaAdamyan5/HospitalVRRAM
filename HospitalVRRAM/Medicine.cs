@@ -38,21 +38,19 @@ namespace HospitalClasses
 
         // Methods //
 
-        public void AddPicture(byte[] pic)
+        public Image GetPicture()
         {
-
-            string sSQL = "select name,Picture.PathName() as PathName, Picture\r\n"
-                       + "from Medicine\r\n"
-                       + " where name =@name";
-
+            Image photo = null; //should be the default picture
+            string SQLcmd = "dbo.MedicineGetPicture";
+            
             try
             {
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
 
-                cmd.Parameters.Add("@name", SqlDbType.NVarChar, 20).Value = "Nurofen";
+                cmd.Parameters.Add("Name", SqlDbType.Char, 9).Value = this.Name;
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -62,9 +60,10 @@ namespace HospitalClasses
                         var path = reader.GetString(reader.GetOrdinal("PathName"));
                         var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
 
-                        var ms = new MemoryStream(imbytes);
+                        var ms = new MemoryStream(Picture);
+                        photo = Image.FromStream(ms);
 
-                        Image photo = Image.FromStream(ms);
+                        this.Picture = imbytes;
                         //must be done using our form
                         //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
                         //  pictureBox1.Image = photo;
@@ -76,9 +75,32 @@ namespace HospitalClasses
             {
                 MessageBox.Show(ex.Message);
             }
+            return photo;
         }
 
+        public void AddPicture(byte[] pic)
+        {
+            string SQLcmd = "dbo.MedicineAddPicture";
+            this.Picture = pic;
 
+            try
+            {
+                var conn = HospitalConnection.CreateDbConnection();
+                conn.Open();
+
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = this.Name;
+                cmd.Parameters.Add("@Pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
+
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 
     //End Methods //

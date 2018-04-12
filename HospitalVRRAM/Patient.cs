@@ -268,12 +268,55 @@ namespace HospitalClasses
             }
         }
 
+        public Image GetPicture()
+        {
+            Image photo = null; //should be the default picture
+            string SQLcmd = "dbo.PatientGetPicture";
+            //string sSQL = "select Picture.PathName() as PathName, Picture\r\n"
+            //            + "from Medicine\r\n"
+            //            + " where passportID=@passportID";
+
+            try
+            {
+                var conn = HospitalConnection.CreateDbConnection();
+                conn.Open();
+
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Get the pointer for file
+                        var path = reader.GetString(reader.GetOrdinal("PathName"));
+                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
+
+                        var ms = new MemoryStream(Picture);
+                        photo = Image.FromStream(ms);
+
+                        this.Picture = imbytes;
+                        //must be done using our form
+                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
+                        //  pictureBox1.Image = photo;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return photo;
+        }
+
         public override void AddPicture(byte[] pic)
         {
-
-            string sSQL = "update Patient\r\n" +
-                            "set Picture = @pic" +
-                         " where passportID = @passportID";
+            string SQLcmd = "dbo.PatientAddPicture";
+            //string sSQL = "update Patient\r\n" +
+            //                "set Picture = @pic" +
+            //             " where passportID = @passportID";
             this.Picture = pic;
 
             try
@@ -281,10 +324,10 @@ namespace HospitalClasses
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
 
-                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
-                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
+                cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = this.PassportID;
+                cmd.Parameters.Add("@Pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
 
                 cmd.ExecuteNonQuery();
 

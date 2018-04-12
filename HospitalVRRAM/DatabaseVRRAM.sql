@@ -1,3 +1,5 @@
+drop database Vrram
+
 CREATE DATABASE Vrram
 
 use Vrram 
@@ -9,7 +11,8 @@ CREATE TABLE Doctor(
 	[Name] 				NVARCHAR(20)		NOT NULL,
 	Surname			    NVARCHAR(20) 		NOT NULL,
 	Balance			    SMALLMONEY,
-	Picture			    VARBINARY,
+	Picture			    VARBINARY(max) filestream null,
+	[Id] [uniqueidentifier] ROWGUIDCOL NOT NULL UNIQUE, 
 	PhoneNumber		    CHAR(9),
 	Speciality 		    VARCHAR(20)			NOT NULL,
 	DateOfApproval		DATETIME,
@@ -27,7 +30,8 @@ CREATE TABLE Patient(
 	[Name]			NVARCHAR(20) 		NOT NULL,
 	Surname 		NVARCHAR(20) 		NOT NULL,
 	Balance		    SMALLMONEY,
-	Picture		    VARBINARY,
+	Picture		    VARBINARY(max) filestream null,
+	[Id] [uniqueidentifier] ROWGUIDCOL NOT NULL UNIQUE, 
 	PhoneNumber	    CHAR(9),
 	[Address]	    NVARCHAR(20),
 	DateOfBirth	    DATETIME,
@@ -56,7 +60,8 @@ CREATE TABLE Medicine
 	Country			NVARCHAR(20) 	NOT NULL,
 	ExpirationDate	DATETIME		NOT NULL,
 	Price			SMALLMONEY		NOT NULL,
-	Picture			VARBINARY,
+	Picture			VARBINARY(max) filestream null,
+	[Id] [uniqueidentifier] ROWGUIDCOL NOT NULL UNIQUE, 
 );
 
 -------------------------------------------------------------------------------------------
@@ -76,7 +81,7 @@ CREATE TABLE Queues
 CREATE TABLE AssignedTo
 (
 	DiagnoseID		INT		NOT NULL	FOREIGN KEY REFERENCES Diagnoses(DiagnosesID),
-	MedicineID		INT		FOREIGN KEY REFERENCES Medicine(ID),
+	MedicineID		Nvarchar(20)		FOREIGN KEY REFERENCES Medicine([Name]),
     [Count]			INT		NOT NULL   CHECK  ([Count]>1) ,
      
 	CONSTRAINT 	PK_Assign	PRIMARY KEY (DiagnoseID,MedicineID),
