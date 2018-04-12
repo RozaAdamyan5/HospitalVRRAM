@@ -150,6 +150,7 @@
     <Content Include="SPAdmin.sql" />
     <Content Include="SPDoctor.sql" />
     <Content Include="SPPatient.sql" />
+    <Content Include="SPPictures.sql" />
     <Content Include="SPUser.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
