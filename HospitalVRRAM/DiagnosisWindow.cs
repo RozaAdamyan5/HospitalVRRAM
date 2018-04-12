@@ -25,7 +25,7 @@ namespace HospitalForms
         {
             InitializeComponent();
             fullName.Text = patientsName;
-            removeIcon = new Bitmap((Bitmap)(global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
+            removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
         }
 
         private void Form1_Load(object sender, EventArgs e)

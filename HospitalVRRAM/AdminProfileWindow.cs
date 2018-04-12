@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -17,17 +18,28 @@ namespace HospitalForms
 {
     public partial class AdminProfileWindow : Form
     {
+        public event EventHandler logOutClicked;
+
         static Bitmap removeIcon;
         List<Doctor> doctors;
         List<Medicine> medicines;
         Admin admin;
 
-        public AdminProfileWindow()
+        public AdminProfileWindow(Admin adminn)
         {
             InitializeComponent();
+
+            admin = adminn;
+
             universalPanel.Hide();
             doctorsPanel.Hide();
-            removeIcon = new Bitmap((Bitmap)(global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
+
+            nameLabel.Text = admin.Name;
+            surnameLabel.Text = admin.Surname;
+
+
+
+            removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
 
             newCost.TextChanged += check;
             newName.TextChanged += check;
@@ -55,8 +67,6 @@ namespace HospitalForms
 
         private void allDoctors_Click(object sender, EventArgs e)
         {
-            //universalPanel.Controls.Clear();
-            universalPanel.Hide();
             // TODO
             // Show all doctors in doctorsPanel
             
@@ -76,8 +86,7 @@ namespace HospitalForms
                 doctorsTable.RowCount++;
             }
 
-            doctorsPanel.Show();
-            universalPanel.Hide();
+            doctorsPanel.BringToFront();
             
         }
 
@@ -113,17 +122,36 @@ namespace HospitalForms
 
         private void allMedicine_Click(object sender, EventArgs e)
         {
-            universalPanel.Controls.Clear();
             // TODO
             // Show all medicine in universalPanel
-            doctorsPanel.Hide();
-            universalPanel.Show();
+            List<Medicine> allMedicine = new List<Medicine>()
+            {
+                new Medicine("karevor dex0", "Hayastan", (decimal)150, DateTime.Now),
+                new Medicine("karevor dex1", "Hayastan", (decimal)1580, DateTime.Now),
+                new Medicine("karevor dex2", "Hayastan", (decimal)1159, DateTime.Now),
+                new Medicine("karevor dex3", "Hayastan", (decimal)1150, DateTime.Now),
+                new Medicine("karevor dex4", "Hayastan", (decimal)1350, DateTime.Now),
+                new Medicine("karevor dex5", "Hayastan", (decimal)1850, DateTime.Now),
+                new Medicine("karevor dex6", "Hayastan", (decimal)1503, DateTime.Now),
+                new Medicine("karevor dex7", "Hayastan", (decimal)1504, DateTime.Now)
+            };
+
+
+            foreach(var medicine in allMedicine)
+            {
+                //medicineTable.Controls.Add(new Label() { Text = })
+            }
+
+
+            medicineTable.BringToFront();
         }
 
         private void changePassword_Click(object sender, EventArgs e)
         {
-            universalPanel.Controls.Clear();
-
+            if (universalPanel.Controls.Count != 0)
+            {
+                universalPanel.BringToFront();
+            }
             var tmpFont = new Font("Microsoft Sans Serif", 10F);
 
             Label oldPasswordLabel = new Label() { Text = "Old Password", Width = 140, Left = 20, Top = 22, Font = tmpFont };
@@ -136,33 +164,6 @@ namespace HospitalForms
 
             universalPanel.Controls.AddRange(
                 new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
-        }
-
-        private void addPicture_Click(object sender, EventArgs e)
-        {
-            Stream myStream;
-            OpenFileDialog selectPicture = new OpenFileDialog() { InitialDirectory = "C:\\", Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG" };
-            if (selectPicture.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    if ((myStream = selectPicture.OpenFile()) != null)
-                    {
-                        using (myStream)
-                        {
-                            profilePicBox.Image = new Bitmap(myStream);
-                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
-                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
-                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                            addPicture.Text = "Change Picture"; addPicture.Left = 45;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-                }
-            }
         }
 
         private void AdminProfileWindow_Paint(object sender, PaintEventArgs e)
@@ -183,6 +184,9 @@ namespace HospitalForms
             this.Invalidate();
         }
 
-        
+        private void logOut_Click(object sender, EventArgs e)
+        {
+            logOutClicked(this, EventArgs.Empty);
+    }
     }
 }

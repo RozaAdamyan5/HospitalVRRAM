@@ -55,23 +55,19 @@ namespace HospitalForms
             {
                 throw new Exception("Date of birth must be past! Not future.");
             }
-            if (!(new Regex("[0-9]+").IsMatch(passportID.Text)))
-            {
-                throw new Exception("Passport ID must be an integer!");
-            }
 
-            /*try
+            try
             {
-                User.PassportIdIsUnique(int.Parse(passportID.Text));
+                User.PassportIdIsUnique(passportID.Text);
             }
             catch(Exception ex)
             {
                 throw ex;
-            }*/
+            }
 
             try
             {
-                User.LoginIsValid(login.Text + "@pat.hosp");
+                User.LoginIsValid(login.Text);
             }
             catch(Exception ex)
             {

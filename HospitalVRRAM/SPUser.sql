@@ -1,5 +1,5 @@
 ﻿CREATE PROC dbo.FindPatientPasspordID
-@passpordID varchar(20)
+@passpordID char(9)
 AS
 BEGIN
 	IF(exists (select *
@@ -17,7 +17,7 @@ END
 go
 
 CREATE PROC dbo.FindDoctorPasspordID
-@passpordID varchar(20)
+@passpordID char(9)
 AS
 BEGIN
 	IF(exists (select *

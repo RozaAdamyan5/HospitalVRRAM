@@ -13,6 +13,8 @@ using System.Windows.Forms;
 
 namespace HospitalClasses
 {
+    public enum Specialities { Dentist, Nurse, Surgeon, Diabetologist, Endocrinologist, Cardiologist, Neurologist, Psychiatrist };
+
     public class Doctor : User
     {
         //  Properties  //
@@ -57,7 +59,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -142,7 +144,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
 
         }
@@ -180,7 +182,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
             return patients;
         }
@@ -250,7 +252,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
 
             return result;
@@ -289,7 +291,7 @@ namespace HospitalClasses
         {
             WriteDiagnosis(patient, diagnose);
             patient.MyHistory.Add(diagnose);
-            Patients.Remove(time);
+            //Patients.Remove(time);
         }
 
         public DateTime FreeTime(DateTime day)
@@ -298,8 +300,8 @@ namespace HospitalClasses
 
             DateTime ll = new DateTime(day.Year, day.Month, day.Day, 9, 0, 0), rr = new DateTime(day.Year, day.Month, day.Day, 18, 40, 0);
 
-            Patients = new Dictionary<DateTime, Patient>();
-            Patients[current] = new Patient("aa", "aaa", "aaa", "asa", DateTime.Now);
+            //Patients = new Dictionary<DateTime, Patient>();
+            //Patients[current] = new Patient("aa", "aaa", "aaa", "asa", DateTime.Now);
 
             for (int i = 0; i < 60 * 10; i++)
             {
@@ -338,12 +340,13 @@ namespace HospitalClasses
 
             throw new Exception();
         }
+
         public override void AddPicture(byte[] pic)
         {
-
-            string sSQL = "select passportID,Picture.PathName() as PathName, Picture\r\n"
-                       + "from Medicine\r\n"
-                       + " where passportID=@passportID";
+            string sSQL = "update Doctor\r\n" +
+                            "set Picture = @pic" +
+                         " where passportID = @passportID";
+            this.Picture = pic;
 
             try
             {
@@ -353,29 +356,17 @@ namespace HospitalClasses
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
                 cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
+                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Get the pointer for file
-                        var path = reader.GetString(reader.GetOrdinal("PathName"));
-                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
-
-                        var ms = new MemoryStream(imbytes);
-
-                        Image photo = Image.FromStream(ms);
-                        //must be done using our form
-                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
-                        //  pictureBox1.Image = photo;
-                    }
-                }
+                cmd.ExecuteNonQuery();
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+
+
         }
 
 
@@ -407,6 +398,7 @@ namespace HospitalClasses
             }
             Balance = balance;
         }
+
         public static Doctor SignIn(string login, string password)
         {
             Doctor doc = null;
@@ -425,6 +417,7 @@ namespace HospitalClasses
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {
+                        reader.Read();
                         if (!reader.HasRows)
                         {
                             throw new Exception("Wrong password or login.");
@@ -432,7 +425,7 @@ namespace HospitalClasses
                         else
                         {
                             string name = (string)reader["Name"];
-                            string surename = (string)reader["Surename"];
+                            string surname = (string)reader["Surname"];
                             string passportID = (string)reader["PassportID"];
                             string speciality = (string)reader["Speciality"];
                             byte[] picture = (byte[])reader["Picture"];
@@ -440,7 +433,7 @@ namespace HospitalClasses
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             decimal consultationCost = (decimal)reader["ConsultationCost"];
                             string phoneNumber = (string)reader["PhoneNumber"];
-                            doc = new Doctor(name, surename, passportID, speciality, getEmployed, consultationCost);
+                            doc = new Doctor(name, surname, passportID, speciality, getEmployed, consultationCost);
                             doc.Picture = picture;
                             doc.DateOfBirth = dateOfBirth;
                             doc.PhoneNumber = phoneNumber;

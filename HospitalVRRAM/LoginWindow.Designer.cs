@@ -71,8 +71,9 @@
             this.loginBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.loginBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.loginBox.Location = new System.Drawing.Point(450, 340);
+            this.loginBox.MaxLength = 18;
             this.loginBox.Name = "loginBox";
-            this.loginBox.Size = new System.Drawing.Size(127, 24);
+            this.loginBox.Size = new System.Drawing.Size(120, 24);
             this.loginBox.TabIndex = 6;
             // 
             // passwordBox
@@ -81,7 +82,7 @@
             this.passwordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.passwordBox.Location = new System.Drawing.Point(450, 390);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.Size = new System.Drawing.Size(220, 24);
+            this.passwordBox.Size = new System.Drawing.Size(222, 24);
             this.passwordBox.TabIndex = 8;
             // 
             // label1
@@ -158,9 +159,9 @@
             "@pat.hosp",
             "@doc.hosp",
             "@adm.hosp"});
-            this.loginSuffix.Location = new System.Drawing.Point(580, 340);
+            this.loginSuffix.Location = new System.Drawing.Point(572, 340);
             this.loginSuffix.Name = "loginSuffix";
-            this.loginSuffix.Size = new System.Drawing.Size(90, 24);
+            this.loginSuffix.Size = new System.Drawing.Size(100, 24);
             this.loginSuffix.TabIndex = 7;
             // 
             // LoginWindow

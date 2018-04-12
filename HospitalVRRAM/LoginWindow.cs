@@ -18,7 +18,7 @@ namespace HospitalForms
     {
         public event EventHandler<PatientPassEventArgs> patientSignedIn;
         public event EventHandler<DoctorPassEventArgs> doctorSignedIn;
-        public event EventHandler adminIsHere;
+        public event EventHandler<AdminPassEventArgs> adminIsHere;
         public event EventHandler signUpClicked;
 
         public LoginWindow()
@@ -71,19 +71,25 @@ namespace HospitalForms
                 try
                 {
                     Patient patient = Patient.SignIn(loginBox.Text, passwordBox.Text);
-                    patientSignedIn(this, new PatientPassEventArgs(patient));
+                    if (patient != null)
+                    {
+                        patientSignedIn(this, new PatientPassEventArgs(patient));
+                    }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error");
-                } 
+                }
             }
             if (loginSuffix.SelectedIndex == 1)             // Doctor
             {
                 try
                 {
                     Doctor doctor = Doctor.SignIn(loginBox.Text, passwordBox.Text);
-                    doctorSignedIn(this, new DoctorPassEventArgs(doctor));
+                    if (doctor != null)
+                    {
+                        doctorSignedIn(this, new DoctorPassEventArgs(doctor));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -92,8 +98,26 @@ namespace HospitalForms
             }
             if (loginSuffix.SelectedIndex == 2)
             {
-
+                try
+                {
+                    Admin admin = null;
+                    admin = Admin.signIn(loginBox.Text, passwordBox.Text);
+                    if (admin != null)
+                    {
+                        adminIsHere(this, new AdminPassEventArgs(admin));
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
             }
+        }
+
+        public void clearFields()
+        {
+            loginBox.Text = passwordBox.Text = "";
+            loginSuffix.SelectedIndex = -1;
         }
     }
 
@@ -112,6 +136,15 @@ namespace HospitalForms
         public DoctorPassEventArgs(Doctor doc)
         {
             doctor = doc;
+        }
+    }
+
+    public class AdminPassEventArgs : EventArgs
+    {
+        public readonly Admin admin;
+        public AdminPassEventArgs(Admin adm)
+        {
+            admin = adm;
         }
     }
 }

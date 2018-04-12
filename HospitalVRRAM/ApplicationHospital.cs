@@ -36,11 +36,9 @@ namespace HospitalVRRAM
         public void InitializeLogin()
         {
             login = new LoginWindow();
-            login.patientSignedIn += (sender, e) => {
-                login.Hide();
-                InitializePatientWindow(e.patient);
-                patientProfile.Show(); };
+            login.patientSignedIn += (sender, e) => { login.Hide(); InitializePatientWindow(e.patient); patientProfile.Show(); };
             login.doctorSignedIn += (sender, e) => { login.Hide(); InitializeDoctorWindow(e.doctor); doctorProfile.Show(); };
+            login.adminIsHere += (sender, e) => { login.Hide(); InitializeAdminWindow(e.admin); adminProfile.Show(); };
             login.signUpClicked += (sender, e) => { login.Hide(); registration.Show(); };
             login.FormClosed += (sender, e) => { this.Close(); };
         }
@@ -57,11 +55,21 @@ namespace HospitalVRRAM
         {
             patientProfile = new PatientProfileWindow(patient);
             patientProfile.FormClosed += (sender, e) => { this.Close(); };
+            patientProfile.logOutClicked += (sender, e) => { login.clearFields(); login.Show(); patientProfile.Dispose(); };
         }
 
         public void InitializeDoctorWindow(Doctor doctor)
         {
             doctorProfile = new DoctorProfileWindow(doctor);
+            doctorProfile.FormClosed += (sender, e) => { this.Close(); };
+            doctorProfile.logOutClicked += (sender, e) => { login.clearFields(); login.Show(); doctorProfile.Dispose(); };
+        }
+
+        public void InitializeAdminWindow(Admin admin)
+        {
+            adminProfile = new AdminProfileWindow(admin);
+            adminProfile.FormClosed += (sender, e) => { this.Close(); };
+            adminProfile.logOutClicked += (sender, e) => { login.clearFields(); login.Show(); adminProfile.Dispose(); };
         }
     }
 }

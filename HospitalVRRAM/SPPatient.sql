@@ -1,13 +1,13 @@
-create proc dbo.insertPatient(@Name nvarchar(20),@Surname nvarchar(20),@PassportID char(9),@Login varchar(20),
-							  @Password varchar(20),@InsuranceCard char(9),@Address nvarchar(20),@DateOfBirth datetime, @PhoneNumber char(9))
+create proc dbo.insertPatient(@Name nvarchar(20), @Surname nvarchar(20), @PassportID char(9), @Login varchar(20),
+							  @Password varchar(20), @InsuranceCard char(9), @Address nvarchar(20), @DateOfBirth datetime, @PhoneNumber char(9))
 as
 begin
-	insert into Patient values(@PassportID,@Name,@Surname,0,0,@PhoneNumber,@Address,
-							   @DateOfBirth,@InsuranceCard,@Login,@Password)
+	insert into Patient values(@PassportID, @Name, @Surname, 0, 0, @PhoneNumber, @Address,
+							   @DateOfBirth, @InsuranceCard, @Login, @Password)
 end
 go
 
-create proc dbo.SignUpPatient(@Login varchar(20),@Password varchar(20))
+create proc dbo.SignInPatient(@Login varchar(20), @Password varchar(20))
 as
 begin
 	select * from Patient
@@ -18,7 +18,7 @@ go
 create proc dbo.ReadMyHistory(@PassportID char(9)) 
 as
 begin
-	select distinct DiagnosesID,[Description], DateOfDiagnosis
+	select distinct DiagnosesID, [Description], DateOfDiagnosis
 	from Diagnoses
 	where PatientID=@PassportID
 end
@@ -27,14 +27,14 @@ go
 create proc dbo.Drugs(@DiagnosisID int)	
 as 
 begin
-	select Name,Country,Price,ExpirationDate
+	select [Name], Country, Price, ExpirationDate
 	from Medicine
-	join  AssignedTo on Name = AssignedTo.Medicine
+	join  AssignedTo on [Name] = AssignedTo.Medicine
 	where DiagnoseID = @DiagnosisID
 end
 go			   
 
-create proc dbo.changeBalance(@PassportID char(9),@Balance smallmoney)
+create proc dbo.changeBalance(@PassportID char(9), @Balance smallmoney)
 as
 begin
 	update Patient
@@ -52,85 +52,13 @@ begin
 end
 go
 
-create proc dbo.ChangePatientAddress(@PassportID char(9),@Address nvarchar(20))
+create proc dbo.ChangePatientAddress(@PassportID char(9), @Address nvarchar(20))
 as
 begin
 	update Patient
 	Set [Address] = @Address
 	where PassportID = @PassportID
 end
-go 
-
-CREATE PROC dbo.FindPatientPasspordID
-@passpordID varchar(20)
-AS
-BEGIN
-	IF(exists (select *
-				from Patient
-				where PassportID = @passpordID))
-	BEGIN 
-	RETURN 1
-	END
-
-	ELSE
-	BEGIN
-	RETURN 0
-	END
-END
-go
-
-CREATE PROC dbo.FindDoctorPasspordID
-@passpordID varchar(20)
-AS
-BEGIN
-	IF(exists (select *
-				from Doctor
-				where PassportID = @passpordID))
-	BEGIN 
-	RETURN 1
-	END
-
-	ELSE
-	BEGIN
-	RETURN 0
-	END
-END
-go
-
-CREATE PROC dbo.FindPatientLogin
-@login varchar(20)
-AS
-BEGIN
-	IF(exists (select *
-				from Patient
-				where Login = @login))
-	BEGIN 
-	RETURN 1
-	END
-
-	ELSE
-	BEGIN
-	RETURN 0
-	END
-END
-go
-
-CREATE PROC dbo.FindDoctortLogin
-@login varchar(20)
-AS
-BEGIN
-	IF(exists (select *
-				from Doctor
-				where Login = @login))
-	BEGIN 
-	RETURN 1
-	END
-
-	ELSE
-	BEGIN
-	RETURN 0
-	END
-END
 go
 
 create proc dbo.sp_WriteDiagnosInDiagnoses(@description nvarchar(20), @dateOfDiagnoses datetime,

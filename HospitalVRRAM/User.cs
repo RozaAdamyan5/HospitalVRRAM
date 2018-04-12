@@ -66,10 +66,13 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = passportID;
+                cmd.Parameters.Add("@passpordID", SqlDbType.Char, 9).Value = passportID;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -85,10 +88,13 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = passportID;
+                cmd.Parameters.Add("@passpordID", SqlDbType.Char, 9).Value = passportID;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -109,9 +115,12 @@ namespace HospitalClasses
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
                 cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -128,9 +137,12 @@ namespace HospitalClasses
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
                 cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -151,10 +163,10 @@ namespace HospitalClasses
             {
                 throw new Exception("login must have SOMETHING@pat.hosp form");
             }*/
-            /*else if(!LoginIdIsUnique(login))
+            else if(!LoginIdIsUnique(login))
             {
                 throw new Exception("This login already exists");
-            }*/
+            }
 
             return true;
         }

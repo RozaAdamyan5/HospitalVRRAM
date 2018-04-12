@@ -16,12 +16,28 @@ namespace HospitalForms
 {
     public partial class DoctorProfileWindow : Form
     {
-        Doctor doctor;
+        public event EventHandler logOutClicked;
+        
+        public Doctor doctor;
 
         public DoctorProfileWindow(Doctor doc)
         {
             InitializeComponent();
             doctor = doc;
+        }
+
+        public byte[] imageToByteArray(System.Drawing.Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
+        }
+
+        public Bitmap byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Bitmap returnImage = new Bitmap(ms);
+            return returnImage;
         }
 
         private void DoctorProfileWindow_Load(object sender, EventArgs e) {
@@ -30,8 +46,11 @@ namespace HospitalForms
             balanceLabel.Text = doctor.Balance.ToString();
             phoneNumberLabel.Text = doctor.PhoneNumber;
             birthdateLabel.Text = doctor.GetEmployed.ToShortDateString();
-            if (doctor.Picture != null)
-                profilePicBox.Image = (Bitmap)((new ImageConverter()).ConvertFrom(doctor.Picture));
+            if (doctor.Picture.Length > 4)
+            {
+                addPicture.Text = "Change Picture"; addPicture.Left = 60;
+                profilePicBox.Image = byteArrayToImage(doctor.Picture);
+            }
 
             calendarPanel.Hide();
 
@@ -131,7 +150,7 @@ namespace HospitalForms
 
             DataColumn name = new DataColumn() { ColumnName = "Name", DataType = typeof(string) };
             DataColumn surname = new DataColumn() { ColumnName = "Surname", DataType = typeof(string) };
-            DataColumn passId = new DataColumn() { ColumnName = "Passport ID", DataType = typeof(int) };
+            DataColumn passId = new DataColumn() { ColumnName = "Passport ID", DataType = typeof(string) };
             DataColumn address = new DataColumn() { ColumnName = "Address", DataType = typeof(string) };
             DataColumn dateOfBirth = new DataColumn() { ColumnName = "Date Of Birth", DataType = typeof(DateTime) };
 
@@ -212,10 +231,9 @@ namespace HospitalForms
                         using (myStream)
                         {
                             profilePicBox.Image = new Bitmap(myStream);
-                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
-                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
-                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                            addPicture.Text = "Change Picture";         addPicture.Left -= 7;
+
+                            doctor.AddPicture(imageToByteArray(new Bitmap(myStream)));
+                            addPicture.Text = "Change Picture"; addPicture.Left = 60;
                         }
                     }
                 }
@@ -242,6 +260,11 @@ namespace HospitalForms
         private void DoctorProfileWindow_Resize(object sender, EventArgs e)
         {
             this.Invalidate();
+        }
+
+        private void logOut_Click(object sender, EventArgs e)
+        {
+            logOutClicked(this, EventArgs.Empty);
         }
     }
 }

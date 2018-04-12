@@ -75,7 +75,7 @@ namespace HospitalClasses
         public static Patient SignIn(string login, string password)
         {
             Patient patient = null;
-            string SQlcmd = "dbo.SignUpPatient";
+            string SQlcmd = "dbo.SignInPatient";
             var conn = HospitalConnection.CreateDbConnection();
             try
             {
@@ -94,7 +94,7 @@ namespace HospitalClasses
                         }
                         else
                         {
-                            string passportID = (string)reader["PassportID"];//(reader["PassportID"] != null ? (string)reader["PassportID"] : null);
+                            string passportID = (string)reader["PassportID"];
                             string name = (string)reader["Name"];
                             string surname = (string)reader["Surname"];
                             string address = (string)reader["Address"];
@@ -147,7 +147,7 @@ namespace HospitalClasses
 
 
 
-                            var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd1, CommandType.Text);
+                            var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd1, CommandType.StoredProcedure);
                             cmd1.Parameters.Add("@DiagnosisID", SqlDbType.Int).Value = reader0["DiagnosesID"];
 
                             using (var reader1 = (SqlDataReader)cmd1.ExecuteReader())
@@ -274,7 +274,7 @@ namespace HospitalClasses
             string sSQL = "update Patient\r\n" +
                             "set Picture = @pic" +
                          " where passportID = @passportID";
-            this.Picture = pic;
+            Picture = pic;
 
             try
             {
@@ -283,8 +283,8 @@ namespace HospitalClasses
 
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
-                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
-                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
+                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = PassportID;
+                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = Picture;
 
                 cmd.ExecuteNonQuery();
 

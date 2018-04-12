@@ -45,7 +45,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.profilePicBox = new System.Windows.Forms.PictureBox();
             this.addPicture = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.logOut = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -220,17 +220,18 @@
             this.addPicture.Text = "Add Picture";
             this.addPicture.Click += new System.EventHandler(this.addPicture_Click);
             // 
-            // label6
+            // logOut
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label6.Location = new System.Drawing.Point(910, 580);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 20);
-            this.label6.TabIndex = 31;
-            this.label6.Text = "Log out";
+            this.logOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.logOut.AutoSize = true;
+            this.logOut.BackColor = System.Drawing.Color.Transparent;
+            this.logOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.logOut.Location = new System.Drawing.Point(910, 580);
+            this.logOut.Name = "logOut";
+            this.logOut.Size = new System.Drawing.Size(63, 20);
+            this.logOut.TabIndex = 31;
+            this.logOut.Text = "Log out";
+            this.logOut.Click += new System.EventHandler(this.logOut_Click);
             // 
             // PatientProfileWindow
             // 
@@ -238,7 +239,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1034, 636);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.logOut);
             this.Controls.Add(this.addPicture);
             this.Controls.Add(this.universalPanel);
             this.Controls.Add(this.changePassword);
@@ -290,6 +291,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox profilePicBox;
         private System.Windows.Forms.Label addPicture;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label logOut;
     }
 }

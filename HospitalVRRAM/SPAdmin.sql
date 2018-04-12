@@ -1,28 +1,29 @@
 ﻿GO
  Create procedure sp_AddMedecine  
- (@Name  		NVARCHAR(20) ,
+ (@Name  			NVARCHAR(20) ,
  @Country			NVARCHAR(20), 
  @ExpirationDate	DATETIME	,
- @Price		    SMALLMONEY,
- @Picture			VARBINARY )
+ @Price				SMALLMONEY,
+ @Picture			VARBINARY(MAX) )
  AS
  BEGIN
-   insert into Medicine([Name] ,Country	,ExpirationDate	,Price,Picture)
-   values (@Name ,@Country	,@ExpirationDate,@Price,@Picture)
+   insert into Medicine([Name], Country, ExpirationDate, Price, Picture)
+   values (@Name ,@Country	,@ExpirationDate, @Price, @Picture)
  END					
 
 GO
 Create procedure sp_DeleteDoctor 
-(   @IDDoctor int )
+(   @IDDoctor VARCHAR(20) )
  AS
 BEGIN
   DELETE FROM  Doctor
   WHERE PassportID = @IDDoctor
 END
 
+
 GO
- Create procedure sp_AddMedecine  
- @Name			NVARCHAR  ,
+ Create procedure sp_UpdateMedicine  
+ @Name			NVARCHAR(20),
  @NewPrice      SMALLMONEY
  AS
  BEGIN
@@ -37,12 +38,12 @@ GO
 	@Name   			NVARCHAR(20)	,
 	@Surname			NVARCHAR(20) 	,
 	@Balance			SMALLMONEY 		,
-	@Picture			VARBINARY		,
+	@Picture			VARBINARY(MAX)	,
 	@PhoneNumber		CHAR(9)		    ,
 	@Speciality 		TINYINT 		,
 	@DateOfApproval		DATETIME		,
-	@Login		        varchar(8)      ,
-	@Password		    varchar(20)     ,
+	@Login		        VARCHAR(20)      ,
+	@Password		    VARCHAR(20)     ,
   @ConsultationCost     SMALLMONEY      
  AS
  BEGIN
