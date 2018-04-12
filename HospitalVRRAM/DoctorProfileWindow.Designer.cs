@@ -64,6 +64,7 @@
             this.profilePicBox.Location = new System.Drawing.Point(25, 15);
             this.profilePicBox.Name = "profilePicBox";
             this.profilePicBox.Size = new System.Drawing.Size(150, 180);
+            this.profilePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.profilePicBox.TabIndex = 0;
             this.profilePicBox.TabStop = false;
             // 
@@ -341,6 +342,7 @@
             this.label6.Size = new System.Drawing.Size(63, 20);
             this.label6.TabIndex = 17;
             this.label6.Text = "Log out";
+            this.label6.Click += new System.EventHandler(this.logOut_Click);
             // 
             // DoctorProfileWindow
             // 

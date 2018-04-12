@@ -46,43 +46,44 @@
             // 
             this.signIn.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.signIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.signIn.Location = new System.Drawing.Point(571, 380);
+            this.signIn.Location = new System.Drawing.Point(571, 450);
             this.signIn.Name = "signIn";
             this.signIn.Size = new System.Drawing.Size(75, 30);
             this.signIn.TabIndex = 10;
             this.signIn.Text = "Sign In";
             this.signIn.UseVisualStyleBackColor = true;
+            this.signIn.Click += new System.EventHandler(this.signIn_Click);
             // 
             // signUp
             // 
             this.signUp.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.signUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.signUp.Location = new System.Drawing.Point(385, 380);
+            this.signUp.Location = new System.Drawing.Point(385, 450);
             this.signUp.Name = "signUp";
             this.signUp.Size = new System.Drawing.Size(75, 30);
             this.signUp.TabIndex = 5;
             this.signUp.Text = "Sign Up";
             this.signUp.UseVisualStyleBackColor = true;
+            this.signUp.Click += new System.EventHandler(this.signUp_Click);
             // 
             // loginBox
             // 
             this.loginBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.loginBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.loginBox.Location = new System.Drawing.Point(450, 270);
+            this.loginBox.Location = new System.Drawing.Point(450, 340);
+            this.loginBox.MaxLength = 18;
             this.loginBox.Name = "loginBox";
-            this.loginBox.Size = new System.Drawing.Size(127, 24);
+            this.loginBox.Size = new System.Drawing.Size(120, 24);
             this.loginBox.TabIndex = 6;
-            this.loginBox.TextChanged += new System.EventHandler(this.loginBox_TextChanged);
             // 
             // passwordBox
             // 
             this.passwordBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.passwordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.passwordBox.Location = new System.Drawing.Point(450, 320);
+            this.passwordBox.Location = new System.Drawing.Point(450, 390);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.Size = new System.Drawing.Size(220, 24);
+            this.passwordBox.Size = new System.Drawing.Size(222, 24);
             this.passwordBox.TabIndex = 8;
-            this.passwordBox.TextChanged += new System.EventHandler(this.passwordBox_TextChanged);
             // 
             // label1
             // 
@@ -90,7 +91,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.label1.Location = new System.Drawing.Point(350, 269);
+            this.label1.Location = new System.Drawing.Point(350, 339);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 22);
             this.label1.TabIndex = 5;
@@ -102,7 +103,7 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.label2.Location = new System.Drawing.Point(350, 319);
+            this.label2.Location = new System.Drawing.Point(350, 389);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 22);
             this.label2.TabIndex = 5;
@@ -114,7 +115,7 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Monotype Corsiva", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.label3.Location = new System.Drawing.Point(377, 220);
+            this.label3.Location = new System.Drawing.Point(377, 290);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(278, 28);
             this.label3.TabIndex = 6;
@@ -125,7 +126,7 @@
             this.showPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.showPassword.AutoSize = true;
             this.showPassword.BackColor = System.Drawing.Color.Transparent;
-            this.showPassword.Location = new System.Drawing.Point(460, 350);
+            this.showPassword.Location = new System.Drawing.Point(460, 420);
             this.showPassword.Name = "showPassword";
             this.showPassword.Size = new System.Drawing.Size(101, 17);
             this.showPassword.TabIndex = 9;
@@ -138,9 +139,9 @@
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(440, 20);
+            this.pictureBox1.Location = new System.Drawing.Point(425, 60);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(170, 170);
+            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
@@ -158,9 +159,9 @@
             "@pat.hosp",
             "@doc.hosp",
             "@adm.hosp"});
-            this.loginSuffix.Location = new System.Drawing.Point(580, 270);
+            this.loginSuffix.Location = new System.Drawing.Point(572, 340);
             this.loginSuffix.Name = "loginSuffix";
-            this.loginSuffix.Size = new System.Drawing.Size(90, 24);
+            this.loginSuffix.Size = new System.Drawing.Size(100, 24);
             this.loginSuffix.TabIndex = 7;
             // 
             // LoginWindow

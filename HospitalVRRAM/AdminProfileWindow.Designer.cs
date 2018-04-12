@@ -1,4 +1,4 @@
-﻿namespace HospitalVRRAM
+﻿namespace HospitalForms
 {
     partial class AdminProfileWindow
     {
@@ -31,19 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminProfileWindow));
             this.changePassword = new System.Windows.Forms.Button();
             this.allDoctors = new System.Windows.Forms.Button();
-            this.balanceLabel = new System.Windows.Forms.Label();
-            this.phoneNumberLabel = new System.Windows.Forms.Label();
-            this.birthdateLabel = new System.Windows.Forms.Label();
             this.surnameLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.profilePicBox = new System.Windows.Forms.PictureBox();
-            this.addPicture = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.logOut = new System.Windows.Forms.Label();
             this.universalPanel = new System.Windows.Forms.Panel();
             this.doctorsPanel = new System.Windows.Forms.Panel();
             this.addDoctor = new System.Windows.Forms.Button();
@@ -73,9 +66,21 @@
             this.doctorsTable = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.allMedicine = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.medicineTable = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
+            this.universalPanel.SuspendLayout();
             this.doctorsPanel.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // changePassword
@@ -102,36 +107,6 @@
             this.allDoctors.UseVisualStyleBackColor = true;
             this.allDoctors.Click += new System.EventHandler(this.allDoctors_Click);
             // 
-            // balanceLabel
-            // 
-            this.balanceLabel.AutoSize = true;
-            this.balanceLabel.BackColor = System.Drawing.Color.Transparent;
-            this.balanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
-            this.balanceLabel.Location = new System.Drawing.Point(170, 390);
-            this.balanceLabel.Name = "balanceLabel";
-            this.balanceLabel.Size = new System.Drawing.Size(0, 22);
-            this.balanceLabel.TabIndex = 25;
-            // 
-            // phoneNumberLabel
-            // 
-            this.phoneNumberLabel.AutoSize = true;
-            this.phoneNumberLabel.BackColor = System.Drawing.Color.Transparent;
-            this.phoneNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
-            this.phoneNumberLabel.Location = new System.Drawing.Point(170, 355);
-            this.phoneNumberLabel.Name = "phoneNumberLabel";
-            this.phoneNumberLabel.Size = new System.Drawing.Size(0, 22);
-            this.phoneNumberLabel.TabIndex = 24;
-            // 
-            // birthdateLabel
-            // 
-            this.birthdateLabel.AutoSize = true;
-            this.birthdateLabel.BackColor = System.Drawing.Color.Transparent;
-            this.birthdateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
-            this.birthdateLabel.Location = new System.Drawing.Point(170, 320);
-            this.birthdateLabel.Name = "birthdateLabel";
-            this.birthdateLabel.Size = new System.Drawing.Size(0, 22);
-            this.birthdateLabel.TabIndex = 23;
-            // 
             // surnameLabel
             // 
             this.surnameLabel.AutoSize = true;
@@ -151,39 +126,6 @@
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(0, 22);
             this.nameLabel.TabIndex = 21;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
-            this.label5.Location = new System.Drawing.Point(20, 390);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 22);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "Balance:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
-            this.label4.Location = new System.Drawing.Point(20, 355);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(132, 22);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Phone number:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
-            this.label3.Location = new System.Drawing.Point(20, 320);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 22);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "Date of birth:";
             // 
             // label2
             // 
@@ -216,36 +158,28 @@
             this.profilePicBox.TabIndex = 15;
             this.profilePicBox.TabStop = false;
             // 
-            // addPicture
+            // logOut
             // 
-            this.addPicture.AutoSize = true;
-            this.addPicture.BackColor = System.Drawing.Color.Transparent;
-            this.addPicture.Location = new System.Drawing.Point(71, 198);
-            this.addPicture.Name = "addPicture";
-            this.addPicture.Size = new System.Drawing.Size(62, 13);
-            this.addPicture.TabIndex = 31;
-            this.addPicture.Text = "Add Picture";
-            this.addPicture.Click += new System.EventHandler(this.addPicture_Click);
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label6.Location = new System.Drawing.Point(910, 580);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 20);
-            this.label6.TabIndex = 32;
-            this.label6.Text = "Log out";
+            this.logOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.logOut.AutoSize = true;
+            this.logOut.BackColor = System.Drawing.Color.Transparent;
+            this.logOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.logOut.Location = new System.Drawing.Point(910, 580);
+            this.logOut.Name = "logOut";
+            this.logOut.Size = new System.Drawing.Size(63, 20);
+            this.logOut.TabIndex = 32;
+            this.logOut.Text = "Log out";
+            this.logOut.Click += new System.EventHandler(this.logOut_Click);
             // 
             // universalPanel
             // 
             this.universalPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.universalPanel.BackColor = System.Drawing.Color.Transparent;
+            this.universalPanel.Controls.Add(this.panel2);
+            this.universalPanel.Controls.Add(this.label3);
             this.universalPanel.Location = new System.Drawing.Point(470, 15);
             this.universalPanel.Name = "universalPanel";
-            this.universalPanel.Size = new System.Drawing.Size(500, 500);
+            this.universalPanel.Size = new System.Drawing.Size(559, 500);
             this.universalPanel.TabIndex = 29;
             // 
             // doctorsPanel
@@ -273,7 +207,7 @@
             this.doctorsPanel.Controls.Add(this.label12);
             this.doctorsPanel.Controls.Add(this.panel1);
             this.doctorsPanel.Controls.Add(this.label7);
-            this.doctorsPanel.Location = new System.Drawing.Point(470, 15);
+            this.doctorsPanel.Location = new System.Drawing.Point(12, 338);
             this.doctorsPanel.Name = "doctorsPanel";
             this.doctorsPanel.Size = new System.Drawing.Size(500, 500);
             this.doctorsPanel.TabIndex = 35;
@@ -570,6 +504,120 @@
             this.allMedicine.UseVisualStyleBackColor = true;
             this.allMedicine.Click += new System.EventHandler(this.allMedicine_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(175, 20);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Hospital Medicine Base";
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.label24);
+            this.panel2.Controls.Add(this.label23);
+            this.panel2.Controls.Add(this.label22);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.medicineTable);
+            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.label21);
+            this.panel2.Location = new System.Drawing.Point(3, 30);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(553, 261);
+            this.panel2.TabIndex = 1;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label6.Location = new System.Drawing.Point(40, 4);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(51, 20);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Name";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(7, 3);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(25, 20);
+            this.label21.TabIndex = 13;
+            this.label21.Text = "№";
+            // 
+            // medicineTable
+            // 
+            this.medicineTable.AutoSize = true;
+            this.medicineTable.ColumnCount = 7;
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 99F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.medicineTable.Location = new System.Drawing.Point(2, 26);
+            this.medicineTable.Name = "medicineTable";
+            this.medicineTable.RowCount = 1;
+            this.medicineTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.medicineTable.Size = new System.Drawing.Size(529, 39);
+            this.medicineTable.TabIndex = 15;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label4.Location = new System.Drawing.Point(136, 4);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 20);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Img";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label5.Location = new System.Drawing.Point(186, 4);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 20);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Expiry Date";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label22.Location = new System.Drawing.Point(295, 4);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(64, 20);
+            this.label22.TabIndex = 18;
+            this.label22.Text = "Country";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label23.Location = new System.Drawing.Point(394, 4);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(44, 20);
+            this.label23.TabIndex = 19;
+            this.label23.Text = "Price";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label24.Location = new System.Drawing.Point(466, 4);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(62, 20);
+            this.label24.TabIndex = 20;
+            this.label24.Text = "Actions";
+            // 
             // AdminProfileWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -577,20 +625,13 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1034, 636);
             this.Controls.Add(this.doctorsPanel);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.addPicture);
+            this.Controls.Add(this.logOut);
             this.Controls.Add(this.allMedicine);
             this.Controls.Add(this.universalPanel);
             this.Controls.Add(this.changePassword);
             this.Controls.Add(this.allDoctors);
-            this.Controls.Add(this.balanceLabel);
-            this.Controls.Add(this.phoneNumberLabel);
-            this.Controls.Add(this.birthdateLabel);
             this.Controls.Add(this.surnameLabel);
             this.Controls.Add(this.nameLabel);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.profilePicBox);
@@ -604,10 +645,14 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AdminProfileWindow_Paint);
             this.Resize += new System.EventHandler(this.AdminProfileWindow_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).EndInit();
+            this.universalPanel.ResumeLayout(false);
+            this.universalPanel.PerformLayout();
             this.doctorsPanel.ResumeLayout(false);
             this.doctorsPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -616,19 +661,12 @@
         #endregion
         private System.Windows.Forms.Button changePassword;
         private System.Windows.Forms.Button allDoctors;
-        private System.Windows.Forms.Label balanceLabel;
-        private System.Windows.Forms.Label phoneNumberLabel;
-        private System.Windows.Forms.Label birthdateLabel;
         private System.Windows.Forms.Label surnameLabel;
         private System.Windows.Forms.Label nameLabel;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox profilePicBox;
-        private System.Windows.Forms.Label addPicture;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label logOut;
         private System.Windows.Forms.Panel universalPanel;
         private System.Windows.Forms.Panel doctorsPanel;
         private System.Windows.Forms.Button addDoctor;
@@ -658,5 +696,15 @@
         private System.Windows.Forms.TableLayoutPanel doctorsTable;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button allMedicine;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TableLayoutPanel medicineTable;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label3;
     }
 }

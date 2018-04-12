@@ -40,10 +40,10 @@ namespace HospitalClasses
 
         public void AddPicture(byte[] pic)
         {
-
-            string sSQL = "select name,Picture.PathName() as PathName, Picture\r\n"
-                       + "from Medicine\r\n"
-                       + " where name =@name";
+            string sSQL = "update Medicine\r\n" +
+                            "set Picture = @pic" +
+                         " where Name = @name";
+            this.Picture = pic;
 
             try
             {
@@ -52,24 +52,10 @@ namespace HospitalClasses
 
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
 
-                cmd.Parameters.Add("@name", SqlDbType.NVarChar, 20).Value = "Nurofen";
+                cmd.Parameters.Add("@name", SqlDbType.Char, 9).Value = this.Name;
+                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Get the pointer for file
-                        var path = reader.GetString(reader.GetOrdinal("PathName"));
-                        var imbytes = reader.GetSqlBytes(reader.GetOrdinal("Picture")).Buffer;
-
-                        var ms = new MemoryStream(imbytes);
-
-                        Image photo = Image.FromStream(ms);
-                        //must be done using our form
-                        //  label1.Text = reader.GetString(reader.GetOrdinal("SName"));
-                        //  pictureBox1.Image = photo;
-                    }
-                }
+                cmd.ExecuteNonQuery();
 
             }
             catch (Exception ex)

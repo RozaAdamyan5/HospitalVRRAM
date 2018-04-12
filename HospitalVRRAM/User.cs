@@ -16,7 +16,7 @@ namespace HospitalClasses
         //  Properties  //
         public string Name { get; protected set; }
         public string Surname { get; protected set; }
-        public int PassportID { get; protected set; }
+        public string PassportID { get; protected set; }
         public string Login { get; protected set; }
         public string Password { get; protected set; }
         public byte[] Picture { get; protected set; }
@@ -28,22 +28,22 @@ namespace HospitalClasses
 
         //Constructor//
 
-        protected User(string name, string surname, int passportID, string login, string password)
+        protected User(string name, string surname, string passportID, string login, string password)
         {
             Name = name;
             Surname = surname;
-            if (PassportIdIsUnique(passportID))
+            //if (PassportIdIsUnique(passportID))
                 PassportID = passportID;
 
-            if (LoginIsValid(login))
+            //if (LoginIsValid(login))
                 Login = login;
 
-            if (!PasswordIsValid(password))
+            //if (!PasswordIsValid(password))
                 Password = password;
 
         }
 
-        protected User(string name, string surname, int passportID)
+        protected User(string name, string surname, string passportID)
         {
             Name = name;
             Surname = surname;
@@ -55,7 +55,7 @@ namespace HospitalClasses
 
 
         // Methods //
-        public bool PassportIdIsUnique(int passportID)
+        public static bool PassportIdIsUnique(string passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -66,10 +66,13 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@passportID", SqlDbType.NVarChar).Value = passportID;
+                cmd.Parameters.Add("@passpordID", SqlDbType.Char, 9).Value = passportID;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -85,10 +88,13 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@passportID", SqlDbType.NVarChar).Value = passportID;
+                cmd.Parameters.Add("@passpordID", SqlDbType.Char, 9).Value = passportID;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -97,7 +103,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public bool LoginIdIsUnique(string login)
+        public static bool LoginIdIsUnique(string login)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -108,10 +114,13 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -127,10 +136,13 @@ namespace HospitalClasses
             {
                 conn.Open();
                 var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
-                cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = login;
+                cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 cmd.ExecuteNonQuery();
 
-                existInDB = (int)cmd.ExecuteScalar();
+                existInDB = (int)returnParameter.Value;
             }
 
             if (existInDB == 1)
@@ -139,7 +151,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public bool LoginIsValid(string login)
+        public static bool LoginIsValid(string login)
         {
             //validation
             if (login.Length < 8)
@@ -147,10 +159,10 @@ namespace HospitalClasses
                 throw new Exception("Login must be at least 8 characters.");
             }
             
-            //else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
-            //{
-            //    throw new Exception("login must have SOMETHING@pat.hosp form");
-            //}
+            /*else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
+            {
+                throw new Exception("login must have SOMETHING@pat.hosp form");
+            }*/
             else if(!LoginIdIsUnique(login))
             {
                 throw new Exception("This login already exists");
@@ -159,7 +171,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public bool PasswordIsValid(string password)
+        public static bool PasswordIsValid(string password)
         {
             var input = password;
 

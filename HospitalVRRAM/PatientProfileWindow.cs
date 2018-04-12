@@ -15,12 +15,28 @@ namespace HospitalForms
 {
     public partial class PatientProfileWindow : Form
     {
-        Patient patient;
+        public event EventHandler logOutClicked;
+
+        public Patient patient;
 
         public PatientProfileWindow(Patient pat)
         {
             InitializeComponent();
             patient = pat;
+        }
+
+        public byte[] imageToByteArray(System.Drawing.Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
+        }
+
+        public Bitmap byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Bitmap returnImage = new Bitmap(ms);
+            return returnImage;
         }
 
         private void PatientProfileWindow_Load(object sender, EventArgs e)
@@ -30,8 +46,11 @@ namespace HospitalForms
             balanceLabel.Text = patient.Balance.ToString();
             phoneNumberLabel.Text = patient.PhoneNumber;
             birthdateLabel.Text = patient.DateOfBirth.ToShortDateString();
-            if (patient.Picture != null)
-                profilePicBox.Image = (Bitmap)((new ImageConverter()).ConvertFrom(patient.Picture));
+            if (patient.Picture != null && patient.Picture.Length > 4)
+            {
+                addPicture.Text = "Change Picture"; addPicture.Left = 60;
+                profilePicBox.Image = byteArrayToImage(patient.Picture);
+            }
         }
 
         private void historyButton_Click(object sender, EventArgs e)
@@ -105,24 +124,27 @@ namespace HospitalForms
             universalPanel.Controls.Clear();
             // Show registration for consultation form in universalPanel
 
-            List<Doctor> allDoctors = new List<Doctor>() {  new Doctor("Doc1", "ads", 156, "aa", new DateTime(), Convert.ToDecimal(15)),
-                                                            new Doctor("Doc2", "abs", 156, "aa", new DateTime(), Convert.ToDecimal(15)),
-                                                            new Doctor("Doc4", "acs", 156, "aaa", new DateTime(), Convert.ToDecimal(15))};
+            // allDoctors = (load all doctors)
+            List<Doctor> allDoctors = new List<Doctor>() {  new Doctor("Doc1", "ads", "aaaaa", "aa", new DateTime(), Convert.ToDecimal(15)),
+                                                            new Doctor("Doc2", "abs", "aaaaa", "aa", new DateTime(), Convert.ToDecimal(15)),
+                                                            new Doctor("Doc4", "acs", "aaaaa", "aaa", new DateTime(), Convert.ToDecimal(15))};
+
 
             Label consultation = new Label() { Text = "Consultation", Font = new Font("Segoe Print", 13F), Left = 10, Top = 10, Width = 300 };
-            ComboBox doctorSelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 80, Width = 200 };
+            ComboBox specialitySelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 80, Width = 200 };
+            ComboBox doctorSelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 120, Width = 200 };
             foreach(var doc in allDoctors)
             {
                 doctorSelect.Items.Add(doc.Name + " " + doc.Surname);
             }
-            DateTimePicker dtPick = new DateTimePicker() { Font = new Font("Consolas", 11F), Left = 220, Top = 80, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MMM/yyyy HH:mm" };
-            Button requestConsultation = new Button() { Text = "Send Request", Left = 300, Top = 130, Width = 150, Height = 25, Font = new Font("Microsoft Sans Serif", 9.5F) };
+            DateTimePicker dtPick = new DateTimePicker() { Font = new Font("Consolas", 11F), Left = 220, Top = 120, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MMM/yyyy HH:mm" };
+            Button requestConsultation = new Button() { Text = "Send Request", Left = 300, Top = 170, Width = 150, Height = 25, Font = new Font("Microsoft Sans Serif", 9.5F) };
 
             doctorSelect.SelectedIndexChanged += (senderr, ee) => DoctorSelect_SelectedIndexChanged(senderr, ee, requestConsultation, dtPick);
             requestConsultation.Click += (senderr, ee) => RequestConsultation_Click(senderr, ee, allDoctors[doctorSelect.SelectedIndex], doctorSelect, dtPick);
 
             dtPick.Enabled = requestConsultation.Enabled = false;
-            universalPanel.Controls.AddRange(new Control[] { consultation, doctorSelect, dtPick, requestConsultation });
+            universalPanel.Controls.AddRange(new Control[] { consultation, specialitySelect, doctorSelect, dtPick, requestConsultation });
         }
 
         private void RequestConsultation_Click(object sender, EventArgs e, Doctor doc, ComboBox docComb, DateTimePicker dtPk)
@@ -137,7 +159,7 @@ Press OK to register for that time, or Cancel and try other time", "Consultation
 
                 if(res == DialogResult.OK)
                 {
-                    // Register Consultation
+                    patient.RequestForConsult(doc, dtPk.Value);
                     docComb.SelectedIndex = -1;
                 }
             }
@@ -194,10 +216,9 @@ Please choose other doctor or other day");
                         using (myStream)
                         {
                             profilePicBox.Image = new Bitmap(myStream);
-                            char[] chArr = (Convert.ToString(myStream)).ToCharArray();
-                            // doctor.AddPicture(Array.ConvertAll(chArr, Convert.ToByte));
-                            profilePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                            addPicture.Text = "Change Picture"; addPicture.Left = 45;
+                            
+                            patient.AddPicture(imageToByteArray(new Bitmap(myStream)));
+                            addPicture.Text = "Change Picture"; addPicture.Left = 60;
                         }
                     }
                 }
@@ -224,6 +245,11 @@ Please choose other doctor or other day");
         private void PatientProfileWindow_Resize(object sender, EventArgs e)
         {
             this.Invalidate();
+        }
+
+        private void logOut_Click(object sender, EventArgs e)
+        {
+            logOutClicked(this, EventArgs.Empty);
         }
     }
 }

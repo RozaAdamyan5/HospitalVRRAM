@@ -18,11 +18,14 @@ namespace HospitalVRRAM
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+
+            Application.Run(new ApplicationHospital());
             //Application.Run(new RegisterWindow());
             //Application.Run(new LoginWindow());
-            Application.Run(new DiagnosisWindow("Name Surname"));
+            //Application.Run(new DiagnosisWindow("Name Surname"));
             //Application.Run(new DoctorProfileWindow(new Doctor("Name", "Surname", 15, "aaaaaa", new DateTime(1991, 01, 10), 1000)));
-            //Application.Run(new PatientProfileWindow(new Patient("Name", "Surname", 551, "fsafa", new DateTime(1999, 10, 10))));
+            //Application.Run(new PatientProfileWindow(new Patient("Name", "Surname", "aaa", "fsafa", new DateTime(1999, 10, 10))));
             //Application.Run(new AdminProfileWindow());
         }
     }

@@ -54,6 +54,12 @@
     <Compile Include="AdminProfileWindow.Designer.cs">
       <DependentUpon>AdminProfileWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApplicationHospital.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationHospital.Designer.cs">
+      <DependentUpon>ApplicationHospital.cs</DependentUpon>
+    </Compile>
     <Compile Include="Diagnosis.cs" />
     <Compile Include="DiagnosisWindow.cs">
       <SubType>Form</SubType>
@@ -100,6 +106,9 @@
     <EmbeddedResource Include="AdminProfileWindow.resx">
       <DependentUpon>AdminProfileWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationHospital.resx">
+      <DependentUpon>ApplicationHospital.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DiagnosisWindow.resx">
       <DependentUpon>DiagnosisWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +147,11 @@
     <Content Include="Resources\fileclose.png" />
     <Content Include="Resources\HospitalIcon.png" />
     <Content Include="Resources\WindowIcon.ico" />
+    <Content Include="SPAdmin.sql" />
+    <Content Include="SPDoctor.sql" />
+    <Content Include="SPPatient.sql" />
+    <Content Include="SPPictures.sql" />
+    <Content Include="SPUser.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

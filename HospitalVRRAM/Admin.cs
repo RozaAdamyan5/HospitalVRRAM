@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using HospitalForms;
 using HospitalConnections;
+using System.Windows.Forms;
 
 namespace HospitalClasses
 {
@@ -17,32 +19,26 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public Admin(string name, string surname, int passportID, string login, string password)
+        public Admin(string name, string surname, string passportID, string login, string password)
             : base(name, surname, passportID, login, password)
         {
-            // must read from config
-            //string SQlcmd = "dbo.insertAdmin";
-            //var conn = HospitalConnection.CreateDbConnection();
-            //try
-            //{
-            //    using (conn)
-            //    {
-            //        conn.Open();
-            //        var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.StoredProcedure);
-            //        cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = name;
-            //        cmd.Parameters.Add("@Surname", SqlDbType.NVarChar, 20).Value = surname;
-            //        cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
-            //        cmd.Parameters.Add("@Login", SqlDbType.VarChar, 8).Value = login;
-            //        cmd.Parameters.Add("@Password", SqlDbType.VarChar, 8).Value = password;
 
-            //        cmd.ExecuteNonQuery();
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //}
+        }
 
+        public static Admin signIn(string login, string password)
+        {
+            if (login == ConfigurationManager.AppSettings["Login"] && password == ConfigurationManager.AppSettings["Password"])
+            {
+                return new Admin(ConfigurationManager.AppSettings["Name"],
+                                ConfigurationManager.AppSettings["Surname"],
+                                ConfigurationManager.AppSettings["PassportID"],
+                                ConfigurationManager.AppSettings["Login"],
+                                ConfigurationManager.AppSettings["Password"]);
+            }
+            else
+            {
+                throw new Exception("Wrong password or login.");
+            }
         }
 
         //End Constructor//
@@ -63,7 +59,7 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Country", SqlDbType.Char, 20).Value = medicine.Country;
                     cmd.Parameters.Add("@ExpirationDate", SqlDbType.DateTime).Value = medicine.ExpiryDate;
                     cmd.Parameters.Add("@Price", SqlDbType.SmallMoney).Value = medicine.Price;
-                    cmd.Parameters.Add("@Picture", SqlDbType.VarBinary).Value = medicine.Picture;
+                    cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, (1 << 20)).Value = medicine.Picture;
 
                     cmd.ExecuteNonQuery();
                 }
@@ -71,9 +67,10 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
+
         public void ChangePrice(Medicine medicine, decimal price)
         {
             if (price < 0)
@@ -97,7 +94,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -122,13 +119,13 @@ namespace HospitalClasses
 
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
         public void AddDoctor(Doctor doctor)
         {
             Doctor a = new Doctor(doctor.Name, doctor.Surname, doctor.PassportID, doctor.Login,
-                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost);//Constructor add in database
+                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost, doctor.DateOfBirth);//Constructor add in database
         }
         public List<Doctor> ShowDoctors()
         {
@@ -149,10 +146,10 @@ namespace HospitalClasses
                         {
                             string name = (string)reader["Name"];
                             string surname = (string)reader["surname"];
-                            int passportID = (int)reader["PassportID"];
+                            string passportID = (string)reader["PassportID"];
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
-                            decimal consCost = (decimal)reader["ConsultationCost"];//must be added in db
+                            decimal consCost = (decimal)reader["ConsultationCost"];
                             byte[] pic = (byte[])reader["Picture"];
                             string phoneNumber = (string)reader["PhoneNumber"];
                             string speciality = (string)reader["Speciality"];
@@ -166,14 +163,9 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
             return docs;
-        }
-
-        public virtual void AddPicture()
-        {
-
         }
     }
 }

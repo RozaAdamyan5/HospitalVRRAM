@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Windows.Forms;
 
 namespace HospitalConnections
 {
@@ -24,7 +25,7 @@ namespace HospitalConnections
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message);
             }
 
             return connection;
@@ -41,12 +42,12 @@ namespace HospitalConnections
             }
             catch (DbException ex)
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message);
             }
 
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
 
             return command;
