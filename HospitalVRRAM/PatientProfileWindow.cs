@@ -41,12 +41,13 @@ namespace HospitalForms
 
         private void PatientProfileWindow_Load(object sender, EventArgs e)
         {
+            addLabel.Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.AddSign), new Size(40, 40));
             nameLabel.Text = patient.Name;
             surnameLabel.Text = patient.Surname;
             balanceLabel.Text = patient.Balance.ToString();
             phoneNumberLabel.Text = patient.PhoneNumber;
             birthdateLabel.Text = patient.DateOfBirth.ToShortDateString();
-            if (patient.Picture != null && patient.Picture.Length > 4)
+            if (patient.Picture != null)
             {
                 addPicture.Text = "Change Picture"; addPicture.Left = 60;
                 profilePicBox.Image = byteArrayToImage(patient.Picture);
@@ -69,44 +70,34 @@ namespace HospitalForms
             table.Columns.Add(medicine);
             table.Columns.Add(date);
 
-            //List<Diagnosis> diagnoses = patient.ShowMyHistory();
-            List<Diagnosis> diagnoses = new List<Diagnosis>();
-            diagnoses.Add(new Diagnosis("blssssssh", new DateTime(2018, 04, 12), new List<Medicine> { new Medicine("aaaaaa", "aa", 153, new DateTime()), new Medicine("wwwwwwwwwwww", "aa", 15, new DateTime()) }));
-            diagnoses.Add(new Diagnosis("aaa", new DateTime(2018, 04, 13), new List<Medicine>()));
+            List<Diagnosis> diagnoses = patient.ShowMyHistory();
 
-
-            foreach (var current in diagnoses)
+            if (diagnoses != null)
             {
-                DataRow diagnose = table.NewRow();
-                diagnose["Disease"] = current.Disease;
-                if (current.PrescribedMedicines.Count != 0)
+                foreach (var current in diagnoses)
                 {
-                    foreach (var currentMedicine in current.PrescribedMedicines)
+                    DataRow diagnose = table.NewRow();
+                    diagnose["Disease"] = current.Disease;
+                    if (current.PrescribedMedicines.Count != 0)
                     {
-                        if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
-                            diagnose["Medicine"] = "";
-                        else
-                            diagnose["Medicine"] += "   |   ";
+                        foreach (var currentMedicine in current.PrescribedMedicines)
+                        {
+                            if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
+                                diagnose["Medicine"] = "";
+                            else
+                                diagnose["Medicine"] += "   |   ";
 
-                        diagnose["Medicine"] += currentMedicine.Name;
-       
+                            diagnose["Medicine"] += currentMedicine.Name;
+
+                        }
                     }
+                    else
+                        diagnose["Medicine"] = "None";
+
+                    diagnose["Date"] = current.DiagnoseDate;
+                    table.Rows.Add(diagnose);
                 }
-                else
-                    diagnose["Medicine"] = "None";
-
-                diagnose["Date"] = current.DiagnoseDate;
-                table.Rows.Add(diagnose);
             }
-
-            /*for(int i = 0; i < 40; i++)
-            {
-                DataRow diagnose = table.NewRow();
-                diagnose["Disease"] = "aaa";
-                diagnose["Medicine"] = "aaaaaa";
-                diagnose["Date"] = new DateTime();
-                table.Rows.Add(diagnose);
-            }*/
 
             universalPanel.Controls.Add(historyView);
 
@@ -122,21 +113,16 @@ namespace HospitalForms
         private void registerConsultation_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            // Show registration for consultation form in universalPanel
 
-            // allDoctors = (load all doctors)
-            List<Doctor> allDoctors = new List<Doctor>() {  new Doctor("Doc1", "ads", "aaaaa", "aa", new DateTime(), Convert.ToDecimal(15)),
-                                                            new Doctor("Doc2", "abs", "aaaaa", "aa", new DateTime(), Convert.ToDecimal(15)),
-                                                            new Doctor("Doc4", "acs", "aaaaa", "aaa", new DateTime(), Convert.ToDecimal(15))};
-
+            List<Doctor> allDoctors = new List<Doctor>();
 
             Label consultation = new Label() { Text = "Consultation", Font = new Font("Segoe Print", 13F), Left = 10, Top = 10, Width = 300 };
             ComboBox specialitySelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 80, Width = 200 };
+            specialitySelect.Items.AddRange(Enum.GetNames(typeof(Specialities)));
             ComboBox doctorSelect = new ComboBox() { Font = new Font("Consolas", 11F), Left = 10, Top = 120, Width = 200 };
-            foreach(var doc in allDoctors)
-            {
-                doctorSelect.Items.Add(doc.Name + " " + doc.Surname);
-            }
+
+            specialitySelect.SelectedIndexChanged += (senderr, ee) => PatientSelect_SelectedIndexChanged(senderr, ee, doctorSelect, allDoctors);
+
             DateTimePicker dtPick = new DateTimePicker() { Font = new Font("Consolas", 11F), Left = 220, Top = 120, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MMM/yyyy HH:mm" };
             Button requestConsultation = new Button() { Text = "Send Request", Left = 300, Top = 170, Width = 150, Height = 25, Font = new Font("Microsoft Sans Serif", 9.5F) };
 
@@ -145,6 +131,22 @@ namespace HospitalForms
 
             dtPick.Enabled = requestConsultation.Enabled = false;
             universalPanel.Controls.AddRange(new Control[] { consultation, specialitySelect, doctorSelect, dtPick, requestConsultation });
+        }
+
+        private void PatientSelect_SelectedIndexChanged(object sender, EventArgs e, ComboBox docSelect, List<Doctor> docs)
+        {
+            ComboBox senderCombo = (ComboBox)sender;
+            string special = senderCombo.Text;
+            docs.Clear();
+            List<Doctor> allDoctors = patient.SearchBySpeciality(special);
+            docs.AddRange(allDoctors);
+
+            docSelect.SelectedIndex = -1;
+            docSelect.Items.Clear();
+            foreach (var doc in allDoctors)
+            {
+                docSelect.Items.Add(doc.Name + " " + doc.Surname);
+            }
         }
 
         private void RequestConsultation_Click(object sender, EventArgs e, Doctor doc, ComboBox docComb, DateTimePicker dtPk)
@@ -201,6 +203,25 @@ Please choose other doctor or other day");
 
             universalPanel.Controls.AddRange(
                 new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
+
+            saveButton.Click += (senderr, ee) => ChangePasswordPatient_Click(senderr, ee, oldPassword, newPassword, confirmPassword);
+        }
+
+        private void ChangePasswordPatient_Click(object senderr, EventArgs ee, TextBox oldPass, TextBox newPass, TextBox confirmPass)
+        {
+            if (oldPass.Text != patient.Password)
+            {
+                DialogResult res = MessageBox.Show("Wrong old password!");
+            }
+            else if (newPass.Text != confirmPass.Text)
+            {
+                DialogResult res = MessageBox.Show("Passwords don't match!");
+            }
+            else
+            {
+                patient.changePassword(newPass.Text);
+            }
+
         }
 
         private void addPicture_Click(object sender, EventArgs e)

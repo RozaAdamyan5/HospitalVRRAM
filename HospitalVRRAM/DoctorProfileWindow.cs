@@ -46,7 +46,7 @@ namespace HospitalForms
             balanceLabel.Text = doctor.Balance.ToString();
             phoneNumberLabel.Text = doctor.PhoneNumber;
             birthdateLabel.Text = doctor.GetEmployed.ToShortDateString();
-            if (doctor.Picture.Length > 4)
+            if (doctor.Picture != null)
             {
                 addPicture.Text = "Change Picture"; addPicture.Left = 60;
                 profilePicBox.Image = byteArrayToImage(doctor.Picture);

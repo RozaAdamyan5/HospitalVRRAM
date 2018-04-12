@@ -18,7 +18,7 @@ namespace HospitalClasses
     public class Doctor : User
     {
         //  Properties  //
-        public DateTime  DateOfBirth { get; private set; }
+        public DateTime  DateOfBirth { get; set; }
         public string Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
@@ -29,8 +29,15 @@ namespace HospitalClasses
 
         //Constructor//
         public Doctor(string name, string surname, string passportID, string login, string password,
-           string speciality, DateTime getEmployed, decimal consultationCost,DateTime dateOfBirth) : base(name, surname, passportID, login, password)
+           string speciality, DateTime getEmployed, decimal consultationCost, DateTime dateOfBirth, string phoneNumber) 
+            : base(name, surname, passportID, login, password)
         {
+            PhoneNumber = phoneNumber;
+            Speciality = speciality;
+            GetEmployed = getEmployed;
+            ConsultationCost = consultationCost;
+            DateOfBirth = dateOfBirth;
+
             Initialization();
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
@@ -49,13 +56,11 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
+                    cmd.Parameters.Add("@PhoneNumber", SqlDbType.Char, 9).Value = phoneNumber;
+
 
                     cmd.ExecuteNonQuery();
                 }
-
-                Speciality = speciality;
-                GetEmployed = getEmployed;
-                ConsultationCost = consultationCost;
             }
             catch (Exception e)
             {
@@ -428,7 +433,7 @@ namespace HospitalClasses
                             string surname = (string)reader["Surname"];
                             string passportID = (string)reader["PassportID"];
                             string speciality = (string)reader["Speciality"];
-                            byte[] picture = (byte[])reader["Picture"];
+                            byte[] picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
                             DateTime getEmployed = (DateTime)reader["DateOfApproval"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             decimal consultationCost = (decimal)reader["ConsultationCost"];

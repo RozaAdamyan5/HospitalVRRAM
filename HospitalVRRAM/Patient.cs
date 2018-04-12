@@ -33,6 +33,8 @@ namespace HospitalClasses
             Address = address;
             InsurenceCard = insuranceCard;
             DateOfBirth = dateOfBirth;
+            PhoneNumber = phoneNumber;
+
             Initialization();
             string SQlcmd = "dbo.insertPatient";
             var conn = HospitalConnection.CreateDbConnection();
@@ -98,7 +100,7 @@ namespace HospitalClasses
                             string name = (string)reader["Name"];
                             string surname = (string)reader["Surname"];
                             string address = (string)reader["Address"];
-                            byte[] picture = (byte[])reader["Picture"];
+                            byte[] picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
                             string insuranceCard = (string)reader["InsuranceCard"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             string phoneNumber = (string)reader["PhoneNumber"];
@@ -226,7 +228,7 @@ namespace HospitalClasses
                     {
                         while (reader.Read())
                         {
-                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (string)reader["PasportID"],
+                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (string)reader["PassportID"],
                                                    (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], (decimal)reader["ConsultationCost"]));      //incompatibility between databases and classes
                         }
                     }
@@ -235,7 +237,6 @@ namespace HospitalClasses
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                return null;
             }
             return doctors;
         }
@@ -295,6 +296,33 @@ namespace HospitalClasses
             }
         }
 
+        public void changePassword(string newPassword)
+        {
+            Password = newPassword;
+
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.ChangePatientPassword";
+
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = Password;
+
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
         //End Methods //
 
     }

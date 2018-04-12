@@ -1,4 +1,14 @@
-﻿create proc dbo.GetDiagnose(@patId char(9))
+﻿create proc dbo.insertDoctor(@Name varchar(20), @Surname varchar(20), @PassportId char(9),
+							@Login varchar(20), @Password varchar(20), @DateOfBirth datetime, 
+							@Speciality varchar(20), @ConsultationCost smallmoney, @GetEmployed datetime, @PhoneNumber char(9))
+as
+begin
+	insert into Doctor
+		values(@PassportID, @Name, @Surname, 0, null, @PhoneNumber, @Speciality, @GetEmployed, @DateOfBirth, @Login, @Password, @ConsultationCost)
+end
+
+go
+create proc dbo.GetDiagnose(@patId char(9))
 as 
 begin 
  Select [Description],DateOfDiagnosis

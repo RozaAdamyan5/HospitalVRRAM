@@ -46,6 +46,7 @@
             this.profilePicBox = new System.Windows.Forms.PictureBox();
             this.addPicture = new System.Windows.Forms.Label();
             this.logOut = new System.Windows.Forms.Label();
+            this.addLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -233,12 +234,23 @@
             this.logOut.Text = "Log out";
             this.logOut.Click += new System.EventHandler(this.logOut_Click);
             // 
+            // addLabel
+            // 
+            this.addLabel.AutoSize = true;
+            this.addLabel.BackColor = System.Drawing.Color.Transparent;
+            this.addLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
+            this.addLabel.Location = new System.Drawing.Point(285, 390);
+            this.addLabel.Name = "addLabel";
+            this.addLabel.Size = new System.Drawing.Size(0, 22);
+            this.addLabel.TabIndex = 32;
+            // 
             // PatientProfileWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1034, 636);
+            this.Controls.Add(this.addLabel);
             this.Controls.Add(this.logOut);
             this.Controls.Add(this.addPicture);
             this.Controls.Add(this.universalPanel);
@@ -292,5 +304,6 @@
         private System.Windows.Forms.PictureBox profilePicBox;
         private System.Windows.Forms.Label addPicture;
         private System.Windows.Forms.Label logOut;
+        private System.Windows.Forms.Label addLabel;
     }
 }
