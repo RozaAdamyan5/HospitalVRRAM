@@ -73,7 +73,7 @@ namespace HospitalForms
         {
             prescribed.Add(new Tuple<string, int>(medicineName.Text, Convert.ToInt32(medicineCount.Value)));
 
-            medicineName.Items.RemoveAt(medicineName.SelectedIndex);
+            //medicineName.Items.RemoveAt(medicineName.SelectedIndex);
             updateTable();
             medicineName.SelectedIndex = -1;
             medicineCount.Value = 0;
@@ -121,6 +121,79 @@ namespace HospitalForms
         private void DiagnosisWindow_Resize(object sender, EventArgs e)
         {
             this.Invalidate();
+        }
+
+        private void patientHistory_Click(object sender, EventArgs e)
+        {
+            universalPanel.Controls.Clear();
+
+            DataGridView historyView = new DataGridView() { ReadOnly = true, BackgroundColor = Color.White, Width = 500, Height = 200 };
+            DataTable table = new DataTable("History");
+            historyView.DataSource = table;
+
+            DataColumn disease = new DataColumn() { ColumnName = "Disease", DataType = typeof(string) };
+            DataColumn medicine = new DataColumn() { ColumnName = "Medicine", DataType = typeof(string), };
+            DataColumn date = new DataColumn() { ColumnName = "Date", DataType = typeof(DateTime) };
+
+            table.Columns.Add(disease);
+            table.Columns.Add(medicine);
+            table.Columns.Add(date);
+
+            
+           // List<Diagnosis> diagnoses = new List<Diagnosis>();
+
+            Patient patient = Patient.SignIn("gago","lavgago");
+            //Doctor doctor = new Doctor("gagarin","petrosyan", "456987321","neurologist", new DateTime(1943,5, 14),1000);
+            List<Diagnosis> diagnoses = patient.ShowMyHistory();
+            //List<Diagnosis> diagnoses = doctor.PatientDiagnosis(patient);
+
+            //diagnoses.Add(new Diagnosis("blssssssh", new DateTime(2018, 04, 12), new List<Medicine> { new Medicine("aaaaaa", "aa", 153, new DateTime()), new Medicine("wwwwwwwwwwww", "aa", 15, new DateTime()) }));
+            //diagnoses.Add(new Diagnosis("aaa", new DateTime(2018, 04, 13), new List<Medicine>()));
+
+            if(diagnoses!=null)
+            foreach (var current in diagnoses)
+            {
+                DataRow diagnose = table.NewRow();
+                diagnose["Disease"] = current.Disease;
+                if (current.PrescribedMedicines.Count != 0)
+                {
+                    foreach (var currentMedicine in current.PrescribedMedicines)
+                    {
+                        if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
+                            diagnose["Medicine"] = "";
+                        else
+                            diagnose["Medicine"] += "   |   ";
+
+                        diagnose["Medicine"] += currentMedicine.Name;
+
+                    }
+                }
+                else
+                    diagnose["Medicine"] = "None";
+
+                diagnose["Date"] = current.DiagnoseDate;
+                table.Rows.Add(diagnose);
+            }
+
+            /*for(int i = 0; i < 40; i++)
+            {
+                DataRow diagnose = table.NewRow();
+                diagnose["Disease"] = "aaa";
+                diagnose["Medicine"] = "aaaaaa";
+                diagnose["Date"] = new DateTime();
+                table.Rows.Add(diagnose);
+            }*/
+
+            universalPanel.Controls.Add(historyView);
+
+            foreach (DataGridViewColumn col in historyView.Columns)
+            {
+                col.Width = 152;
+            }
+
+            if (historyView.Rows.Count > 6)
+                historyView.Height = (500 < 25 * (historyView.Rows.Count + 1) ? 500 : 25 * (historyView.Rows.Count + 1));
+
         }
     }
 }

@@ -40,7 +40,8 @@ namespace HospitalForms
             return returnImage;
         }
 
-        private void DoctorProfileWindow_Load(object sender, EventArgs e) {
+        private void DoctorProfileWindow_Load(object sender, EventArgs e)
+        {
             nameLabel.Text = doctor.Name;
             surnameLabel.Text = doctor.Surname;
             balanceLabel.Text = doctor.Balance.ToString();

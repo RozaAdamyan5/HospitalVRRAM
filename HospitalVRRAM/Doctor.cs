@@ -52,7 +52,7 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 20).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = password;
-                    cmd.Parameters.Add("@DateOfBirth",SqlDbType.DateTime).Value = dateOfBirth;
+                    cmd.Parameters.Add("@DateOfBirth", SqlDbType.DateTime).Value = dateOfBirth;
                     cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
@@ -192,9 +192,9 @@ namespace HospitalClasses
             return patients;
         }
 
-        public Diagnosis PatientDiagnosis(Patient patient)
+        public List<Diagnosis> PatientDiagnosis(Patient patient)
         {
-            Diagnosis result = null;
+            List<Diagnosis> result = null;
 
             var conn = HospitalConnection.CreateDbConnection();
 
@@ -204,13 +204,14 @@ namespace HospitalClasses
             List<Medicine> medList = new List<Medicine>();
 
 
-            DateTime diagnoseDate = new DateTime(0, 0, 0);
+            DateTime diagnoseDate = new DateTime(1997, 5, 6);
             string disease = "";
 
             try
             {
                 using (conn)
                 {
+                    conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
 
                     var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
@@ -253,7 +254,9 @@ namespace HospitalClasses
                         }
                     }
                 }
-                result = new Diagnosis(disease, diagnoseDate, medList);
+                result.Add(new Diagnosis(disease, diagnoseDate, medList));
+
+                return result;
             }
             catch (Exception e)
             {
@@ -442,7 +445,7 @@ namespace HospitalClasses
                             doc.Picture = picture;
                             doc.DateOfBirth = dateOfBirth;
                             doc.PhoneNumber = phoneNumber;
-                          
+
                         }
 
                     }

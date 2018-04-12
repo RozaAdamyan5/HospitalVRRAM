@@ -79,6 +79,6 @@ CREATE TABLE AssignedTo
 	Medicine		NVARCHAR(20)			FOREIGN KEY REFERENCES Medicine([Name]),
     [Count]			INT		NOT NULL		CHECK  ([Count]>=1) ,
      
-	CONSTRAINT 	PK_Assign	PRIMARY KEY (DiagnoseID,MedicineID),
+	CONSTRAINT 	PK_Assign	PRIMARY KEY (DiagnoseID,Medicine),
 );
 

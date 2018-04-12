@@ -69,6 +69,7 @@ namespace HospitalClasses
             Address = address;
             DateOfBirth = dateOfBirth;
             InsurenceCard = "";
+            Initialization();
         }
         //End Constructor//
 
@@ -116,7 +117,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                 MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message);
             }
             return patient;
         }
@@ -131,7 +132,7 @@ namespace HospitalClasses
             List<Diagnosis> history = new List<Diagnosis>();
 
             var conn = HospitalConnection.CreateDbConnection();
-
+            Diagnosis diagnose = null;
             string SQLcmd0 = "dbo.ReadMyHistory";
             try
             {
@@ -154,14 +155,28 @@ namespace HospitalClasses
 
                             using (var reader1 = (SqlDataReader)cmd1.ExecuteReader())
                             {
-                                List<Medicine> medicine = new List<Medicine>();
-                                while (reader1.Read())
+                                if (reader1.HasRows)
                                 {
-                                    medicine.Add(new Medicine((string)reader1["Name"], (string)reader1["Country"],
-                                                               (int)reader1["Price"], (DateTime)reader1["ExpirationDate"]));
+                                    bool hasMoreResults = true;
+
+                                    List<Medicine> medicine = new List<Medicine>();
+
+                                    //while (hasMoreResults)
+                                    {
+                                        while (reader1.Read())
+                                        {
+                                            string n = (string)reader1["Name"];
+                                            string c = (string)reader1["Country"];
+                                            decimal p = (decimal)reader1["Price"];
+                                            DateTime e= (DateTime)reader1["ExpirationDate"];
+                                            medicine.Add(new Medicine(n, c, p, e));
+                                        }
+                                        diagnose = new Diagnosis((string)reader0["Description"], (DateTime)reader0["DateOfDiagnosis"], medicine);
+                                        history.Add(diagnose);
+
+                                        hasMoreResults = reader1.NextResult();
+                                    }
                                 }
-                                Diagnosis diagnose = new Diagnosis((string)reader0["Discription"], (DateTime)reader0["DateOfDiagnosis"], medicine);
-                                history.Add(diagnose);
                             }
                         }
                     }
@@ -189,7 +204,7 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.changeBalance";
-         
+
             try
             {
                 using (conn)
@@ -248,7 +263,7 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.ChangePatientAddress";
-          
+
             try
             {
                 using (conn)
