@@ -110,7 +110,7 @@ namespace HospitalClasses
 
 
         // Methods //
-        private void WriteDiagnosis(Patient patient, Diagnosis diagnose)
+        public void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
 
 
@@ -135,17 +135,22 @@ namespace HospitalClasses
                     var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
 
                     int param = -1;
-                    cmd1.Parameters.Add("@parameter", SqlDbType.Int).Value=param;
-                    cmd1.ExecuteNonQuery();
+                    //cmd1.Parameters.Add("@diagID", SqlDbType.Int).Value = param;
+                    using (var reader = cmd1.ExecuteReader()) {
+                        reader.Read();
+                        param = (int)reader["mx"];
+                    }
 
                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
 
-                   cmd2.Parameters.Add("@diagnoseID", SqlDbType.Int).Value = param;
+                   
                     foreach (var elem in diagnose.PrescribedMedicines)
                     {
-                        cmd2.Parameters.Add("@medicine", SqlDbType.NVarChar, 20).Value = elem.Key;
+                        cmd2.Parameters.Add("@diagnoseID", SqlDbType.Int).Value = param;
+                        cmd2.Parameters.Add("@medicine", SqlDbType.NVarChar, 20).Value = elem.Key.Name;
                         cmd2.Parameters.Add("@cnt", SqlDbType.Int).Value = elem.Value;
                         cmd2.ExecuteNonQuery();
+                        cmd2.Parameters.Clear();
                     }
                    
                 }
@@ -459,8 +464,8 @@ namespace HospitalClasses
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(connection, sSQL, CommandType.StoredProcedure);
 
 
-                    cmd.Parameters.Add("@login", SqlDbType.VarChar, 8).Value = login;
-                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 20).Value = getHashSha256(password);
+                    cmd.Parameters.Add("@login", SqlDbType.VarChar, 20).Value = login;
+                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 20).Value = password;
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {

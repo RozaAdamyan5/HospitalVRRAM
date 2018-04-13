@@ -183,7 +183,7 @@ namespace HospitalForms
             }
 
             Diagnosis diagnosis = new Diagnosis(diseaseBox.Text, DateTime.Now, medicines);
-
+            doctor.WriteDiagnosis(patient, diagnosis);
             backToDoctorProfile(this, EventArgs.Empty);
         }
     }

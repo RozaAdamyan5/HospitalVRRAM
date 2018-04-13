@@ -96,11 +96,11 @@ where PassportID = @PassportID
 end
 go
 
-create proc dbo.sp_GetDiagnoseID( @diagID int out )
+create proc dbo.sp_GetDiagnoseID
 AS begin
-	set @diagID =(Select Max(DiagnosesID)
-					From Diagnoses)
-	end 
+	Select Max(DiagnosesID)
+	From Diagnoses
+end 
 	go
 go
 

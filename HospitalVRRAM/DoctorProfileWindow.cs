@@ -90,10 +90,10 @@ namespace HospitalForms
             patientsOfDay.RowCount = 1;
             //var calendarInfo = doctor.Calendar();
             Dictionary<DateTime, Patient> calendarInfo = new Dictionary<DateTime, Patient>();
-            Patient tmp = new Patient("Name", "Surname", "aaaaaaa", "Ggg", DateTime.Today);
+            Patient tmp = new Patient("Name", "Surname", "000000000", "Ggg", DateTime.Today);
 
             calendarInfo[new DateTime(2018, 4, 13, 4, 45, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 13, 13, 45, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 13, 14, 30, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 13, 16, 20, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 1, 0, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 2, 0, 0)] = tmp;
