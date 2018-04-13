@@ -97,9 +97,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Italic);
             this.label3.Location = new System.Drawing.Point(20, 320);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 22);
+            this.label3.Size = new System.Drawing.Size(147, 22);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Date of birth:";
+            this.label3.Text = "Date of approval:";
             // 
             // label4
             // 
