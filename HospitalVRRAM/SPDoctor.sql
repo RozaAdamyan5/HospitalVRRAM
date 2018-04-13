@@ -1,13 +1,13 @@
 ﻿create proc dbo.GetDiagnose(@patId char(9))
 as 
 begin 
- Select [Description],DateOfDiagnosis
+ Select DiagnoseID,[Description],DateOfDiagnosis
         From Diagnoses
         Where patientID=@patID
 end
 
 go
-/*???????????????????????????????????*/
+
 create proc dbo.GetDiagnoseMedicine(@patId char(9))
 as 
 begin 
@@ -19,7 +19,7 @@ begin
 end 
 go
 
-/*???????????????????????????????????*/
+
 
 create proc dbo.sp_WriteDiagnosInDiagnoses(@description nvarchar(20), @dateOfDiagnoses datetime,
 										   @patientID char(9), @DoctorID char(9))
@@ -56,9 +56,9 @@ go
 --create proc dbo.ShowBalance(@patId char(9))
 --as 
 --begin 
--- Select [Description],DateOfDiagnosis
---        From Diagnoses
---        Where patientID=@patID
+-- Select balance
+--        From Doctor
+--        Where passportID=@patID
 --end
 
 

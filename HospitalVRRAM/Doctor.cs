@@ -187,75 +187,11 @@ namespace HospitalClasses
             return patients;
         }
 
-        public Diagnosis PatientDiagnosis(Patient patient)
+        public List<Diagnosis> PatientDiagnosis(Patient patient)
         {
-            Diagnosis result = null;
-
-            var conn = HospitalConnection.CreateDbConnection();
-
-            string sSQL1 = "dbo.GetDiagnoseMedicine";
-            string sSQL2 = "dbo.GetDiagnose";
-
-            List<Medicine> medList = new List<Medicine>();
-
-
-            DateTime diagnoseDate = new DateTime(0, 0, 0);
-            string disease = "";
-
-            try
-            {
-                using (conn)
-                {
-                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
-
-                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
-                    cmd2.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
-
-                    using (var reader = (SqlDataReader)cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                    {
-
-                        if (reader.HasRows)
-                        {
-                            bool hasMoreResults = true;
-
-                            while (hasMoreResults)
-                            {
-                                while (reader.Read())
-                                {
-                                    string nameMed = reader.GetString(reader.GetOrdinal("name")).ToString();
-                                    string countryMed = reader.GetString(reader.GetOrdinal("country")).ToString();
-                                    decimal priceMed = reader.GetDecimal(reader.GetOrdinal("price"));
-                                    DateTime expiryDate = reader.GetDateTime(reader.GetOrdinal("expiryDate"));
-                                    Medicine m = new Medicine(nameMed, countryMed, priceMed, expiryDate);
-                                    medList.Add(m);
-                                }
-
-                                hasMoreResults = reader.NextResult();
-                            }
-                        }
-
-                        using (var reader2 = (SqlDataReader)cmd2.ExecuteReader())
-                        {
-                            if (reader2.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    disease = reader.GetString(reader.GetOrdinal("Description")).ToString();
-                                    diagnoseDate = reader.GetDateTime(reader.GetOrdinal("DateOfDiagnosis"));
-                                }
-                            }
-                        }
-                    }
-                }
-                result = new Diagnosis(disease, diagnoseDate, medList);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-
-            return result;
+            List<Diagnosis> result= patient.ShowMyHistory();
+            
+            return result ;
         }
 
         public Dictionary<DateTime, Patient> Calendar()
@@ -413,7 +349,7 @@ namespace HospitalClasses
 
 
                     cmd.Parameters.Add("@login", SqlDbType.VarChar, 8).Value = login;
-                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 20).Value = password;
+                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 20).Value = getHashSha256(password);
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {

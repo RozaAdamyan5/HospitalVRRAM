@@ -20,7 +20,7 @@ namespace HospitalClasses
         public string Country { get; }
         public decimal Price { get; private set; }
         public DateTime ExpiryDate { get; }
-        public byte[] Picture { get; private set; }
+        public byte[] Picture { get;  set; }
 
         // End Properties  //
 

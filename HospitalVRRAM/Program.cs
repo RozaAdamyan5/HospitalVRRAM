@@ -20,7 +20,7 @@ namespace HospitalVRRAM
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            Application.Run(new ApplicationHospital());
+           Application.Run(new ApplicationHospital());
             //Application.Run(new RegisterWindow());
             //Application.Run(new LoginWindow());
             //Application.Run(new DiagnosisWindow("Name Surname"));

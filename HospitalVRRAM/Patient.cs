@@ -84,7 +84,7 @@ namespace HospitalClasses
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQlcmd, CommandType.StoredProcedure);
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 20).Value = login;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = password;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = getHashSha256(password);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         reader.Read();

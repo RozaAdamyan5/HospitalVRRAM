@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using HospitalConnections;
 using System.Data;
+using System.Security.Cryptography;
 using System.Data.SqlClient;
 
 namespace HospitalClasses
@@ -224,7 +225,21 @@ namespace HospitalClasses
         public virtual void ChageBalance(int amountForChange)
         {
             Balance += amountForChange;
-        } 
+        }
+
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
+
 
 
         //End Methods //

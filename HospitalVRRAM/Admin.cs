@@ -154,7 +154,7 @@ namespace HospitalClasses
                             string phoneNumber = (string)reader["PhoneNumber"];
                             string speciality = (string)reader["Speciality"];
 
-                            Doctor pat = new Doctor(name,surname,passportID,speciality,dateOfapproval,consCost);
+                            Doctor pat = new Doctor(name, surname, passportID, speciality, dateOfapproval, consCost);
                             docs.Add(pat);
                         }
                     }
@@ -167,5 +167,45 @@ namespace HospitalClasses
             }
             return docs;
         }
+
+        public List<Medicine> ShowMedicine()
+        {
+            List<Medicine> meds = new List<Medicine>();
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "sp_AllMedicine";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string name = (string)reader["Name"];
+                            string country = (string)reader["Country"];
+                            DateTime expirationDate = (DateTime)reader["ExpirationDate"];
+                            decimal price = (decimal)reader["Price"];
+                            byte[] pic = (byte[])reader["Picture"];
+
+
+                            Medicine med = new Medicine(name, country, price, expirationDate);
+                            med.Picture = pic;
+                            meds.Add(med);
+                        }
+                    }
+                }
+                return meds;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return meds;
+        }
     }
 }
+
