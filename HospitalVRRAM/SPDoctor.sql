@@ -106,3 +106,18 @@ Set [Password] = @Password
 where PassportID = @PassportID
 end
 go
+
+create proc dbo.LoadMedicineByName(@Name varchar(20))
+as
+begin
+select * from Medicine
+where [Name] = @Name
+end
+go
+
+create proc dbo.LoadMedicineNames
+as
+begin
+	select [Name]
+	from Medicine
+end

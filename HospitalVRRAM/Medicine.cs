@@ -40,9 +40,7 @@ namespace HospitalClasses
 
         public void AddPicture(byte[] pic)
         {
-            string sSQL = "update Medicine\r\n" +
-                            "set Picture = @pic" +
-                         " where Name = @name";
+            string sSQL = "dbo.MedicineAddPicture";
             this.Picture = pic;
 
             try
@@ -50,10 +48,10 @@ namespace HospitalClasses
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-                cmd.Parameters.Add("@name", SqlDbType.Char, 9).Value = this.Name;
-                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
+                cmd.Parameters.Add("@Name", SqlDbType.Char, 9).Value = this.Name;
+                cmd.Parameters.Add("@Pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
 
                 cmd.ExecuteNonQuery();
 
@@ -64,7 +62,50 @@ namespace HospitalClasses
             }
         }
 
+        public static Medicine GetMedicine(string name)
+        {
+            Medicine med = null;
+            var connection = HospitalConnection.CreateDbConnection();
+            string sSQL = "dbo.LoadMedicineByName";
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(connection, sSQL, CommandType.StoredProcedure);
 
+
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar, 8).Value = name;
+
+                    using (var reader = (SqlDataReader)cmd.ExecuteReader())
+                    {
+                        reader.Read();
+                        if (!reader.HasRows)
+                        {
+                            throw new Exception("Wrong password or login.");
+                        }
+                        else
+                        {
+                            string Name = (string)reader["Name"];
+                            string Country = (string)reader["Country"];
+                            DateTime ExpiryDate = (DateTime)reader["Expiration Date"];
+                            decimal Price = (decimal)reader["Price"];
+                            byte[] Picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
+                            
+                            med = new Medicine(Name, Country, Price, ExpiryDate);
+                            med.Picture = Picture;
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return med;
+        }
     }
 
     //End Methods //

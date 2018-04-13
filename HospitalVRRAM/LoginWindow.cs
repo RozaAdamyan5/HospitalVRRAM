@@ -66,11 +66,11 @@ namespace HospitalForms
                 MessageBox.Show("Please specify your account type by login suffix");
                 return;
             }
-            if (loginSuffix.SelectedIndex == 0)             // Patient
+            if (loginSuffix.SelectedIndex == 0)
             {
                 try
                 {
-                    Patient patient = Patient.SignIn(loginBox.Text, passwordBox.Text);
+                    Patient patient = Patient.SignIn(loginBox.Text, User.getHashSha256(passwordBox.Text));
                     if (patient != null)
                     {
                         patientSignedIn(this, new PatientPassEventArgs(patient));
@@ -81,11 +81,11 @@ namespace HospitalForms
                     MessageBox.Show(ex.Message, "Error");
                 }
             }
-            if (loginSuffix.SelectedIndex == 1)             // Doctor
+            if (loginSuffix.SelectedIndex == 1)
             {
                 try
                 {
-                    Doctor doctor = Doctor.SignIn(loginBox.Text, passwordBox.Text);
+                    Doctor doctor = Doctor.SignIn(loginBox.Text, User.getHashSha256(passwordBox.Text));
                     if (doctor != null)
                     {
                         doctorSignedIn(this, new DoctorPassEventArgs(doctor));

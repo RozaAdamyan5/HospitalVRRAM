@@ -127,7 +127,7 @@ namespace HospitalForms
 
         private void addDoctor_Click(object sender, EventArgs e)
         {
-            Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text, newLogin.Text, newPassword.Text,
+            Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text, newLogin.Text, User.getHashSha256(newPassword.Text),
                 newSpec.Text, newEmployDate.Value, decimal.Parse(newCost.Text), newBirth.Value, newPhone.Text);
 
             newName.Text = newSurname.Text = newPassportID.Text = newPassword.Text = newLogin.Text = newCost.Text =  newPhone.Text = "";

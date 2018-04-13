@@ -56,7 +56,7 @@ namespace HospitalClasses
 
 
         // Methods //
-        public static bool PassportIdIsUnique(string passportID)
+        public static bool CheckPassportID(string passportID)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -104,7 +104,7 @@ namespace HospitalClasses
             return true;
         }
 
-        public static bool LoginIdIsUnique(string login)
+        public static bool CheckPatientLogin(string login)
         {
             int existInDB = 0;
             var conn = HospitalConnection.CreateDbConnection();
@@ -124,14 +124,15 @@ namespace HospitalClasses
                 existInDB = (int)returnParameter.Value;
             }
 
-            if (existInDB == 1)
-                return false;
+            return existInDB != 1;
+        }
 
-            /////////
+        public static bool CheckDoctorLogin(string login)
+        {
+            int existInDB = 0;
+            var conn = HospitalConnection.CreateDbConnection();
 
-            conn = HospitalConnection.CreateDbConnection();
-
-            SQLcmd = "dbo.FindDoctortLogin";
+            string SQLcmd = "dbo.FindDoctorLogin";
 
             using (conn)
             {
@@ -146,30 +147,20 @@ namespace HospitalClasses
                 existInDB = (int)returnParameter.Value;
             }
 
-            if (existInDB == 1)
-                return false;
-
-            return true;
+            return existInDB != 1;
         }
 
-        public static bool LoginIsValid(string login)
+        public static void LoginIsValid(string login, Type userType)
         {
-            //validation
             if (login.Length < 8)
             {
                 throw new Exception("Login must be at least 8 characters.");
             }
-            
-            /*else if (!Regex.Replace(login, @"^[a-z0-9](\.?[a-z0-9]){5,}@pat\.hosp$", "").Equals(""))
-            {
-                throw new Exception("login must have SOMETHING@pat.hosp form");
-            }*/
-            else if(!LoginIdIsUnique(login))
+            else if(!CheckDoctorLogin(login) && userType == typeof(Doctor) || 
+                    !CheckPatientLogin(login) && userType == typeof(Patient))
             {
                 throw new Exception("This login already exists");
             }
-
-            return true;
         }
 
         public static bool PasswordIsValid(string password)
@@ -197,7 +188,7 @@ namespace HospitalClasses
             }
             else if (!hasMiniMaxChars.IsMatch(input))
             {
-                throw new Exception("Password should not be less than or greater than 12 characters");
+                throw new Exception("Password should not be less than 8 or greater than 12 characters");
             }
             else if (!hasNumber.IsMatch(input))
             {

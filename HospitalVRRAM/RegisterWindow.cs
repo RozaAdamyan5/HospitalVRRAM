@@ -58,7 +58,7 @@ namespace HospitalForms
 
             try
             {
-                User.PassportIdIsUnique(passportID.Text);
+                User.CheckPassportID(passportID.Text);
             }
             catch(Exception ex)
             {
@@ -67,7 +67,7 @@ namespace HospitalForms
 
             try
             {
-                User.LoginIsValid(login.Text);
+                User.LoginIsValid(login.Text, typeof(Patient));
             }
             catch(Exception ex)
             {
@@ -89,7 +89,7 @@ namespace HospitalForms
             try
             {
                 checkIfValid();
-                new Patient(name.Text, surname.Text, passportID.Text, login.Text, password.Text, address.Text, insuranceCard.Text, birthDate.Value, phoneNumber.Text);
+                new Patient(name.Text, surname.Text, passportID.Text, login.Text, User.getHashSha256(password.Text), address.Text, insuranceCard.Text, birthDate.Value, phoneNumber.Text);
                 registrationCompleted(this, EventArgs.Empty);
             }
             catch(Exception ex)

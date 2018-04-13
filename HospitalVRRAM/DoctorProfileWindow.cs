@@ -140,6 +140,7 @@ namespace HospitalForms
 
         private void myPatients_Click(object sender, EventArgs e)
         {
+            calendarPanel.Hide();
             universalPanel.Controls.Clear();
             
             DataGridView servedPatients = new DataGridView() { ReadOnly = true, BackgroundColor = Color.White, Width = 500, Height = 200 };
@@ -186,6 +187,7 @@ namespace HospitalForms
 
         private void changePassword_Click(object sender, EventArgs e)
         {
+            calendarPanel.Hide();
             universalPanel.Controls.Clear();
 
             var tmpFont = new Font("Microsoft Sans Serif", 10F);
@@ -206,7 +208,7 @@ namespace HospitalForms
 
         private void ChangePasswordDoctor_Click(object senderr, EventArgs ee, TextBox oldPass, TextBox newPass, TextBox confirmPass)
         {
-            if (oldPass.Text != doctor.Password)
+            if (User.getHashSha256(oldPass.Text).Substring(0, 20) != doctor.Password)
             {
                 DialogResult res = MessageBox.Show("Wrong old password!");
             }
@@ -214,12 +216,16 @@ namespace HospitalForms
             {
                 DialogResult res = MessageBox.Show("Passwords don't match!");
             }
+            else if (newPass.Text == "")
+            {
+                DialogResult res = MessageBox.Show("New password can't be blank!");
+            }
             else
             {
                 try
                 {
                     User.PasswordIsValid(newPass.Text);
-                    doctor.changePassword(newPass.Text);
+                    doctor.changePassword(User.getHashSha256(newPass.Text));
                     MessageBox.Show("Password has been successfully changed!");
                     universalPanel.Controls.Clear();
                 }
