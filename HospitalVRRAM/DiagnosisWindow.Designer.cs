@@ -45,6 +45,9 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.fullName = new System.Windows.Forms.Label();
             this.universalPanel = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.AddNewMedicine.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.medicineCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -119,7 +122,7 @@
             // medicineCount
             // 
             this.medicineCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.5F);
-            this.medicineCount.Location = new System.Drawing.Point(453, 7);
+            this.medicineCount.Location = new System.Drawing.Point(424, 8);
             this.medicineCount.Name = "medicineCount";
             this.medicineCount.Size = new System.Drawing.Size(82, 28);
             this.medicineCount.TabIndex = 3;
@@ -128,7 +131,7 @@
             // addMedicine
             // 
             this.addMedicine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.addMedicine.Location = new System.Drawing.Point(569, 8);
+            this.addMedicine.Location = new System.Drawing.Point(548, 8);
             this.addMedicine.Name = "addMedicine";
             this.addMedicine.Size = new System.Drawing.Size(85, 27);
             this.addMedicine.TabIndex = 2;
@@ -170,11 +173,15 @@
             this.finish.TabIndex = 14;
             this.finish.Text = "Complete";
             this.finish.UseVisualStyleBackColor = true;
+            this.finish.Click += new System.EventHandler(this.finish_Click);
             // 
             // scrollablePanel
             // 
             this.scrollablePanel.AutoScroll = true;
             this.scrollablePanel.BackColor = System.Drawing.Color.Transparent;
+            this.scrollablePanel.Controls.Add(this.label9);
+            this.scrollablePanel.Controls.Add(this.label8);
+            this.scrollablePanel.Controls.Add(this.label11);
             this.scrollablePanel.Controls.Add(this.medicineListTable);
             this.scrollablePanel.Location = new System.Drawing.Point(51, 331);
             this.scrollablePanel.Name = "scrollablePanel";
@@ -191,7 +198,7 @@
             this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.medicineListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
             this.medicineListTable.Font = new System.Drawing.Font("Consolas", 12F);
-            this.medicineListTable.Location = new System.Drawing.Point(0, 0);
+            this.medicineListTable.Location = new System.Drawing.Point(0, 29);
             this.medicineListTable.Name = "medicineListTable";
             this.medicineListTable.RowCount = 1;
             this.medicineListTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -223,10 +230,40 @@
             // 
             this.universalPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.universalPanel.BackColor = System.Drawing.Color.Transparent;
-            this.universalPanel.Location = new System.Drawing.Point(774, 220);
+            this.universalPanel.Location = new System.Drawing.Point(724, 216);
             this.universalPanel.Name = "universalPanel";
-            this.universalPanel.Size = new System.Drawing.Size(451, 547);
+            this.universalPanel.Size = new System.Drawing.Size(500, 350);
             this.universalPanel.TabIndex = 29;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(420, 6);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 20);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Count";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label8.Location = new System.Drawing.Point(46, 6);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(72, 20);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Medicine";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(8, 5);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(25, 20);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "№";
             // 
             // DiagnosisWindow
             // 
@@ -252,6 +289,7 @@
             this.Name = "DiagnosisWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Diagnosis";
+            this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.DiagnosisWindow_Paint);
@@ -286,6 +324,9 @@
         private System.Windows.Forms.Label fullName;
         private System.Windows.Forms.NumericUpDown medicineCount;
         private System.Windows.Forms.Panel universalPanel;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label11;
     }
 }
 

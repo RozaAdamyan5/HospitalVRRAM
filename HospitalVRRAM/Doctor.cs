@@ -308,9 +308,6 @@ namespace HospitalClasses
 
             DateTime ll = new DateTime(day.Year, day.Month, day.Day, 9, 0, 0), rr = new DateTime(day.Year, day.Month, day.Day, 18, 40, 0);
 
-            //Patients = new Dictionary<DateTime, Patient>();
-            //Patients[current] = new Patient("aa", "aaa", "aaa", "asa", DateTime.Now);
-
             for (int i = 0; i < 60 * 10; i++)
             {
                 current = current.AddMinutes(i);
@@ -323,7 +320,7 @@ namespace HospitalClasses
                         break;
                     }
 
-                if (valid && current >= ll && current <= rr)
+                if (valid && current >= ll && current <= rr && current >= DateTime.Now)
                 {
                     return current;
                 }
@@ -338,7 +335,7 @@ namespace HospitalClasses
                         break;
                     }
 
-                if (valid && current >= ll && current <= rr)
+                if (valid && current >= ll && current <= rr && current >= DateTime.Now)
                 {
                     return current;
                 }
@@ -457,6 +454,34 @@ namespace HospitalClasses
                 MessageBox.Show(e.Message);
             }
             return doc;
+        }
+
+        public void changePassword(string newPassword)
+        {
+            Password = newPassword;
+
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.ChangeDoctorPassword";
+
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = Password;
+
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
         //End Methods //
     };

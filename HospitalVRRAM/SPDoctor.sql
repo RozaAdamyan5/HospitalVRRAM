@@ -97,3 +97,12 @@ go
 									where Doctor.PassportID = @DocID))
  END					
 GO
+
+create proc dbo.ChangeDoctorPassword(@PassportID char(9), @Password varchar(20))
+as
+begin
+update Doctor
+Set [Password] = @Password
+where PassportID = @PassportID
+end
+go

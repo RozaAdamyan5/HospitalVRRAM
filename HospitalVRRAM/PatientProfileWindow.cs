@@ -219,7 +219,17 @@ Please choose other doctor or other day");
             }
             else
             {
-                patient.changePassword(newPass.Text);
+                try
+                {
+                    User.PasswordIsValid(newPass.Text);
+                    patient.changePassword(newPass.Text);
+                    MessageBox.Show("Password has been successfully changed!");
+                    universalPanel.Controls.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
 
         }
