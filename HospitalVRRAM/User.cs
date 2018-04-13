@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using HospitalConnections;
 using System.Data;
+using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 

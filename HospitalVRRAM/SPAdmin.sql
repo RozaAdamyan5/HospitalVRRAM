@@ -43,27 +43,7 @@ GO
  END
 
  GO
- Create procedure sp_AddDoctor 
-	@PassportID			CHAR(9)			,
-	@Name   			NVARCHAR(20)	,
-	@Surname			NVARCHAR(20) 	,
-	@Balance			SMALLMONEY 		,
-	@Picture			VARBINARY(MAX)	,
-	@PhoneNumber		CHAR(9)		    ,
-	@Speciality 		TINYINT 		,
-	@DateOfApproval		DATETIME		,
-	@Login		        VARCHAR(20)     ,
-	@Password		    VARCHAR(20)     ,
-  @ConsultationCost     SMALLMONEY      
- AS
- BEGIN
-   insert into Doctor( PassportID, [Name], Surname, Balance, Picture, PhoneNumber,
-					 Speciality, DateOfApproval, [Login], [Password], ConsultationCost)
-   values (@PassportID, @Name, @Surname, @Balance, @Picture, @PhoneNumber, @Speciality, 
- 						@DateOfApproval, @Login, @Password, @ConsultationCost)
- END		
 
-GO
  Create procedure sp_AllDoctors
  AS
  BEGIN

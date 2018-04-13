@@ -3,33 +3,26 @@
 							@Speciality varchar(20), @ConsultationCost smallmoney, @GetEmployed datetime, @PhoneNumber char(9))
 as
 begin
-	insert into Doctor
+	insert into Doctor( PassportID, [Name], Surname, Balance, Picture, PhoneNumber,
+					 Speciality, DateOfApproval, [Login], [Password], ConsultationCost)
 		values(@PassportID, @Name, @Surname, 0, null, @PhoneNumber, @Speciality, @GetEmployed, @DateOfBirth, @Login, @Password, @ConsultationCost)
 end
 
 go
-create proc dbo.GetDiagnose(@patId char(9))
-as 
-begin 
- Select [Description],DateOfDiagnosis
-        From Diagnoses
-        Where patientID=@patID
-end
 
-go
-/*???????????????????????????????????*/
-create proc dbo.GetDiagnoseMedicine(@patId char(9))
+
+create proc dbo.GetDiagnoseMedicine(@patId char(9),@diagnoseID int)
 as 
 begin 
-	Select Medicine.[Name], Medicine.Country, Medicine.Price, Medicine.ExpiryDate 
+	Select Medicine.[Name], Medicine.Country, Medicine.Price, Medicine.ExpirationDate,AssignedTo.[Count]
 		From AssignedTo
-			join Medicine on AssignedTo.MedicineID = Medicine.Name 
-            join Diagnosis on Diagnosis.DiagnoseID = AssignedTo.DiagnoseID
-         Where patientID=@patID
+			join Medicine on AssignedTo.Medicine = Medicine.Name 
+            join Diagnoses on Diagnoses.DiagnosesID = AssignedTo.DiagnoseID
+         Where patientID=@patID and AssignedTo.DiagnoseId=@diagnoseID
 end 
 go
 
-/*???????????????????????????????????*/
+
 
 create proc dbo.sp_WriteDiagnosInDiagnoses(@description nvarchar(20), @dateOfDiagnoses datetime,
 										   @patientID char(9), @DoctorID char(9))
@@ -42,17 +35,19 @@ go
 create proc dbo.sp_AddMedicineInAssignedTo(@diagnoseID int, @medicine nvarchar(20), @cnt int)
 as
 begin
-	insert into AssignedTo values(@diagnoseID, @medicineID, @cnt)
+	insert into AssignedTo values(@diagnoseID, @medicine, @cnt)
 end
 go
 
-create proc dbo.ReadMyHistory(@PassportID char(9))
-as
-begin
-	select [Description], DateOfDiagnosis, DiagnosesID
-	from Diagnoses
-	where PatientID = @PassportID
+
+create proc dbo.GetDiagnose(@PassportID char(9))
+as 
+begin 
+ Select DiagnosesID,[Description],DateOfDiagnosis
+        From Diagnoses
+        Where patientID=@PassportID
 end
+
 go
 
 create proc dbo.SignInDoctor(@login varchar(20), @password varchar(20))
@@ -63,13 +58,7 @@ begin
 	Where [Login]=@login and [Password]=@password 
 end 
 go
---create proc dbo.ShowBalance(@patId char(9))
---as 
---begin 
--- Select [Description],DateOfDiagnosis
---        From Diagnoses
---        Where patientID=@patID
---end
+
 
 
 
@@ -105,6 +94,14 @@ update Doctor
 Set [Password] = @Password
 where PassportID = @PassportID
 end
+go
+
+create proc dbo.sp_GetDiagnoseID( @diagID int out )
+AS begin
+	set @diagID =(Select Max(DiagnosesID)
+					From Diagnoses)
+	end 
+	go
 go
 
 create proc dbo.LoadMedicineByName(@Name varchar(20))

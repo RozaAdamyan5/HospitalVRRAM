@@ -172,7 +172,7 @@ namespace HospitalClasses
                             string phoneNumber = (string)reader["PhoneNumber"];
                             string speciality = (string)reader["Speciality"];
 
-                            Doctor pat = new Doctor(name,surname,passportID,speciality,dateOfapproval,consCost);
+                            Doctor pat = new Doctor(name, surname, passportID, speciality, dateOfapproval, consCost);
                             docs.Add(pat);
                         }
                     }
@@ -226,3 +226,4 @@ namespace HospitalClasses
         }
     }
 }
+

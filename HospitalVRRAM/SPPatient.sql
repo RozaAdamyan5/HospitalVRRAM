@@ -10,8 +10,9 @@ go
 create proc dbo.SignInPatient(@Login varchar(20), @Password varchar(20))
 as
 begin
-	select * from Patient
-	where [Password]=@Password and [Login]=@Login
+	select *
+		from Patient
+			where [Password]=@Password and [Login]=@Login
 end
 go		
 
@@ -58,21 +59,6 @@ begin
 	update Patient
 	Set [Address] = @Address
 	where PassportID = @PassportID
-end
-go
-
-create proc dbo.sp_WriteDiagnosInDiagnoses(@description nvarchar(20), @dateOfDiagnoses datetime,
-										   @patientID char(9), @DoctorID char(9))
-as
-begin
-	insert into Diagnoses values(@description, @dateOfDiagnoses, @patientID, @DoctorID)
-end
-go
-
-create proc dbo.sp_AddMedicineInAssignedTo(@diagnoseID int, @medicine nvarchar(20), @cnt int)
-as
-begin
-	insert into AssignedTo values(@diagnoseID, @medicine, @cnt)
 end
 go
 

@@ -17,7 +17,7 @@ namespace HospitalClasses
 
         //Constructor//
 
-        public Diagnosis(string disease, DateTime consultationDate, Dictionary<Medicine, int> prescribedMedicines)
+        public Diagnosis(string disease, DateTime consultationDate, Dictionary<Medicine,int> prescribedMedicines)
         {
             Disease = disease;
             DiagnoseDate = consultationDate;
