@@ -150,6 +150,7 @@
     <Content Include="Resources\EditSign.png" />
     <Content Include="Resources\fileclose.png" />
     <Content Include="Resources\HospitalIcon.png" />
+    <None Include="Resources\medtry1.jpg" />
     <Content Include="Resources\WindowIcon.ico" />
     <Content Include="SPAdmin.sql" />
     <Content Include="SPDoctor.sql" />

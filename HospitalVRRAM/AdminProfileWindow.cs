@@ -35,7 +35,7 @@ namespace HospitalForms
             return returnImage;
         }
 
-        static Bitmap removeIcon, editIcon;
+        static Bitmap removeIcon, editIcon, defaultMedicine;
         List<Doctor> doctors;
         List<Medicine> medicines;
         Admin admin;
@@ -54,8 +54,9 @@ namespace HospitalForms
             nameLabel.Text = admin.Name;
             surnameLabel.Text = admin.Surname;
 
-            removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(30, 30));
+            removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
             editIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.EditSign), new Size(20, 20));
+            defaultMedicine = new Bitmap((global::HospitalVRRAM.Properties.Resources.medtry1), new Size(30, 30));
             profilePicBox.Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.DefaultProfilePic));
 
             newCost.TextChanged += checkDoctor;
@@ -194,7 +195,7 @@ namespace HospitalForms
             {
                 medicineTable.Controls.Add(new Label() { Text = medicineTable.RowCount.ToString() });
                 medicineTable.Controls.Add(new Label() { Text = medicine.Name, Width = 140 });
-                medicineTable.Controls.Add(new Label() { Image = (!(medicine.Picture == null || medicine.Picture.Length <= 4) ? byteArrayToImage(medicine.Picture, new Size(30, 30)) : editIcon) });
+                medicineTable.Controls.Add(new Label() { Image = (!(medicine.Picture == null) ? byteArrayToImage(medicine.Picture, new Size(30, 30)) : defaultMedicine) });
                 medicineTable.Controls.Add(new Label() { Text = medicine.ExpiryDate.ToShortDateString() } );
                 medicineTable.Controls.Add(new Label() { Text = medicine.Country });
 
