@@ -36,14 +36,12 @@ namespace HospitalForms
             // Here must be loading of medicine from DB but hence we yet haven't DB here is something
             fullName.Text = patient.Name + " " + patient.Surname;
 
-            medicineName.Items.Add("Medicine 1");
-            medicineName.Items.Add("Medicine 2");
-            medicineName.Items.Add("Medicine 3");
-            medicineName.Items.Add("Medicine 4");
-            medicineName.Items.Add("Medicine 5");
+            List<string> medNames = doctor.GetMedicines();
+            foreach (var name in medNames) {
+                medicineName.Items.Add(name);
+            }
 
             checkDisableEnable(0, EventArgs.Empty);
-
         }
 
         private void checkDisableEnable(object sender, EventArgs e)
@@ -143,15 +141,16 @@ namespace HospitalForms
                     diagnose["Disease"] = current.Disease;
                     if (current.PrescribedMedicines.Count != 0)
                     {
+                        bool start = true;
                         foreach (var currentMedicine in current.PrescribedMedicines)
                         {
-                            if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
+                            if (start)
                                 diagnose["Medicine"] = "";
                             else
                                 diagnose["Medicine"] += "   |   ";
 
-                            diagnose["Medicine"] += currentMedicine.Name;
-
+                            diagnose["Medicine"] += currentMedicine.Key.Name + "(" + currentMedicine.Value.ToString() + ")";
+                            start = false;
                         }
                     }
                     else
@@ -172,11 +171,19 @@ namespace HospitalForms
 
             if (historyView.Rows.Count > 6)
                 historyView.Height = (350 < 25 * (historyView.Rows.Count + 1) ? 500 : 25 * (historyView.Rows.Count + 1));
-
         }
 
         private void finish_Click(object sender, EventArgs e)
         {
+            Dictionary<Medicine, int> medicines = new Dictionary<Medicine, int>();
+
+            foreach(var item in prescribed)
+            {
+                medicines[Medicine.GetMedicine(item.Item1)] = item.Item2;
+            }
+
+            Diagnosis diagnosis = new Diagnosis(diseaseBox.Text, DateTime.Now, medicines);
+
             backToDoctorProfile(this, EventArgs.Empty);
         }
     }

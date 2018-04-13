@@ -159,6 +159,36 @@ namespace HospitalClasses
 
         }
 
+        public List<string> GetMedicines()
+        {
+            List<string> allMedicine = new List<string>();
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.LoadMedicineNames";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+
+                    using (var reader = (SqlDataReader)cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            allMedicine.Add((string)reader["Name"]);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return allMedicine;
+        }
+
         public List<Patient> ShowPatient()
         {
             List<Patient> patients = new List<Patient>();
@@ -362,9 +392,7 @@ namespace HospitalClasses
 
         public override void AddPicture(byte[] pic)
         {
-            string sSQL = "update Doctor\r\n" +
-                            "set Picture = @pic" +
-                         " where passportID = @passportID";
+            string sSQL = "dbo.DoctorAddPicture";
             this.Picture = pic;
 
             try
@@ -372,10 +400,10 @@ namespace HospitalClasses
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = this.PassportID;
-                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
+                cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = this.PassportID;
+                cmd.Parameters.Add("@Pic", SqlDbType.VarBinary, (1 << 20)).Value = this.Picture;
 
                 cmd.ExecuteNonQuery();
 
@@ -453,6 +481,8 @@ namespace HospitalClasses
                             decimal consultationCost = (decimal)reader["ConsultationCost"];
                             string phoneNumber = (string)reader["PhoneNumber"];
                             doc = new Doctor(name, surname, passportID, speciality, getEmployed, consultationCost);
+                            doc.Login = login;
+                            doc.Password = password.Substring(0, 20);
                             doc.Picture = picture;
                             doc.DateOfBirth = dateOfBirth;
                             doc.PhoneNumber = phoneNumber;

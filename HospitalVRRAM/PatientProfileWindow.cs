@@ -80,14 +80,16 @@ namespace HospitalForms
                     diagnose["Disease"] = current.Disease;
                     if (current.PrescribedMedicines.Count != 0)
                     {
+                        bool start = true;
                         foreach (var currentMedicine in current.PrescribedMedicines)
                         {
-                            if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
+                            if (start)
                                 diagnose["Medicine"] = "";
                             else
                                 diagnose["Medicine"] += "   |   ";
 
-                            diagnose["Medicine"] += currentMedicine.Name;
+                            diagnose["Medicine"] += currentMedicine.Key.Name + "(" + currentMedicine.Value.ToString() + ")";
+                            start = false;
 
                         }
                     }
@@ -209,7 +211,7 @@ Please choose other doctor or other day");
 
         private void ChangePasswordPatient_Click(object senderr, EventArgs ee, TextBox oldPass, TextBox newPass, TextBox confirmPass)
         {
-            if (oldPass.Text != patient.Password)
+            if (User.getHashSha256(oldPass.Text).Substring(0, 20) != patient.Password)
             {
                 DialogResult res = MessageBox.Show("Wrong old password!");
             }
@@ -217,12 +219,16 @@ Please choose other doctor or other day");
             {
                 DialogResult res = MessageBox.Show("Passwords don't match!");
             }
+            else if (newPass.Text == "")
+            {
+                DialogResult res = MessageBox.Show("New password can't be blank!");
+            }
             else
             {
                 try
                 {
                     User.PasswordIsValid(newPass.Text);
-                    patient.changePassword(newPass.Text);
+                    patient.changePassword(User.getHashSha256(newPass.Text));
                     MessageBox.Show("Password has been successfully changed!");
                     universalPanel.Controls.Clear();
                 }

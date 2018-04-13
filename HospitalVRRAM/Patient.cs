@@ -107,7 +107,7 @@ namespace HospitalClasses
                             string phoneNumber = (string)reader["PhoneNumber"];
                             patient = new Patient(name, surname, passportID, address, dateOfBirth);
                             patient.Login = login;
-                            patient.Password = password;
+                            patient.Password = password.Substring(0, 20);
                             patient.InsurenceCard = insuranceCard;
                             patient.Picture = picture;
                             patient.PhoneNumber = phoneNumber;
@@ -159,7 +159,7 @@ namespace HospitalClasses
                                 {
                                     bool hasMoreResults = true;
 
-                                    List<Medicine> medicine = new List<Medicine>();
+                                    Dictionary<Medicine, int> medicine = new Dictionary<Medicine, int>();
 
                                     //while (hasMoreResults)
                                     {
@@ -169,7 +169,9 @@ namespace HospitalClasses
                                             string c = (string)reader1["Country"];
                                             decimal p = (decimal)reader1["Price"];
                                             DateTime e= (DateTime)reader1["ExpirationDate"];
-                                            medicine.Add(new Medicine(n, c, p, e));
+                                            Medicine med = new Medicine(n, c, p, e);
+                                            if (medicine.ContainsKey(med)) medicine[med]++;
+                                            else medicine[med] = 1;
                                         }
                                         diagnose = new Diagnosis((string)reader0["Description"], (DateTime)reader0["DateOfDiagnosis"], medicine);
                                         history.Add(diagnose);
@@ -287,9 +289,7 @@ namespace HospitalClasses
         public override void AddPicture(byte[] pic)
         {
 
-            string sSQL = "update Patient\r\n" +
-                            "set Picture = @pic" +
-                         " where passportID = @passportID";
+            string sSQL = "dbo.PatientAddPicture";
             Picture = pic;
 
             try
@@ -297,10 +297,10 @@ namespace HospitalClasses
                 var conn = HospitalConnection.CreateDbConnection();
                 conn.Open();
 
-                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.Text);
+                var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-                cmd.Parameters.Add("@passportID", SqlDbType.Char, 9).Value = PassportID;
-                cmd.Parameters.Add("@pic", SqlDbType.VarBinary, (1 << 20)).Value = Picture;
+                cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                cmd.Parameters.Add("@Pic", SqlDbType.VarBinary, (1 << 20)).Value = Picture;
 
                 cmd.ExecuteNonQuery();
 

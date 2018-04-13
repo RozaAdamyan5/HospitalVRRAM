@@ -11,7 +11,7 @@ namespace HospitalClasses
         //  Properties  //
 
         public string Disease { get; }
-        public Dictionary<Medicine,int> PrescribedMedicines { get; }
+        public Dictionary<Medicine, int> PrescribedMedicines { get; }
         public DateTime DiagnoseDate { get; }
         // End Properties  //
 
