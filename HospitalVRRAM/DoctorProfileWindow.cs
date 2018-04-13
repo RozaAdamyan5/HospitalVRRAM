@@ -88,19 +88,7 @@ namespace HospitalForms
         {
             patientsOfDay.Controls.Clear();
             patientsOfDay.RowCount = 1;
-            //var calendarInfo = doctor.Calendar();
-            Dictionary<DateTime, Patient> calendarInfo = new Dictionary<DateTime, Patient>();
-            Patient tmp = new Patient("Name", "Surname", "000000000", "Ggg", DateTime.Today);
-
-            calendarInfo[new DateTime(2018, 4, 13, 4, 45, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 13, 14, 30, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 13, 16, 20, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 10, 1, 0, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 10, 2, 0, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 11, 0, 20, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 11, 0, 40, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 11, 1, 20, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 11, 4, 05, 0)] = tmp;
+            var calendarInfo = doctor.Calendar();
 
             foreach (var info in calendarInfo)
             {
@@ -119,7 +107,7 @@ namespace HospitalForms
                     {
                         status.Text = "Waiting...";
                         status.ForeColor = Color.Gray;
-                        status.Click += (senderr, ee) => { serveClicked(this, new DiagnoseOpenEventArgs(doctor, calendarInfo[info.Key])); };
+                        status.Click += (senderr, ee) => { serveClicked(status, new DiagnoseOpenEventArgs(doctor, calendarInfo[info.Key])); };
                     }
                     else
                     {
@@ -130,6 +118,13 @@ namespace HospitalForms
                     patientsOfDay.RowCount++;
                 }
             }
+        }
+
+        public void setServed(object lbl)
+        {
+            Label label = (Label)lbl;
+            label.Text = "Served";
+            label.ForeColor = Color.Green;
         }
 
         private void calendarButton_Click(object sender, EventArgs e)
@@ -159,7 +154,7 @@ namespace HospitalForms
             table.Columns.Add(address);
             table.Columns.Add(dateOfBirth);
 
-            List<Patient> patients = new List<Patient>();// doctor.ShowPatient();
+            List<Patient> patients = doctor.ShowPatient();
             
 
             foreach (var current in patients)

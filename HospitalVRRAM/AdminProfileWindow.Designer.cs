@@ -529,6 +529,7 @@
             this.newPassword.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.newPassword.Location = new System.Drawing.Point(143, 531);
+            this.newPassword.MaxLength = 20;
             this.newPassword.Name = "newPassword";
             this.newPassword.Size = new System.Drawing.Size(200, 23);
             this.newPassword.TabIndex = 48;
@@ -550,6 +551,7 @@
             this.newLogin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.newLogin.Location = new System.Drawing.Point(143, 504);
+            this.newLogin.MaxLength = 12;
             this.newLogin.Name = "newLogin";
             this.newLogin.Size = new System.Drawing.Size(120, 23);
             this.newLogin.TabIndex = 46;

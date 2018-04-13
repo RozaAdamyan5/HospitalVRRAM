@@ -214,7 +214,7 @@ namespace HospitalClasses
             return Balance;
         } 
 
-        public virtual void ChageBalance(int amountForChange)
+        public virtual void ChangeBalance(decimal amountForChange)
         {
             Balance += amountForChange;
         }

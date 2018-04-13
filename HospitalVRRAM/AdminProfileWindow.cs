@@ -125,16 +125,63 @@ namespace HospitalForms
                 addDoctor.Enabled = true;
         }
 
+        private void checkIfValid()
+        {
+            if (newName.Text.Length == 0 || newSurname.Text.Length == 0 || newPassportID.Text.Length == 0 ||
+                newPhone.Text.Length == 0 || newLogin.Text.Length == 0 || newPassword.Text.Length == 0)
+                throw new Exception("Some fields are required!");
+
+            if (newBirth.Value > DateTime.Now)
+            {
+                throw new Exception("Date of birth must be past! Not future.");
+            }
+
+            try
+            {
+                User.CheckPassportID(newPassportID.Text);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            try
+            {
+                User.LoginIsValid(newLogin.Text, typeof(Patient));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            try
+            {
+                User.PasswordIsValid(newPassword.Text);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void addDoctor_Click(object sender, EventArgs e)
         {
-            Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text, newLogin.Text, User.getHashSha256(newPassword.Text),
+            try
+            {
+                checkIfValid();
+                Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text, newLogin.Text, User.getHashSha256(newPassword.Text),
                 newSpec.Text, newEmployDate.Value, decimal.Parse(newCost.Text), newBirth.Value, newPhone.Text);
 
-            newName.Text = newSurname.Text = newPassportID.Text = newPassword.Text = newLogin.Text = newCost.Text =  newPhone.Text = "";
-            newSpec.SelectedIndex = -1;
+                newName.Text = newSurname.Text = newPassportID.Text = newPassword.Text = newLogin.Text = newCost.Text = newPhone.Text = "";
+                newSpec.SelectedIndex = -1;
 
-            doctors.Add(doctor);
-            allDoctors_Click(0, EventArgs.Empty);
+                doctors.Add(doctor);
+                allDoctors_Click(0, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Warning");
+            }
         }
 
         private void allMedicine_Click(object sender, EventArgs e)

@@ -199,12 +199,9 @@ namespace HospitalClasses
             return MyHistory;
         }
 
-        public void ChangeBalance(decimal moneyToAdd)       // Can be negative
+        public override void ChangeBalance(decimal moneyToAdd)       // Can be negative
         {
-            if (Balance <= -moneyToAdd)
-                Balance = 0;
-            else
-                Balance += moneyToAdd;
+            Balance += moneyToAdd;
 
             var conn = HospitalConnection.CreateDbConnection();
 

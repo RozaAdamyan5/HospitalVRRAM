@@ -62,13 +62,14 @@ go
 
 
 
-create proc dbo.ShowDoctorQueue(@PassportID int)
+
+
+create proc dbo.SeeMyPatients(@PassportID char(9))
 as
 begin
-	select [Time],(SELECT PassportID,name,Surname,Address,DateOfBirth,InsuranceCard
-					FROM  Patient
-					WHERE Patient.PassportID = Queues.PatID )
+	select distinct [Name], [Surname], [PassportID], [Address], [DateOfBirth]
 	from Queues
+	join Patient on Patient.PassportID = Queues.PatID
 	where DocID = @PassportID
 end
 go

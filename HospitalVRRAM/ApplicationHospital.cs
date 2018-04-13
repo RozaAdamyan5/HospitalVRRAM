@@ -67,7 +67,7 @@ namespace HospitalVRRAM
             doctorProfile.FormClosing += (sender, e) => { if (MessageBox.Show("Are you sure you want to exit?", "Hospital", MessageBoxButtons.YesNo) == DialogResult.No) e.Cancel = true; };
             doctorProfile.FormClosed += (sender, e) => { this.Close(); };
             doctorProfile.logOutClicked += (sender, e) => { login.clearFields(); login.Show(); doctorProfile.Dispose(); };
-            doctorProfile.serveClicked += (sender, e) => { doctorProfile.Hide(); InitializeDiagnosisWindow(e.doctor, e.patient); diagnosis.Show(); };
+            doctorProfile.serveClicked += (sender, e) => { doctorProfile.Hide(); InitializeDiagnosisWindow(e.doctor, e.patient); diagnosis.Show(); diagnosis.backToDoctorProfile += (senderr, ee) => { doctorProfile.setServed(sender); }; };
         }
 
         public void InitializeAdminWindow(Admin admin)
@@ -83,7 +83,7 @@ namespace HospitalVRRAM
             diagnosis = new DiagnosisWindow(doctor, patient);
             diagnosis.FormClosing += (sender, e) => { if (MessageBox.Show("Are you sure you want to exit?", "Hospital", MessageBoxButtons.YesNo) == DialogResult.No) e.Cancel = true; };
             diagnosis.FormClosed += (sender, e) => { this.Close(); };
-            diagnosis.backToDoctorProfile += (sender, e) => { doctorProfile.Show(); diagnosis.Hide(); diagnosis.Dispose(); };
+            diagnosis.backToDoctorProfile += (sender, e) => { doctorProfile.Show(); diagnosis.Hide(); diagnosis.Dispose();  };
         }
     }
 }

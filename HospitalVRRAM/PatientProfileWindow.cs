@@ -42,7 +42,7 @@ namespace HospitalForms
         private void PatientProfileWindow_Load(object sender, EventArgs e)
         {
             balanceAdd.Hide();
-            Label addd = new Label() { Location = new Point(230, 390), Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.AddSign), new Size(20, 20)), BackColor = Color.Transparent };
+            Label addd = new Label() { Location = new Point(270, 390), Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.AddSign), new Size(20, 20)), BackColor = Color.Transparent, Width = 22 };
             Controls.Add(addd);
             addd.Click += (senderr, ee) =>
             {
@@ -52,12 +52,14 @@ namespace HospitalForms
                     patient.ChangeBalance(decimal.Parse(balanceAdd.Text.Length == 0 ? "0" : balanceAdd.Text));
                     balanceAdd.Hide();
                     balanceLabel.Show();
+                    addd.BringToFront();
                 }
                 else
                 {
                     balanceLabel.Hide();
                     balanceAdd.Show();
                     balanceAdd.Text = "";
+                    addd.BringToFront();
                 }
             };
 
@@ -166,7 +168,8 @@ namespace HospitalForms
             docSelect.Items.Clear();
             foreach (var doc in allDoctors)
             {
-                docSelect.Items.Add(doc.Name + " " + doc.Surname);
+                if (doc.ConsultationCost <= patient.Balance)
+                    docSelect.Items.Add(doc.Name + " " + doc.Surname);
             }
         }
 
@@ -183,6 +186,9 @@ Press OK to register for that time, or Cancel and try other time", "Consultation
                 if(res == DialogResult.OK)
                 {
                     patient.RequestForConsult(doc, dtPk.Value);
+                    patient.ChangeBalance(-1 * doc.ConsultationCost);
+                    balanceLabel.Text = patient.Balance.ToString();
+                    doc.ChangeBalance(doc.ConsultationCost);
                     docComb.SelectedIndex = -1;
                 }
             }

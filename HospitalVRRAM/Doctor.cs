@@ -70,6 +70,7 @@ namespace HospitalClasses
 
         private void Initialization()
         {
+            Patients = new Dictionary<DateTime, Patient>();
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.ShowDoctorQueue";
@@ -84,7 +85,7 @@ namespace HospitalClasses
                     {
                         while (reader.Read())
                         {
-                            Patient patient = new Patient((string)reader["Name"], (string)reader["Surname"], (string)reader["PasportID"],
+                            Patient patient = new Patient((string)reader["Name"], (string)reader["Surname"], (string)reader["PassportID"],
                                 (string)reader["Address"], (DateTime)reader["DateOfBirth"]);
                             DateTime date = (DateTime)reader["Time"];
                             Patients.Add(date, patient);
@@ -105,6 +106,7 @@ namespace HospitalClasses
             Speciality = speciality;
             GetEmployed = getEmployed;
             ConsultationCost = consultationCost;
+            Initialization();
         }
         //End Constructor//
 
@@ -213,7 +215,7 @@ namespace HospitalClasses
                         while (reader.Read())
                         {
                             string n = (string)reader["Name"];
-                            string s = (string)reader["surname"];
+                            string s = (string)reader["Surname"];
                             string p = (string)reader["PassportID"];
                             string a = (string)reader["Address"];
                             DateTime d = (DateTime)reader["DateOfBirth"];
@@ -524,6 +526,33 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = Password;
 
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        public override void ChangeBalance(decimal moneyToAdd)       // Can be negative
+        {
+            Balance += moneyToAdd;
+
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.changeBalanceDoctor";
+
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@Balance", SqlDbType.SmallMoney).Value = Balance;
 
                     cmd.ExecuteNonQuery();
 
