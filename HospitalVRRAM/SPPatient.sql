@@ -2,7 +2,7 @@ create proc dbo.insertPatient(@Name nvarchar(20), @Surname nvarchar(20), @Passpo
 							  @Password varchar(20), @InsuranceCard char(9), @Address nvarchar(20), @DateOfBirth datetime, @PhoneNumber char(9))
 as
 begin
-	insert into Patient values(@PassportID, @Name, @Surname, 0, 0, @PhoneNumber, @Address,
+	insert into Patient values(@PassportID, @Name, @Surname, 0, null, @PhoneNumber, @Address,
 							   @DateOfBirth, @InsuranceCard, @Login, @Password)
 end
 go
@@ -66,7 +66,7 @@ create proc dbo.ChangePatientPassword(@PassportID char(9), @Password varchar(20)
 as
 begin
 	update Patient
-	Set [PasswordID] = @Password
+	Set [Password] = @Password
 	where PassportID = @PassportID
 end
 go

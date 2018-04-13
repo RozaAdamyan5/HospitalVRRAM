@@ -370,11 +370,9 @@
             this.Controls.Add(this.profilePicBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.Name = "DoctorProfileWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Doctor";
-            this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.DoctorProfileWindow_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.DoctorProfileWindow_Paint);

@@ -3,12 +3,12 @@
  (@Name  			NVARCHAR(20),
  @Country			NVARCHAR(20), 
  @ExpirationDate	DATETIME,
- @Price				SMALLMONEY,
- @Picture			VARBINARY(MAX) )
+ @Price				SMALLMONEY
+ )
  AS
  BEGIN
-   insert into Medicine([Name], Country, ExpirationDate, Price, Picture)
-   values (@Name, @Country, @ExpirationDate, @Price, @Picture)
+   insert into Medicine([Name], Country, ExpirationDate, Price)
+   values (@Name, @Country, @ExpirationDate, @Price)
  END
 
 GO

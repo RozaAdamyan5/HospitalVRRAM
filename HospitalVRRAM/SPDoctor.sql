@@ -4,7 +4,7 @@
 as
 begin
 	insert into Doctor( PassportID, [Name], Surname, Balance, Picture, PhoneNumber,
-					 Speciality, DateOfApproval, [Login], [Password], ConsultationCost)
+					 Speciality, DateOfApproval,DateOfBirth, [Login], [Password], ConsultationCost)
 		values(@PassportID, @Name, @Surname, 0, null, @PhoneNumber, @Speciality, @GetEmployed, @DateOfBirth, @Login, @Password, @ConsultationCost)
 end
 
@@ -59,8 +59,15 @@ begin
 end 
 go
 
-
-
+create proc dbo.ShowDoctorQueue(@PassportID int)
+as
+begin
+	select [Time],PassportID,name,Surname,Address,DateOfBirth,InsuranceCard
+					FROM  Patient
+					right join queues on Patient.PassportID = Queues.PatID
+	where DocID = @PassportID
+end
+go
 
 
 
