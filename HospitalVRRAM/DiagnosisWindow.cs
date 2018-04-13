@@ -16,21 +16,25 @@ namespace HospitalForms
     // Very low quality code
     public partial class DiagnosisWindow : Form
     {
+        public event EventHandler backToDoctorProfile;
+
         static Bitmap removeIcon;
         Doctor doctor;
         Patient patient;
         List< Tuple<string, int> > prescribed = new List<Tuple<string, int> >();
 
-        public DiagnosisWindow(string patientsName)
+        public DiagnosisWindow(Doctor doc, Patient pat)
         {
             InitializeComponent();
-            fullName.Text = patientsName;
+            doctor = doc;
+            patient = pat;
             removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             // Here must be loading of medicine from DB but hence we yet haven't DB here is something
+            fullName.Text = patient.Name + " " + patient.Surname;
 
             medicineName.Items.Add("Medicine 1");
             medicineName.Items.Add("Medicine 2");
@@ -38,18 +42,8 @@ namespace HospitalForms
             medicineName.Items.Add("Medicine 4");
             medicineName.Items.Add("Medicine 5");
 
-            loadTable();
-
             checkDisableEnable(0, EventArgs.Empty);
 
-        }
-
-        private void loadTable()
-        {
-            medicineListTable.Controls.Add(new Label() { Text = "No",  });
-            medicineListTable.Controls.Add(new Label() { Text = "Medicine" });
-            medicineListTable.Controls.Add(new Label() { Text = "Count" });
-            medicineListTable.Controls.Add(new Label() { Text = " " });
         }
 
         private void checkDisableEnable(object sender, EventArgs e)
@@ -85,7 +79,7 @@ namespace HospitalForms
         private void updateTable()
         {
             medicineListTable.Controls.Clear();
-            loadTable();
+            
 
             foreach(var row in prescribed)
             {
@@ -100,8 +94,8 @@ namespace HospitalForms
 
         private void deleteClicked(object sender, EventArgs e, int index)
         {
+            medicineName.Items.Add(prescribed[index].Item1);
             prescribed.RemoveAt(index);
-
             updateTable();
         }
 
@@ -121,6 +115,69 @@ namespace HospitalForms
         private void DiagnosisWindow_Resize(object sender, EventArgs e)
         {
             this.Invalidate();
+        }
+
+        private void patientHistory_Click(object sender, EventArgs e)
+        {
+            universalPanel.Controls.Clear();
+
+            DataGridView historyView = new DataGridView() { ReadOnly = true, BackgroundColor = Color.White, Width = 500, Height = 200 };
+            DataTable table = new DataTable("History");
+            historyView.DataSource = table;
+
+            DataColumn disease = new DataColumn() { ColumnName = "Disease", DataType = typeof(string) };
+            DataColumn medicine = new DataColumn() { ColumnName = "Medicine", DataType = typeof(string), };
+            DataColumn date = new DataColumn() { ColumnName = "Date", DataType = typeof(DateTime) };
+
+            table.Columns.Add(disease);
+            table.Columns.Add(medicine);
+            table.Columns.Add(date);
+
+            List<Diagnosis> diagnoses = patient.ShowMyHistory();
+
+            if (diagnoses != null)
+            {
+                foreach (var current in diagnoses)
+                {
+                    DataRow diagnose = table.NewRow();
+                    diagnose["Disease"] = current.Disease;
+                    if (current.PrescribedMedicines.Count != 0)
+                    {
+                        foreach (var currentMedicine in current.PrescribedMedicines)
+                        {
+                            if (currentMedicine == current.PrescribedMedicines.ElementAt(0))
+                                diagnose["Medicine"] = "";
+                            else
+                                diagnose["Medicine"] += "   |   ";
+
+                            diagnose["Medicine"] += currentMedicine.Name;
+
+                        }
+                    }
+                    else
+                        diagnose["Medicine"] = "None";
+
+                    diagnose["Date"] = current.DiagnoseDate;
+                    table.Rows.Add(diagnose);
+                }
+            }
+            
+
+            universalPanel.Controls.Add(historyView);
+
+            foreach (DataGridViewColumn col in historyView.Columns)
+            {
+                col.Width = 152;
+            }
+
+            if (historyView.Rows.Count > 6)
+                historyView.Height = (350 < 25 * (historyView.Rows.Count + 1) ? 500 : 25 * (historyView.Rows.Count + 1));
+
+        }
+
+        private void finish_Click(object sender, EventArgs e)
+        {
+            backToDoctorProfile(this, EventArgs.Empty);
         }
     }
 }

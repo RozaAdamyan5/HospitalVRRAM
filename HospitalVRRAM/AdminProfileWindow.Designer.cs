@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminProfileWindow));
-            this.changePassword = new System.Windows.Forms.Button();
             this.allDoctors = new System.Windows.Forms.Button();
             this.surnameLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
@@ -37,14 +36,38 @@
             this.label1 = new System.Windows.Forms.Label();
             this.profilePicBox = new System.Windows.Forms.PictureBox();
             this.logOut = new System.Windows.Forms.Label();
-            this.universalPanel = new System.Windows.Forms.Panel();
+            this.medicinePanel = new System.Windows.Forms.Panel();
+            this.addMedicine = new System.Windows.Forms.Button();
+            this.medicineExpire = new System.Windows.Forms.DateTimePicker();
+            this.label29 = new System.Windows.Forms.Label();
+            this.medicinePrice = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.medicineCountry = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.medicineName = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.medicineTable = new System.Windows.Forms.TableLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
             this.doctorsPanel = new System.Windows.Forms.Panel();
+            this.newBirth = new System.Windows.Forms.DateTimePicker();
+            this.label31 = new System.Windows.Forms.Label();
+            this.newSpec = new System.Windows.Forms.ComboBox();
+            this.newPhone = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.addDoctor = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.newPassword = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.newLogin = new System.Windows.Forms.TextBox();
-            this.newSpec = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.newCost = new System.Windows.Forms.TextBox();
@@ -66,40 +89,18 @@
             this.doctorsTable = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.allMedicine = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.medicineTable = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).BeginInit();
-            this.universalPanel.SuspendLayout();
+            this.medicinePanel.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.doctorsPanel.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // changePassword
-            // 
-            this.changePassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.changePassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.changePassword.Location = new System.Drawing.Point(289, 115);
-            this.changePassword.Name = "changePassword";
-            this.changePassword.Size = new System.Drawing.Size(162, 42);
-            this.changePassword.TabIndex = 28;
-            this.changePassword.Text = "Change Password";
-            this.changePassword.UseVisualStyleBackColor = true;
-            this.changePassword.Click += new System.EventHandler(this.changePassword_Click);
             // 
             // allDoctors
             // 
             this.allDoctors.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.allDoctors.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allDoctors.Location = new System.Drawing.Point(300, 15);
+            this.allDoctors.Location = new System.Drawing.Point(260, 15);
             this.allDoctors.Name = "allDoctors";
             this.allDoctors.Size = new System.Drawing.Size(140, 42);
             this.allDoctors.TabIndex = 26;
@@ -155,6 +156,7 @@
             this.profilePicBox.Location = new System.Drawing.Point(25, 15);
             this.profilePicBox.Name = "profilePicBox";
             this.profilePicBox.Size = new System.Drawing.Size(150, 180);
+            this.profilePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.profilePicBox.TabIndex = 15;
             this.profilePicBox.TabStop = false;
             // 
@@ -171,27 +173,262 @@
             this.logOut.Text = "Log out";
             this.logOut.Click += new System.EventHandler(this.logOut_Click);
             // 
-            // universalPanel
+            // medicinePanel
             // 
-            this.universalPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.universalPanel.BackColor = System.Drawing.Color.Transparent;
-            this.universalPanel.Controls.Add(this.panel2);
-            this.universalPanel.Controls.Add(this.label3);
-            this.universalPanel.Location = new System.Drawing.Point(470, 15);
-            this.universalPanel.Name = "universalPanel";
-            this.universalPanel.Size = new System.Drawing.Size(559, 500);
-            this.universalPanel.TabIndex = 29;
+            this.medicinePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.medicinePanel.BackColor = System.Drawing.Color.Transparent;
+            this.medicinePanel.Controls.Add(this.addMedicine);
+            this.medicinePanel.Controls.Add(this.medicineExpire);
+            this.medicinePanel.Controls.Add(this.label29);
+            this.medicinePanel.Controls.Add(this.medicinePrice);
+            this.medicinePanel.Controls.Add(this.label28);
+            this.medicinePanel.Controls.Add(this.medicineCountry);
+            this.medicinePanel.Controls.Add(this.label27);
+            this.medicinePanel.Controls.Add(this.medicineName);
+            this.medicinePanel.Controls.Add(this.label26);
+            this.medicinePanel.Controls.Add(this.label25);
+            this.medicinePanel.Controls.Add(this.label24);
+            this.medicinePanel.Controls.Add(this.label23);
+            this.medicinePanel.Controls.Add(this.label22);
+            this.medicinePanel.Controls.Add(this.label5);
+            this.medicinePanel.Controls.Add(this.label4);
+            this.medicinePanel.Controls.Add(this.label6);
+            this.medicinePanel.Controls.Add(this.label21);
+            this.medicinePanel.Controls.Add(this.panel2);
+            this.medicinePanel.Controls.Add(this.label3);
+            this.medicinePanel.Location = new System.Drawing.Point(430, 15);
+            this.medicinePanel.Name = "medicinePanel";
+            this.medicinePanel.Size = new System.Drawing.Size(590, 500);
+            this.medicinePanel.TabIndex = 29;
+            // 
+            // addMedicine
+            // 
+            this.addMedicine.Location = new System.Drawing.Point(484, 465);
+            this.addMedicine.Name = "addMedicine";
+            this.addMedicine.Size = new System.Drawing.Size(88, 23);
+            this.addMedicine.TabIndex = 49;
+            this.addMedicine.Text = "Add Medicine";
+            this.addMedicine.UseVisualStyleBackColor = true;
+            this.addMedicine.Click += new System.EventHandler(this.addMedicine_Click);
+            // 
+            // medicineExpire
+            // 
+            this.medicineExpire.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.medicineExpire.CustomFormat = "dd/MMM/yyyy";
+            this.medicineExpire.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.medicineExpire.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.medicineExpire.Location = new System.Drawing.Point(107, 425);
+            this.medicineExpire.Name = "medicineExpire";
+            this.medicineExpire.Size = new System.Drawing.Size(200, 23);
+            this.medicineExpire.TabIndex = 38;
+            // 
+            // label29
+            // 
+            this.label29.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label29.AutoSize = true;
+            this.label29.BackColor = System.Drawing.Color.Transparent;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.label29.Location = new System.Drawing.Point(3, 428);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(83, 18);
+            this.label29.TabIndex = 39;
+            this.label29.Text = "Expiry Date";
+            // 
+            // medicinePrice
+            // 
+            this.medicinePrice.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.medicinePrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.medicinePrice.Location = new System.Drawing.Point(107, 396);
+            this.medicinePrice.Name = "medicinePrice";
+            this.medicinePrice.Size = new System.Drawing.Size(200, 23);
+            this.medicinePrice.TabIndex = 36;
+            // 
+            // label28
+            // 
+            this.label28.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label28.AutoSize = true;
+            this.label28.BackColor = System.Drawing.Color.Transparent;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.label28.Location = new System.Drawing.Point(3, 387);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(42, 18);
+            this.label28.TabIndex = 37;
+            this.label28.Text = "Price";
+            // 
+            // medicineCountry
+            // 
+            this.medicineCountry.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.medicineCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.medicineCountry.Location = new System.Drawing.Point(107, 367);
+            this.medicineCountry.Name = "medicineCountry";
+            this.medicineCountry.Size = new System.Drawing.Size(200, 23);
+            this.medicineCountry.TabIndex = 34;
+            // 
+            // label27
+            // 
+            this.label27.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label27.AutoSize = true;
+            this.label27.BackColor = System.Drawing.Color.Transparent;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.label27.Location = new System.Drawing.Point(3, 370);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(60, 18);
+            this.label27.TabIndex = 35;
+            this.label27.Text = "Country";
+            // 
+            // medicineName
+            // 
+            this.medicineName.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.medicineName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.medicineName.Location = new System.Drawing.Point(107, 338);
+            this.medicineName.Name = "medicineName";
+            this.medicineName.Size = new System.Drawing.Size(200, 23);
+            this.medicineName.TabIndex = 32;
+            // 
+            // label26
+            // 
+            this.label26.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label26.AutoSize = true;
+            this.label26.BackColor = System.Drawing.Color.Transparent;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.label26.Location = new System.Drawing.Point(3, 341);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(48, 18);
+            this.label26.TabIndex = 33;
+            this.label26.Text = "Name";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe Print", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(3, 303);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(200, 33);
+            this.label25.TabIndex = 28;
+            this.label25.Text = "Add New Medicine";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label24.Location = new System.Drawing.Point(501, 37);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(62, 20);
+            this.label24.TabIndex = 27;
+            this.label24.Text = "Actions";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label23.Location = new System.Drawing.Point(426, 37);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(44, 20);
+            this.label23.TabIndex = 26;
+            this.label23.Text = "Price";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label22.Location = new System.Drawing.Point(326, 37);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(64, 20);
+            this.label22.TabIndex = 25;
+            this.label22.Text = "Country";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label5.Location = new System.Drawing.Point(233, 37);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 20);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Expiry Date";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label4.Location = new System.Drawing.Point(187, 37);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 20);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "Img";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
+            this.label6.Location = new System.Drawing.Point(41, 37);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(51, 20);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Name";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(8, 36);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(25, 20);
+            this.label21.TabIndex = 21;
+            this.label21.Text = "№";
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.medicineTable);
+            this.panel2.Location = new System.Drawing.Point(0, 60);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(587, 241);
+            this.panel2.TabIndex = 1;
+            // 
+            // medicineTable
+            // 
+            this.medicineTable.AutoSize = true;
+            this.medicineTable.ColumnCount = 8;
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.medicineTable.Location = new System.Drawing.Point(1, 2);
+            this.medicineTable.Name = "medicineTable";
+            this.medicineTable.RowCount = 1;
+            this.medicineTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.medicineTable.Size = new System.Drawing.Size(563, 39);
+            this.medicineTable.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe Print", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(237, 33);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Hospital Medicine Base";
             // 
             // doctorsPanel
             // 
             this.doctorsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.doctorsPanel.BackColor = System.Drawing.Color.Transparent;
+            this.doctorsPanel.Controls.Add(this.newBirth);
+            this.doctorsPanel.Controls.Add(this.label31);
+            this.doctorsPanel.Controls.Add(this.newSpec);
+            this.doctorsPanel.Controls.Add(this.newPhone);
+            this.doctorsPanel.Controls.Add(this.label30);
             this.doctorsPanel.Controls.Add(this.addDoctor);
             this.doctorsPanel.Controls.Add(this.textBox2);
             this.doctorsPanel.Controls.Add(this.newPassword);
             this.doctorsPanel.Controls.Add(this.label20);
             this.doctorsPanel.Controls.Add(this.newLogin);
-            this.doctorsPanel.Controls.Add(this.newSpec);
             this.doctorsPanel.Controls.Add(this.label13);
             this.doctorsPanel.Controls.Add(this.label14);
             this.doctorsPanel.Controls.Add(this.newCost);
@@ -207,26 +444,80 @@
             this.doctorsPanel.Controls.Add(this.label12);
             this.doctorsPanel.Controls.Add(this.panel1);
             this.doctorsPanel.Controls.Add(this.label7);
-            this.doctorsPanel.Location = new System.Drawing.Point(12, 338);
+            this.doctorsPanel.Location = new System.Drawing.Point(430, 15);
             this.doctorsPanel.Name = "doctorsPanel";
-            this.doctorsPanel.Size = new System.Drawing.Size(500, 500);
+            this.doctorsPanel.Size = new System.Drawing.Size(500, 562);
             this.doctorsPanel.TabIndex = 35;
+            // 
+            // newBirth
+            // 
+            this.newBirth.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.newBirth.CustomFormat = "dd/MMM/yyyy";
+            this.newBirth.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.newBirth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.newBirth.Location = new System.Drawing.Point(143, 372);
+            this.newBirth.Name = "newBirth";
+            this.newBirth.Size = new System.Drawing.Size(200, 23);
+            this.newBirth.TabIndex = 38;
+            // 
+            // label31
+            // 
+            this.label31.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label31.AutoSize = true;
+            this.label31.BackColor = System.Drawing.Color.Transparent;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.label31.Location = new System.Drawing.Point(10, 375);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(66, 18);
+            this.label31.TabIndex = 53;
+            this.label31.Text = "Birthdate";
+            // 
+            // newSpec
+            // 
+            this.newSpec.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.newSpec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.newSpec.FormattingEnabled = true;
+            this.newSpec.Location = new System.Drawing.Point(143, 428);
+            this.newSpec.Name = "newSpec";
+            this.newSpec.Size = new System.Drawing.Size(200, 23);
+            this.newSpec.TabIndex = 42;
+            // 
+            // newPhone
+            // 
+            this.newPhone.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.newPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.newPhone.Location = new System.Drawing.Point(143, 456);
+            this.newPhone.Name = "newPhone";
+            this.newPhone.Size = new System.Drawing.Size(200, 23);
+            this.newPhone.TabIndex = 44;
+            // 
+            // label30
+            // 
+            this.label30.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label30.AutoSize = true;
+            this.label30.BackColor = System.Drawing.Color.Transparent;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.label30.Location = new System.Drawing.Point(10, 459);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(108, 18);
+            this.label30.TabIndex = 50;
+            this.label30.Text = "Phone Number";
             // 
             // addDoctor
             // 
-            this.addDoctor.Location = new System.Drawing.Point(409, 474);
+            this.addDoctor.Location = new System.Drawing.Point(410, 537);
             this.addDoctor.Name = "addDoctor";
             this.addDoctor.Size = new System.Drawing.Size(88, 23);
-            this.addDoctor.TabIndex = 48;
+            this.addDoctor.TabIndex = 50;
             this.addDoctor.Text = "Add Doctor";
             this.addDoctor.UseVisualStyleBackColor = true;
             this.addDoctor.Click += new System.EventHandler(this.addDoctor_Click);
             // 
             // textBox2
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox2.Location = new System.Drawing.Point(262, 435);
+            this.textBox2.Location = new System.Drawing.Point(262, 504);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(81, 23);
@@ -235,20 +526,20 @@
             // 
             // newPassword
             // 
-            this.newPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newPassword.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.newPassword.Location = new System.Drawing.Point(143, 462);
+            this.newPassword.Location = new System.Drawing.Point(143, 531);
             this.newPassword.Name = "newPassword";
             this.newPassword.Size = new System.Drawing.Size(200, 23);
-            this.newPassword.TabIndex = 44;
+            this.newPassword.TabIndex = 48;
             // 
             // label20
             // 
-            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label20.AutoSize = true;
             this.label20.BackColor = System.Drawing.Color.Transparent;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label20.Location = new System.Drawing.Point(10, 465);
+            this.label20.Location = new System.Drawing.Point(10, 534);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(75, 18);
             this.label20.TabIndex = 45;
@@ -256,29 +547,20 @@
             // 
             // newLogin
             // 
-            this.newLogin.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newLogin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.newLogin.Location = new System.Drawing.Point(143, 435);
+            this.newLogin.Location = new System.Drawing.Point(143, 504);
             this.newLogin.Name = "newLogin";
             this.newLogin.Size = new System.Drawing.Size(120, 23);
-            this.newLogin.TabIndex = 39;
-            // 
-            // newSpec
-            // 
-            this.newSpec.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.newSpec.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.newSpec.Location = new System.Drawing.Point(143, 398);
-            this.newSpec.Name = "newSpec";
-            this.newSpec.Size = new System.Drawing.Size(200, 23);
-            this.newSpec.TabIndex = 38;
+            this.newLogin.TabIndex = 46;
             // 
             // label13
             // 
-            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label13.AutoSize = true;
             this.label13.BackColor = System.Drawing.Color.Transparent;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label13.Location = new System.Drawing.Point(10, 438);
+            this.label13.Location = new System.Drawing.Point(10, 507);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(44, 18);
             this.label13.TabIndex = 43;
@@ -286,11 +568,11 @@
             // 
             // label14
             // 
-            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label14.AutoSize = true;
             this.label14.BackColor = System.Drawing.Color.Transparent;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label14.Location = new System.Drawing.Point(10, 401);
+            this.label14.Location = new System.Drawing.Point(10, 430);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(70, 18);
             this.label14.TabIndex = 42;
@@ -298,29 +580,30 @@
             // 
             // newCost
             // 
-            this.newCost.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newCost.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.newCost.Location = new System.Drawing.Point(143, 371);
+            this.newCost.Location = new System.Drawing.Point(143, 400);
             this.newCost.Name = "newCost";
             this.newCost.Size = new System.Drawing.Size(200, 23);
-            this.newCost.TabIndex = 37;
+            this.newCost.TabIndex = 40;
             // 
             // newPassportID
             // 
-            this.newPassportID.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newPassportID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newPassportID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.newPassportID.Location = new System.Drawing.Point(143, 317);
+            this.newPassportID.MaxLength = 9;
             this.newPassportID.Name = "newPassportID";
             this.newPassportID.Size = new System.Drawing.Size(200, 23);
-            this.newPassportID.TabIndex = 36;
+            this.newPassportID.TabIndex = 34;
             // 
             // label15
             // 
-            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label15.AutoSize = true;
             this.label15.BackColor = System.Drawing.Color.Transparent;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label15.Location = new System.Drawing.Point(10, 374);
+            this.label15.Location = new System.Drawing.Point(10, 403);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(127, 18);
             this.label15.TabIndex = 41;
@@ -328,7 +611,7 @@
             // 
             // label16
             // 
-            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label16.AutoSize = true;
             this.label16.BackColor = System.Drawing.Color.Transparent;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
@@ -340,18 +623,18 @@
             // 
             // newEmployDate
             // 
-            this.newEmployDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newEmployDate.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newEmployDate.CustomFormat = "dd/MMM/yyyy";
             this.newEmployDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.newEmployDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.newEmployDate.Location = new System.Drawing.Point(143, 344);
             this.newEmployDate.Name = "newEmployDate";
             this.newEmployDate.Size = new System.Drawing.Size(200, 23);
-            this.newEmployDate.TabIndex = 34;
+            this.newEmployDate.TabIndex = 36;
             // 
             // newSurname
             // 
-            this.newSurname.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newSurname.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newSurname.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.newSurname.Location = new System.Drawing.Point(143, 290);
             this.newSurname.Name = "newSurname";
@@ -360,7 +643,7 @@
             // 
             // newName
             // 
-            this.newName.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.newName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.newName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.newName.Location = new System.Drawing.Point(143, 263);
             this.newName.Name = "newName";
@@ -369,7 +652,7 @@
             // 
             // label17
             // 
-            this.label17.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label17.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label17.AutoSize = true;
             this.label17.BackColor = System.Drawing.Color.Transparent;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
@@ -381,7 +664,7 @@
             // 
             // label18
             // 
-            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label18.AutoSize = true;
             this.label18.BackColor = System.Drawing.Color.Transparent;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
@@ -393,7 +676,7 @@
             // 
             // label19
             // 
-            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.Transparent;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
@@ -496,127 +779,13 @@
             // 
             this.allMedicine.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.allMedicine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allMedicine.Location = new System.Drawing.Point(300, 65);
+            this.allMedicine.Location = new System.Drawing.Point(260, 65);
             this.allMedicine.Name = "allMedicine";
             this.allMedicine.Size = new System.Drawing.Size(140, 42);
             this.allMedicine.TabIndex = 30;
             this.allMedicine.Text = "All Medicine";
             this.allMedicine.UseVisualStyleBackColor = true;
             this.allMedicine.Click += new System.EventHandler(this.allMedicine_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(175, 20);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Hospital Medicine Base";
-            // 
-            // panel2
-            // 
-            this.panel2.AutoScroll = true;
-            this.panel2.Controls.Add(this.label24);
-            this.panel2.Controls.Add(this.label23);
-            this.panel2.Controls.Add(this.label22);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.medicineTable);
-            this.panel2.Controls.Add(this.label6);
-            this.panel2.Controls.Add(this.label21);
-            this.panel2.Location = new System.Drawing.Point(3, 30);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(553, 261);
-            this.panel2.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
-            this.label6.Location = new System.Drawing.Point(40, 4);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 20);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Name";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(7, 3);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(25, 20);
-            this.label21.TabIndex = 13;
-            this.label21.Text = "№";
-            // 
-            // medicineTable
-            // 
-            this.medicineTable.AutoSize = true;
-            this.medicineTable.ColumnCount = 7;
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 99F));
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72F));
-            this.medicineTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.medicineTable.Location = new System.Drawing.Point(2, 26);
-            this.medicineTable.Name = "medicineTable";
-            this.medicineTable.RowCount = 1;
-            this.medicineTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.medicineTable.Size = new System.Drawing.Size(529, 39);
-            this.medicineTable.TabIndex = 15;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
-            this.label4.Location = new System.Drawing.Point(136, 4);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 20);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Img";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
-            this.label5.Location = new System.Drawing.Point(186, 4);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 20);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Expiry Date";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
-            this.label22.Location = new System.Drawing.Point(295, 4);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(64, 20);
-            this.label22.TabIndex = 18;
-            this.label22.Text = "Country";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
-            this.label23.Location = new System.Drawing.Point(394, 4);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(44, 20);
-            this.label23.TabIndex = 19;
-            this.label23.Text = "Price";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic);
-            this.label24.Location = new System.Drawing.Point(466, 4);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(62, 20);
-            this.label24.TabIndex = 20;
-            this.label24.Text = "Actions";
             // 
             // AdminProfileWindow
             // 
@@ -627,8 +796,7 @@
             this.Controls.Add(this.doctorsPanel);
             this.Controls.Add(this.logOut);
             this.Controls.Add(this.allMedicine);
-            this.Controls.Add(this.universalPanel);
-            this.Controls.Add(this.changePassword);
+            this.Controls.Add(this.medicinePanel);
             this.Controls.Add(this.allDoctors);
             this.Controls.Add(this.surnameLabel);
             this.Controls.Add(this.nameLabel);
@@ -642,24 +810,24 @@
             this.Text = "Admin";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.AdminProfileWindow_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AdminProfileWindow_Paint);
             this.Resize += new System.EventHandler(this.AdminProfileWindow_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.profilePicBox)).EndInit();
-            this.universalPanel.ResumeLayout(false);
-            this.universalPanel.PerformLayout();
+            this.medicinePanel.ResumeLayout(false);
+            this.medicinePanel.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.doctorsPanel.ResumeLayout(false);
             this.doctorsPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button changePassword;
         private System.Windows.Forms.Button allDoctors;
         private System.Windows.Forms.Label surnameLabel;
         private System.Windows.Forms.Label nameLabel;
@@ -667,14 +835,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox profilePicBox;
         private System.Windows.Forms.Label logOut;
-        private System.Windows.Forms.Panel universalPanel;
+        private System.Windows.Forms.Panel medicinePanel;
         private System.Windows.Forms.Panel doctorsPanel;
         private System.Windows.Forms.Button addDoctor;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox newPassword;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox newLogin;
-        private System.Windows.Forms.TextBox newSpec;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox newCost;
@@ -697,14 +864,29 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button allMedicine;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel medicineTable;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TableLayoutPanel medicineTable;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.DateTimePicker medicineExpire;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox medicinePrice;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox medicineCountry;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox medicineName;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button addMedicine;
+        private System.Windows.Forms.TextBox newPhone;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.ComboBox newSpec;
+        private System.Windows.Forms.DateTimePicker newBirth;
+        private System.Windows.Forms.Label label31;
     }
 }

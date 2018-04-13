@@ -75,3 +75,12 @@ begin
 	insert into AssignedTo values(@diagnoseID, @medicine, @cnt)
 end
 go
+
+create proc dbo.ChangePatientPassword(@PassportID char(9), @Password varchar(20))
+as
+begin
+	update Patient
+	Set [PasswordID] = @Password
+	where PassportID = @PassportID
+end
+go

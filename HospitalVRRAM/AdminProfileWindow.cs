@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 using HospitalClasses;
 using HospitalForms;
 
@@ -20,55 +21,69 @@ namespace HospitalForms
     {
         public event EventHandler logOutClicked;
 
-        static Bitmap removeIcon;
+        public byte[] imageToByteArray(System.Drawing.Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
+        }
+
+        public Bitmap byteArrayToImage(byte[] byteArrayIn, Size size)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Bitmap returnImage = new Bitmap(new Bitmap(ms), size);
+            return returnImage;
+        }
+
+        static Bitmap removeIcon, editIcon;
         List<Doctor> doctors;
         List<Medicine> medicines;
         Admin admin;
 
-        public AdminProfileWindow(Admin adminn)
+        public AdminProfileWindow(Admin adm)
         {
             InitializeComponent();
+            admin = adm;
+        }
 
-            admin = adminn;
-
-            universalPanel.Hide();
+        private void AdminProfileWindow_Load(object sender, EventArgs e)
+        {
             doctorsPanel.Hide();
+            medicinePanel.Hide();
 
             nameLabel.Text = admin.Name;
             surnameLabel.Text = admin.Surname;
 
+            removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(30, 30));
+            editIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.EditSign), new Size(20, 20));
+            profilePicBox.Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.DefaultProfilePic));
 
+            newCost.TextChanged += checkDoctor;
+            newName.TextChanged += checkDoctor;
+            newSurname.TextChanged += checkDoctor;
+            newPassportID.TextChanged += checkDoctor;
+            newSpec.SelectedIndexChanged += checkDoctor;
+            newPhone.TextChanged += checkDoctor;
+            newLogin.TextChanged += checkDoctor;
+            newPassword.TextChanged += checkDoctor;
+            newPassword.UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password;
 
-            removeIcon = new Bitmap((global::HospitalVRRAM.Properties.Resources.fileclose), new Size(20, 20));
+            medicineName.TextChanged += checkMedicine;
+            medicinePrice.TextChanged += checkMedicine;
+            medicineCountry.TextChanged += checkMedicine;
 
-            newCost.TextChanged += check;
-            newName.TextChanged += check;
-            newSurname.TextChanged += check;
-            newPassportID.TextChanged += check;
-            newSpec.TextChanged += check;
-            newLogin.TextChanged += check;
-            newPassword.TextChanged += check;
-
+            addMedicine.Enabled = false;
             addDoctor.Enabled = false;
 
-            // Load all doctors from db
-            // doctors = Admin.ShowDoctors();
+            newSpec.Items.AddRange(Enum.GetNames(typeof(Specialities)));
 
-            doctors = new List<Doctor>() {
-                new Doctor("Aaa", "BBB", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Aba", "BtB", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Aca", "BrB", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Ada", "BBe", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Aea", "BcB", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Ara", "BrB", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Ata", "BBe", "aaaaaaa", "aaa", new DateTime(), 686),
-                new Doctor("Aya", "BcB", "aaaaaaa", "aaa", new DateTime(), 686)};
+            doctors = admin.ShowDoctors();
+
+            medicines = admin.ShowMedicine();         
         }
 
         private void allDoctors_Click(object sender, EventArgs e)
         {
-            // TODO
-            // Show all doctors in doctorsPanel
             
             doctorsTable.Controls.Clear();
             doctorsTable.RowCount = 1;
@@ -86,23 +101,25 @@ namespace HospitalForms
                 doctorsTable.RowCount++;
             }
 
-            doctorsPanel.BringToFront();
-            
+            medicinePanel.Hide();
+            doctorsPanel.Show();
         }
 
         private void removeDoctor(object sender, EventArgs e, Doctor doctor)
         {
             DialogResult res = MessageBox.Show("Are you sure you want to fire the doctor " + doctor.Name + " " + doctor.Surname + "?", "Fire", MessageBoxButtons.YesNo);
-            if (res == DialogResult.Yes)
-                doctors.Remove(doctor);
-            //admin.DeleteDoctor(doctor);
+            if (res == DialogResult.No)
+                return;
+
+            doctors.Remove(doctor);
+            admin.DeleteDoctor(doctor);
             allDoctors_Click(0, EventArgs.Empty);
         }
 
-        private void check(object sender, EventArgs e)
+        private void checkDoctor(object sender, EventArgs e)
         {
-            if (newName.Text.Length == 0 || newSurname.Text.Length == 0 || newPassportID.Text.Length == 0 ||
-                newCost.Text.Length == 0 || newSpec.Text.Length == 0 || newLogin.Text.Length == 0 || newPassword.Text.Length == 0)
+            if (newName.Text.Length == 0 || newSurname.Text.Length == 0 || newPassportID.Text.Length == 0 || newPhone.Text.Length == 0 ||
+                newCost.Text.Length == 0 || newSpec.SelectedIndex == -1 || newLogin.Text.Length == 0 || newPassword.Text.Length == 0)
                 addDoctor.Enabled = false;
             else
                 addDoctor.Enabled = true;
@@ -110,60 +127,77 @@ namespace HospitalForms
 
         private void addDoctor_Click(object sender, EventArgs e)
         {
-            Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text,
-                newSpec.Text, DateTime.Parse(newEmployDate.Text), decimal.Parse(newCost.Text));
+            Doctor doctor = new Doctor(newName.Text, newSurname.Text, newPassportID.Text, newLogin.Text, newPassword.Text,
+                newSpec.Text, newEmployDate.Value, decimal.Parse(newCost.Text), newBirth.Value, newPhone.Text);
 
+            newName.Text = newSurname.Text = newPassportID.Text = newPassword.Text = newLogin.Text = newCost.Text =  newPhone.Text = "";
+            newSpec.SelectedIndex = -1;
 
-            newName.Text = newSurname.Text = newPassportID.Text = newPassword.Text = newLogin.Text = newSpec.Text = newCost.Text = "";
             doctors.Add(doctor);
-            //admin.AddDoctor(doctor);
             allDoctors_Click(0, EventArgs.Empty);
         }
 
         private void allMedicine_Click(object sender, EventArgs e)
         {
-            // TODO
-            // Show all medicine in universalPanel
-            List<Medicine> allMedicine = new List<Medicine>()
-            {
-                new Medicine("karevor dex0", "Hayastan", (decimal)150, DateTime.Now),
-                new Medicine("karevor dex1", "Hayastan", (decimal)1580, DateTime.Now),
-                new Medicine("karevor dex2", "Hayastan", (decimal)1159, DateTime.Now),
-                new Medicine("karevor dex3", "Hayastan", (decimal)1150, DateTime.Now),
-                new Medicine("karevor dex4", "Hayastan", (decimal)1350, DateTime.Now),
-                new Medicine("karevor dex5", "Hayastan", (decimal)1850, DateTime.Now),
-                new Medicine("karevor dex6", "Hayastan", (decimal)1503, DateTime.Now),
-                new Medicine("karevor dex7", "Hayastan", (decimal)1504, DateTime.Now)
-            };
+            medicineTable.RowCount = 1;
+            medicineTable.Controls.Clear();
+            medicineTable.Font = new Font("Consolas", 10F);
 
-
-            foreach(var medicine in allMedicine)
+            foreach(var medicine in medicines)
             {
-                //medicineTable.Controls.Add(new Label() { Text = })
+                medicineTable.Controls.Add(new Label() { Text = medicineTable.RowCount.ToString() });
+                medicineTable.Controls.Add(new Label() { Text = medicine.Name, Width = 140 });
+                medicineTable.Controls.Add(new Label() { Image = (!(medicine.Picture == null || medicine.Picture.Length <= 4) ? byteArrayToImage(medicine.Picture, new Size(30, 30)) : editIcon) });
+                medicineTable.Controls.Add(new Label() { Text = medicine.ExpiryDate.ToShortDateString() } );
+                medicineTable.Controls.Add(new Label() { Text = medicine.Country });
+
+                TextBox price = new TextBox() { Text = medicine.Price.ToString(), Enabled = false };
+                medicineTable.Controls.Add(price);
+
+                Label remove = new Label() { Image = removeIcon };
+                remove.Click += (senderr, ee) => removeMedicine(senderr, ee, medicine);
+                medicineTable.Controls.Add(remove);
+
+                Label edit = new Label() { Image = editIcon };
+                edit.Click += (senderr, ee) => editPriceOfMedicine(senderr, ee, medicine, price);
+                medicineTable.Controls.Add(edit);
+
+                medicineTable.RowCount++;
             }
 
-
-            medicineTable.BringToFront();
+            doctorsPanel.Hide();
+            medicinePanel.Show();
         }
 
-        private void changePassword_Click(object sender, EventArgs e)
+        private void removeMedicine(object sender, EventArgs e, Medicine medicine)
         {
-            if (universalPanel.Controls.Count != 0)
+            DialogResult res = MessageBox.Show("Are you sure you don't want any of the medicine: " + medicine.Name + "?", "Medicine", MessageBoxButtons.YesNo);
+            if (res == DialogResult.No)
+                return;
+            medicines.Remove(medicine);
+            admin.DeleteMedicine(medicine);
+            allMedicine_Click(0, EventArgs.Empty);
+        }
+
+        private void editPriceOfMedicine(object sender, EventArgs e, Medicine medicine, TextBox pricee)
+        {
+            if (pricee.Enabled)
             {
-                universalPanel.BringToFront();
+                pricee.Enabled = false;
+                admin.ChangePrice(medicine, Convert.ToDecimal(pricee.Text));
             }
-            var tmpFont = new Font("Microsoft Sans Serif", 10F);
+            else
+            {
+                pricee.Enabled = true;
+            }
+        }
 
-            Label oldPasswordLabel = new Label() { Text = "Old Password", Width = 140, Left = 20, Top = 22, Font = tmpFont };
-            Label newPasswordLabel = new Label() { Text = "New Password", Width = 140, Left = 20, Top = 52, Font = tmpFont };
-            Label confirmPasswordLabel = new Label() { Text = "Confirm Password", Width = 140, Left = 20, Top = 82, Font = tmpFont };
-            TextBox oldPassword = new TextBox() { Width = 180, Height = 23, Left = 160, Top = 20, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password, Font = tmpFont };
-            TextBox newPassword = new TextBox() { Width = 180, Height = 23, Left = 160, Top = 50, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password, Font = tmpFont };
-            TextBox confirmPassword = new TextBox() { Width = 180, Height = 23, Left = 160, Top = 80, UseSystemPasswordChar = PasswordPropertyTextAttribute.Yes.Password, Font = tmpFont };
-            Button saveButton = new Button() { Text = "Save", Left = 260, Top = 110, Font = tmpFont, Height = 30 };
-
-            universalPanel.Controls.AddRange(
-                new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
+        private void checkMedicine(object sender, EventArgs e)
+        {
+            if (medicineName.Text.Length == 0 || medicineCountry.Text.Length == 0 || medicinePrice.Text.Length == 0)
+                addMedicine.Enabled = false;
+            else
+                addMedicine.Enabled = true;
         }
 
         private void AdminProfileWindow_Paint(object sender, PaintEventArgs e)
@@ -179,14 +213,43 @@ namespace HospitalForms
             }
         }
 
+        
         private void AdminProfileWindow_Resize(object sender, EventArgs e)
         {
             this.Invalidate();
         }
 
+        private void addMedicine_Click(object sender, EventArgs e)
+        {
+            Medicine medicine = new Medicine(medicineName.Text, medicineCountry.Text, Convert.ToDecimal(medicinePrice.Text), medicineExpire.Value);
+            Stream myStream;
+            OpenFileDialog selectPicture = new OpenFileDialog() { InitialDirectory = "C:\\", Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG" };
+            if (selectPicture.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = selectPicture.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            medicine.AddPicture(imageToByteArray(new Bitmap(myStream)));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
+
+            admin.AddMedicine(medicine);
+            medicines.Add(medicine);
+            allMedicine_Click(0, EventArgs.Empty);
+        }
+
         private void logOut_Click(object sender, EventArgs e)
         {
             logOutClicked(this, EventArgs.Empty);
-    }
+        }
     }
 }

@@ -33,6 +33,8 @@ namespace HospitalClasses
             Address = address;
             InsurenceCard = insuranceCard;
             DateOfBirth = dateOfBirth;
+            PhoneNumber = phoneNumber;
+
             Initialization();
             string SQlcmd = "dbo.insertPatient";
             var conn = HospitalConnection.CreateDbConnection();
@@ -67,6 +69,7 @@ namespace HospitalClasses
             Address = address;
             DateOfBirth = dateOfBirth;
             InsurenceCard = "";
+            Initialization();
         }
         //End Constructor//
 
@@ -98,7 +101,7 @@ namespace HospitalClasses
                             string name = (string)reader["Name"];
                             string surname = (string)reader["Surname"];
                             string address = (string)reader["Address"];
-                            byte[] picture = (byte[])reader["Picture"];
+                            byte[] picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
                             string insuranceCard = (string)reader["InsuranceCard"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             string phoneNumber = (string)reader["PhoneNumber"];
@@ -114,7 +117,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                 MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message);
             }
             return patient;
         }
@@ -129,7 +132,7 @@ namespace HospitalClasses
             List<Diagnosis> history = new List<Diagnosis>();
 
             var conn = HospitalConnection.CreateDbConnection();
-
+            Diagnosis diagnose = null;
             string SQLcmd0 = "dbo.ReadMyHistory";
             try
             {
@@ -152,14 +155,28 @@ namespace HospitalClasses
 
                             using (var reader1 = (SqlDataReader)cmd1.ExecuteReader())
                             {
-                                List<Medicine> medicine = new List<Medicine>();
-                                while (reader1.Read())
+                                if (reader1.HasRows)
                                 {
-                                    medicine.Add(new Medicine((string)reader1["Name"], (string)reader1["Country"],
-                                                               (int)reader1["Price"], (DateTime)reader1["ExpirationDate"]));
+                                    bool hasMoreResults = true;
+
+                                    List<Medicine> medicine = new List<Medicine>();
+
+                                    //while (hasMoreResults)
+                                    {
+                                        while (reader1.Read())
+                                        {
+                                            string n = (string)reader1["Name"];
+                                            string c = (string)reader1["Country"];
+                                            decimal p = (decimal)reader1["Price"];
+                                            DateTime e= (DateTime)reader1["ExpirationDate"];
+                                            medicine.Add(new Medicine(n, c, p, e));
+                                        }
+                                        diagnose = new Diagnosis((string)reader0["Description"], (DateTime)reader0["DateOfDiagnosis"], medicine);
+                                        history.Add(diagnose);
+
+                                        hasMoreResults = reader1.NextResult();
+                                    }
                                 }
-                                Diagnosis diagnose = new Diagnosis((string)reader0["Discription"], (DateTime)reader0["DateOfDiagnosis"], medicine);
-                                history.Add(diagnose);
                             }
                         }
                     }
@@ -187,7 +204,7 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.changeBalance";
-         
+
             try
             {
                 using (conn)
@@ -226,7 +243,7 @@ namespace HospitalClasses
                     {
                         while (reader.Read())
                         {
-                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (string)reader["PasportID"],
+                            doctors.Add(new Doctor((string)reader["Name"], (string)reader["Surname"], (string)reader["PassportID"],
                                                    (string)reader["Speciality"], (DateTime)reader["DateOfApproval"], (decimal)reader["ConsultationCost"]));      //incompatibility between databases and classes
                         }
                     }
@@ -235,7 +252,6 @@ namespace HospitalClasses
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                return null;
             }
             return doctors;
         }
@@ -247,7 +263,7 @@ namespace HospitalClasses
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.ChangePatientAddress";
-          
+
             try
             {
                 using (conn)
@@ -295,6 +311,33 @@ namespace HospitalClasses
             }
         }
 
+        public void changePassword(string newPassword)
+        {
+            Password = newPassword;
+
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.ChangePatientPassword";
+
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = Password;
+
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
         //End Methods //
 
     }

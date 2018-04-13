@@ -18,7 +18,7 @@ namespace HospitalClasses
     public class Doctor : User
     {
         //  Properties  //
-        public DateTime  DateOfBirth { get; private set; }
+        public DateTime  DateOfBirth { get; set; }
         public string Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
@@ -29,8 +29,15 @@ namespace HospitalClasses
 
         //Constructor//
         public Doctor(string name, string surname, string passportID, string login, string password,
-           string speciality, DateTime getEmployed, decimal consultationCost,DateTime dateOfBirth) : base(name, surname, passportID, login, password)
+           string speciality, DateTime getEmployed, decimal consultationCost, DateTime dateOfBirth, string phoneNumber) 
+            : base(name, surname, passportID, login, password)
         {
+            PhoneNumber = phoneNumber;
+            Speciality = speciality;
+            GetEmployed = getEmployed;
+            ConsultationCost = consultationCost;
+            DateOfBirth = dateOfBirth;
+
             Initialization();
             string SQlcmd = "dbo.insertDoctor";
             var conn = HospitalConnection.CreateDbConnection();
@@ -45,17 +52,15 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = passportID;
                     cmd.Parameters.Add("@Login", SqlDbType.VarChar, 20).Value = login;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = password;
-                    cmd.Parameters.Add("@DateOfBirth",SqlDbType.DateTime).Value = dateOfBirth;
+                    cmd.Parameters.Add("@DateOfBirth", SqlDbType.DateTime).Value = dateOfBirth;
                     cmd.Parameters.Add("@Speciality", SqlDbType.VarChar, 20).Value = speciality;
                     cmd.Parameters.Add("@ConsultationCost", SqlDbType.SmallMoney).Value = consultationCost;
                     cmd.Parameters.Add("@GetEmployed", SqlDbType.DateTime).Value = getEmployed;
+                    cmd.Parameters.Add("@PhoneNumber", SqlDbType.Char, 9).Value = phoneNumber;
+
 
                     cmd.ExecuteNonQuery();
                 }
-
-                Speciality = speciality;
-                GetEmployed = getEmployed;
-                ConsultationCost = consultationCost;
             }
             catch (Exception e)
             {
@@ -189,9 +194,76 @@ namespace HospitalClasses
 
         public List<Diagnosis> PatientDiagnosis(Patient patient)
         {
-            List<Diagnosis> result= patient.ShowMyHistory();
-            
-            return result ;
+            List<Diagnosis> result = null;
+
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string sSQL1 = "dbo.GetDiagnoseMedicine";
+            string sSQL2 = "dbo.GetDiagnose";
+
+            List<Medicine> medList = new List<Medicine>();
+
+
+            DateTime diagnoseDate = new DateTime(1997, 5, 6);
+            string disease = "";
+
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
+
+                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
+                    cmd2.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
+
+                    using (var reader = (SqlDataReader)cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+
+                        if (reader.HasRows)
+                        {
+                            bool hasMoreResults = true;
+
+                            while (hasMoreResults)
+                            {
+                                while (reader.Read())
+                                {
+                                    string nameMed = reader.GetString(reader.GetOrdinal("name")).ToString();
+                                    string countryMed = reader.GetString(reader.GetOrdinal("country")).ToString();
+                                    decimal priceMed = reader.GetDecimal(reader.GetOrdinal("price"));
+                                    DateTime expiryDate = reader.GetDateTime(reader.GetOrdinal("expiryDate"));
+                                    Medicine m = new Medicine(nameMed, countryMed, priceMed, expiryDate);
+                                    medList.Add(m);
+                                }
+
+                                hasMoreResults = reader.NextResult();
+                            }
+                        }
+
+                        using (var reader2 = (SqlDataReader)cmd2.ExecuteReader())
+                        {
+                            if (reader2.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    disease = reader.GetString(reader.GetOrdinal("Description")).ToString();
+                                    diagnoseDate = reader.GetDateTime(reader.GetOrdinal("DateOfDiagnosis"));
+                                }
+                            }
+                        }
+                    }
+                }
+                result.Add(new Diagnosis(disease, diagnoseDate, medList));
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            return result;
         }
 
         public Dictionary<DateTime, Patient> Calendar()
@@ -236,9 +308,6 @@ namespace HospitalClasses
 
             DateTime ll = new DateTime(day.Year, day.Month, day.Day, 9, 0, 0), rr = new DateTime(day.Year, day.Month, day.Day, 18, 40, 0);
 
-            //Patients = new Dictionary<DateTime, Patient>();
-            //Patients[current] = new Patient("aa", "aaa", "aaa", "asa", DateTime.Now);
-
             for (int i = 0; i < 60 * 10; i++)
             {
                 current = current.AddMinutes(i);
@@ -251,7 +320,7 @@ namespace HospitalClasses
                         break;
                     }
 
-                if (valid && current >= ll && current <= rr)
+                if (valid && current >= ll && current <= rr && current >= DateTime.Now)
                 {
                     return current;
                 }
@@ -266,7 +335,7 @@ namespace HospitalClasses
                         break;
                     }
 
-                if (valid && current >= ll && current <= rr)
+                if (valid && current >= ll && current <= rr && current >= DateTime.Now)
                 {
                     return current;
                 }
@@ -364,7 +433,7 @@ namespace HospitalClasses
                             string surname = (string)reader["Surname"];
                             string passportID = (string)reader["PassportID"];
                             string speciality = (string)reader["Speciality"];
-                            byte[] picture = (byte[])reader["Picture"];
+                            byte[] picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
                             DateTime getEmployed = (DateTime)reader["DateOfApproval"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             decimal consultationCost = (decimal)reader["ConsultationCost"];
@@ -373,7 +442,7 @@ namespace HospitalClasses
                             doc.Picture = picture;
                             doc.DateOfBirth = dateOfBirth;
                             doc.PhoneNumber = phoneNumber;
-                          
+
                         }
 
                     }
@@ -385,6 +454,34 @@ namespace HospitalClasses
                 MessageBox.Show(e.Message);
             }
             return doc;
+        }
+
+        public void changePassword(string newPassword)
+        {
+            Password = newPassword;
+
+            var conn = HospitalConnection.CreateDbConnection();
+
+            string SQLcmd = "dbo.ChangeDoctorPassword";
+
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, SQLcmd, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@PassportID", SqlDbType.Char, 9).Value = PassportID;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 20).Value = Password;
+
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
         //End Methods //
     };

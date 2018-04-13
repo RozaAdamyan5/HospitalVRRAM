@@ -8,6 +8,7 @@ using HospitalConnections;
 using System.Data;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace HospitalClasses
 {
@@ -239,7 +240,6 @@ namespace HospitalClasses
             }
             return hashString;
         }
-
 
 
         //End Methods //

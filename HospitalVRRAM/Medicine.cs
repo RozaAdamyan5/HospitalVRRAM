@@ -18,9 +18,9 @@ namespace HospitalClasses
         //  Properties  //
         public string Name { get; }
         public string Country { get; }
-        public decimal Price { get; private set; }
+        public decimal Price { get; set; }
         public DateTime ExpiryDate { get; }
-        public byte[] Picture { get;  set; }
+        public byte[] Picture { get; set; }
 
         // End Properties  //
 

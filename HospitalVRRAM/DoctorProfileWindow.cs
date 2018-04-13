@@ -17,6 +17,7 @@ namespace HospitalForms
     public partial class DoctorProfileWindow : Form
     {
         public event EventHandler logOutClicked;
+        public event EventHandler<DiagnoseOpenEventArgs> serveClicked;
         
         public Doctor doctor;
 
@@ -40,13 +41,14 @@ namespace HospitalForms
             return returnImage;
         }
 
-        private void DoctorProfileWindow_Load(object sender, EventArgs e) {
+        private void DoctorProfileWindow_Load(object sender, EventArgs e)
+        {
             nameLabel.Text = doctor.Name;
             surnameLabel.Text = doctor.Surname;
             balanceLabel.Text = doctor.Balance.ToString();
             phoneNumberLabel.Text = doctor.PhoneNumber;
             birthdateLabel.Text = doctor.GetEmployed.ToShortDateString();
-            if (doctor.Picture.Length > 4)
+            if (doctor.Picture != null)
             {
                 addPicture.Text = "Change Picture"; addPicture.Left = 60;
                 profilePicBox.Image = byteArrayToImage(doctor.Picture);
@@ -90,9 +92,9 @@ namespace HospitalForms
             Dictionary<DateTime, Patient> calendarInfo = new Dictionary<DateTime, Patient>();
             Patient tmp = new Patient("Name", "Surname", "aaaaaaa", "Ggg", DateTime.Today);
 
-            calendarInfo[new DateTime(2018, 4, 1, 15, 0, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 1, 16, 0, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 1, 18, 20, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 13, 4, 45, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 13, 15, 0, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 13, 16, 20, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 1, 0, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 2, 0, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 11, 0, 20, 0)] = tmp;
@@ -117,7 +119,7 @@ namespace HospitalForms
                     {
                         status.Text = "Waiting...";
                         status.ForeColor = Color.Gray;
-                        //status.Click += Function that links to diagnose writing window
+                        status.Click += (senderr, ee) => { serveClicked(this, new DiagnoseOpenEventArgs(doctor, calendarInfo[info.Key])); };
                     }
                     else
                     {
@@ -139,10 +141,6 @@ namespace HospitalForms
         private void myPatients_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            // TODO
-            // Show patients table in universalPanel
-
-            universalPanel.Controls.Clear();
             
             DataGridView servedPatients = new DataGridView() { ReadOnly = true, BackgroundColor = Color.White, Width = 500, Height = 200 };
             DataTable table = new DataTable("Patients");
@@ -160,9 +158,7 @@ namespace HospitalForms
             table.Columns.Add(address);
             table.Columns.Add(dateOfBirth);
 
-            //List<Patient> patients = doctor.ShowPatient();
-            List<Patient> patients = new List<Patient>() {
-                new Patient("Aa", "Aaa", "aaa", "Aaaa", DateTime.Now), new Patient("Bb", "BBs", "aaaa", "AD", DateTime.Now)};
+            List<Patient> patients = new List<Patient>();// doctor.ShowPatient();
             
 
             foreach (var current in patients)
@@ -177,15 +173,6 @@ namespace HospitalForms
                 table.Rows.Add(patient);
             }
 
-            /*for(int i = 0; i < 40; i++)
-            {
-                DataRow diagnose = table.NewRow();
-                diagnose["Disease"] = "aaa";
-                diagnose["Medicine"] = "aaaaaa";
-                diagnose["Date"] = new DateTime();
-                table.Rows.Add(diagnose);
-            }*/
-
             universalPanel.Controls.Add(servedPatients);
 
             foreach (DataGridViewColumn col in servedPatients.Columns)
@@ -195,14 +182,11 @@ namespace HospitalForms
 
             if (servedPatients.Rows.Count > 6)
                 servedPatients.Height = (500 < 25 * (servedPatients.Rows.Count + 1) ? 500 : 25 * (servedPatients.Rows.Count + 1));
-            
-            universalPanel.BringToFront();
         }
 
         private void changePassword_Click(object sender, EventArgs e)
         {
             universalPanel.Controls.Clear();
-            universalPanel.BringToFront();
 
             var tmpFont = new Font("Microsoft Sans Serif", 10F);
 
@@ -216,6 +200,35 @@ namespace HospitalForms
 
             universalPanel.Controls.AddRange(
                 new Control[] { oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, saveButton });
+
+            saveButton.Click += (senderr, ee) => ChangePasswordDoctor_Click(senderr, ee, oldPassword, newPassword, confirmPassword);
+        }
+
+        private void ChangePasswordDoctor_Click(object senderr, EventArgs ee, TextBox oldPass, TextBox newPass, TextBox confirmPass)
+        {
+            if (oldPass.Text != doctor.Password)
+            {
+                DialogResult res = MessageBox.Show("Wrong old password!");
+            }
+            else if (newPass.Text != confirmPass.Text)
+            {
+                DialogResult res = MessageBox.Show("Passwords don't match!");
+            }
+            else
+            {
+                try
+                {
+                    User.PasswordIsValid(newPass.Text);
+                    doctor.changePassword(newPass.Text);
+                    MessageBox.Show("Password has been successfully changed!");
+                    universalPanel.Controls.Clear();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                };
+            }
+
         }
 
         private void addPicture_Click(object sender, EventArgs e)
@@ -265,6 +278,18 @@ namespace HospitalForms
         private void logOut_Click(object sender, EventArgs e)
         {
             logOutClicked(this, EventArgs.Empty);
+        }
+
+        public class DiagnoseOpenEventArgs : EventArgs
+        {
+            public readonly Patient patient;
+            public readonly Doctor doctor;
+
+            public DiagnoseOpenEventArgs(Doctor doc, Patient pat)
+            {
+                doctor = doc;
+                patient = pat;
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ namespace HospitalClasses
         public void AddMedicine(Medicine medicine)
         {
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_AddMedicine";
+            string sSQL = "sp_AddMedecine";
             try
             {
                 using (conn)
@@ -55,7 +55,7 @@ namespace HospitalClasses
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
 
-                    cmd.Parameters.Add("@Name", SqlDbType.Char, 20).Value = medicine.Name;////name must be unique
+                    cmd.Parameters.Add("@Name", SqlDbType.Char, 20).Value = medicine.Name;
                     cmd.Parameters.Add("@Country", SqlDbType.Char, 20).Value = medicine.Country;
                     cmd.Parameters.Add("@ExpirationDate", SqlDbType.DateTime).Value = medicine.ExpiryDate;
                     cmd.Parameters.Add("@Price", SqlDbType.SmallMoney).Value = medicine.Price;
@@ -71,13 +71,36 @@ namespace HospitalClasses
             }
         }
 
+        public void DeleteMedicine(Medicine medicine)
+        {
+            var conn = HospitalConnection.CreateDbConnection();
+            string sSQL = "sp_DeleteMedicine";
+            try
+            {
+                using (conn)
+                {
+                    conn.Open();
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
+
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar, 20).Value = medicine.Name;
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
         public void ChangePrice(Medicine medicine, decimal price)
         {
             if (price < 0)
                 throw new Exception("Price must be poisitive.");
 
             var conn = HospitalConnection.CreateDbConnection();
-            string sSQL = "sp_ChangeMedcinePrice";
+            string sSQL = "sp_UpdateMedicine";
             try
             {
                 using (conn)
@@ -86,7 +109,7 @@ namespace HospitalClasses
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
                     cmd.Parameters.Add("@Name", SqlDbType.Char, 20).Value = medicine.Name;
-                    cmd.Parameters.Add("@Price", SqlDbType.SmallMoney).Value = price;
+                    cmd.Parameters.Add("@NewPrice", SqlDbType.SmallMoney).Value = price;
 
                     cmd.ExecuteNonQuery();
                 }
@@ -122,17 +145,12 @@ namespace HospitalClasses
                 MessageBox.Show(e.Message);
             }
         }
-        public void AddDoctor(Doctor doctor)
-        {
-            Doctor a = new Doctor(doctor.Name, doctor.Surname, doctor.PassportID, doctor.Login,
-                doctor.Password, doctor.Speciality, doctor.GetEmployed, doctor.ConsultationCost, doctor.DateOfBirth);//Constructor add in database
-        }
         public List<Doctor> ShowDoctors()
         {
             List<Doctor> docs = new List<Doctor>();
             var conn = HospitalConnection.CreateDbConnection();
 
-            string SQLcmd = "dbo.AllDoctors";
+            string SQLcmd = "sp_AllDoctors";
             try
             {
                 using (conn)
@@ -150,7 +168,7 @@ namespace HospitalClasses
                             DateTime dateOfapproval = (DateTime)reader["DateOfApproval"];
                             decimal balance = (decimal)reader["Balance"];
                             decimal consCost = (decimal)reader["ConsultationCost"];
-                            byte[] pic = (byte[])reader["Picture"];
+                            byte[] pic = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
                             string phoneNumber = (string)reader["PhoneNumber"];
                             string speciality = (string)reader["Speciality"];
 

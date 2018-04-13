@@ -1,15 +1,15 @@
 ﻿GO
  Create procedure sp_AddMedecine  
- (@Name  			NVARCHAR(20) ,
+ (@Name  			NVARCHAR(20),
  @Country			NVARCHAR(20), 
- @ExpirationDate	DATETIME	,
+ @ExpirationDate	DATETIME,
  @Price				SMALLMONEY,
  @Picture			VARBINARY(MAX) )
  AS
  BEGIN
    insert into Medicine([Name], Country, ExpirationDate, Price, Picture)
-   values (@Name ,@Country	,@ExpirationDate, @Price, @Picture)
- END					
+   values (@Name, @Country, @ExpirationDate, @Price, @Picture)
+ END
 
 GO
 Create procedure sp_DeleteDoctor 
@@ -30,7 +30,17 @@ GO
 	UPDATE Medicine
 	SET Price = @NewPrice
 	WHERE Name = @Name
- END	
+ END
+
+ GO
+ CREATE PROCEDURE sp_DeleteMedicine
+ @Name		NVARCHAR(20)
+ AS
+ BEGIN
+	DELETE FROM Medicine
+	WHERE [Name] = @Name
+
+ END
 
  GO
  Create procedure sp_AddDoctor 
@@ -42,7 +52,7 @@ GO
 	@PhoneNumber		CHAR(9)		    ,
 	@Speciality 		TINYINT 		,
 	@DateOfApproval		DATETIME		,
-	@Login		        VARCHAR(20)      ,
+	@Login		        VARCHAR(20)     ,
 	@Password		    VARCHAR(20)     ,
   @ConsultationCost     SMALLMONEY      
  AS
@@ -59,5 +69,13 @@ GO
  BEGIN
 	SELECT *
 	FROM Doctor
+ END		
+GO
+
+ Create procedure sp_AllMedicine
+ AS
+ BEGIN
+	SELECT *
+	FROM Medicine
  END		
 GO
