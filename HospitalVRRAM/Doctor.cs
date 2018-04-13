@@ -113,9 +113,12 @@ namespace HospitalClasses
         private void WriteDiagnosis(Patient patient, Diagnosis diagnose)
         {
 
+
             var conn = HospitalConnection.CreateDbConnection();
             string sSQL = "sp_WriteDiagnosInDiagnoses";
-            string sSQL1 = "sp_AddMedicineInAssignedTo";
+            string sSQL1 = "dbo.sp_GetDiagnoseID";
+            string sSQL2 = "sp_AddMedicineInAssignedTo";
+           
             try
             {
                 using (conn)
@@ -123,28 +126,30 @@ namespace HospitalClasses
                     conn.Open();
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL, CommandType.StoredProcedure);
 
-
                     cmd.Parameters.Add("@description", SqlDbType.NVarChar, 20).Value = diagnose.Disease;
                     cmd.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
                     cmd.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
                     cmd.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
-
                     cmd.ExecuteNonQuery();
-                }
 
-                using (conn)
-                {
-                    conn.Open();
                     var cmd1 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
 
+                    int param = -1;
+                    cmd1.Parameters.Add("@parameter", SqlDbType.Int).Value=param;
+                    cmd1.ExecuteNonQuery();
 
-                    //cmd1.Parameters.Add(" @description", SqlDbType.NVarChar, 20).Value = diagnose.Disease;
-                    //cmd1.Parameters.Add("@dateOfDiagnoses", SqlDbType.DateTime).Value = diagnose.DiagnoseDate;
-                    //cmd1.Parameters.Add("@patientID", SqlDbType.Char, 9).Value = patient.PassportID;
-                    //cmd1.Parameters.Add("@doctorID", SqlDbType.Char, 9).Value = this.PassportID;
-                    //must be to do
-                    // cmd.ExecuteNonQuery();
+                   var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
+
+                   cmd2.Parameters.Add("@diagnoseID", SqlDbType.Int).Value = param;
+                    foreach (var elem in diagnose.PrescribedMedicines)
+                    {
+                        cmd2.Parameters.Add("@medicine", SqlDbType.NVarChar, 20).Value = elem.Key;
+                        cmd2.Parameters.Add("@cnt", SqlDbType.Int).Value = elem.Value;
+                        cmd2.ExecuteNonQuery();
+                    }
+                   
                 }
+              
 
             }
             catch (Exception e)
@@ -198,26 +203,43 @@ namespace HospitalClasses
 
             var conn = HospitalConnection.CreateDbConnection();
 
-            string sSQL1 = "dbo.GetDiagnoseMedicine";
-            string sSQL2 = "dbo.GetDiagnose";
+            string sSQl2 = "dbo.GetDiagnoseMedicine";
+            string sSQL1 = "dbo.GetDiagnose";
 
-            List<Medicine> medList = new List<Medicine>();
+            Dictionary<Medicine,int> medList = new Dictionary<Medicine,int>();
 
 
             DateTime diagnoseDate = new DateTime(1997, 5, 6);
             string disease = "";
+            int diagnoseID = -1;
 
             try
             {
                 using (conn)
                 {
                     conn.Open();
-                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
+                 
 
-                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
-                    cmd.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
-                    cmd2.Parameters.Add("patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
+                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
+                  
+                    cmd2.Parameters.Add("@patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
+                   
+                    using (var reader2 = (SqlDataReader)cmd2.ExecuteReader())
+                    {
+                        if (reader2.HasRows)
+                        {
+                            while (reader2.Read())
+                            {
+                                disease = reader2.GetString(reader2.GetOrdinal("Description"));
+                                diagnoseDate = reader2.GetDateTime(reader2.GetOrdinal("DateOfDiagnosis"));
+                                diagnoseID = reader2.GetInt32(reader2.GetOrdinal("DiagnosesId"));
+                            }
+                        }
+                    }
 
+                    var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQl2, CommandType.StoredProcedure);
+                    cmd.Parameters.Add("@patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
+                    cmd.Parameters.Add("@diagnoseID", SqlDbType.Int).Value = diagnoseID;
                     using (var reader = (SqlDataReader)cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
 
@@ -233,25 +255,17 @@ namespace HospitalClasses
                                     string countryMed = reader.GetString(reader.GetOrdinal("country")).ToString();
                                     decimal priceMed = reader.GetDecimal(reader.GetOrdinal("price"));
                                     DateTime expiryDate = reader.GetDateTime(reader.GetOrdinal("expiryDate"));
+                                    int count = reader.GetInt32(reader.GetOrdinal("count"));
+
                                     Medicine m = new Medicine(nameMed, countryMed, priceMed, expiryDate);
-                                    medList.Add(m);
+                                    medList.Add(m,count);
                                 }
 
                                 hasMoreResults = reader.NextResult();
                             }
                         }
 
-                        using (var reader2 = (SqlDataReader)cmd2.ExecuteReader())
-                        {
-                            if (reader2.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    disease = reader.GetString(reader.GetOrdinal("Description")).ToString();
-                                    diagnoseDate = reader.GetDateTime(reader.GetOrdinal("DateOfDiagnosis"));
-                                }
-                            }
-                        }
+                      
                     }
                 }
                 result.Add(new Diagnosis(disease, diagnoseDate, medList));
