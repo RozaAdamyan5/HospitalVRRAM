@@ -41,7 +41,26 @@ namespace HospitalForms
 
         private void PatientProfileWindow_Load(object sender, EventArgs e)
         {
-            addLabel.Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.AddSign), new Size(40, 40));
+            balanceAdd.Hide();
+            Label addd = new Label() { Location = new Point(230, 390), Image = new Bitmap((global::HospitalVRRAM.Properties.Resources.AddSign), new Size(20, 20)), BackColor = Color.Transparent };
+            Controls.Add(addd);
+            addd.Click += (senderr, ee) =>
+            {
+                if (balanceAdd.Visible == true)
+                {
+                    balanceLabel.Text = (decimal.Parse(balanceLabel.Text) + decimal.Parse(balanceAdd.Text.Length == 0 ? "0" : balanceAdd.Text)).ToString();
+                    patient.ChangeBalance(decimal.Parse(balanceAdd.Text.Length == 0 ? "0" : balanceAdd.Text));
+                    balanceAdd.Hide();
+                    balanceLabel.Show();
+                }
+                else
+                {
+                    balanceLabel.Hide();
+                    balanceAdd.Show();
+                    balanceAdd.Text = "";
+                }
+            };
+
             nameLabel.Text = patient.Name;
             surnameLabel.Text = patient.Surname;
             balanceLabel.Text = patient.Balance.ToString();

@@ -249,7 +249,7 @@
             this.label28.AutoSize = true;
             this.label28.BackColor = System.Drawing.Color.Transparent;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label28.Location = new System.Drawing.Point(3, 387);
+            this.label28.Location = new System.Drawing.Point(3, 399);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(42, 18);
             this.label28.TabIndex = 37;

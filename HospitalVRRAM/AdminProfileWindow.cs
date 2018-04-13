@@ -222,6 +222,8 @@ namespace HospitalForms
         private void addMedicine_Click(object sender, EventArgs e)
         {
             Medicine medicine = new Medicine(medicineName.Text, medicineCountry.Text, Convert.ToDecimal(medicinePrice.Text), medicineExpire.Value);
+            admin.AddMedicine(medicine);
+
             Stream myStream;
             OpenFileDialog selectPicture = new OpenFileDialog() { InitialDirectory = "C:\\", Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG" };
             if (selectPicture.ShowDialog() == DialogResult.OK)
@@ -242,7 +244,8 @@ namespace HospitalForms
                 }
             }
 
-            admin.AddMedicine(medicine);
+            medicineCountry.Text = medicineName.Text = medicinePrice.Text = "";
+
             medicines.Add(medicine);
             allMedicine_Click(0, EventArgs.Empty);
         }

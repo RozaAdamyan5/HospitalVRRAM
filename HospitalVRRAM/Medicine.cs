@@ -75,20 +75,20 @@ namespace HospitalClasses
                     var cmd = (SqlCommand)HospitalConnection.CreateDbCommand(connection, sSQL, CommandType.StoredProcedure);
 
 
-                    cmd.Parameters.Add("@Name", SqlDbType.VarChar, 8).Value = name;
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar, 20).Value = name;
 
                     using (var reader = (SqlDataReader)cmd.ExecuteReader())
                     {
                         reader.Read();
                         if (!reader.HasRows)
                         {
-                            throw new Exception("Wrong password or login.");
+                            throw new Exception("Medicine not found!");
                         }
                         else
                         {
                             string Name = (string)reader["Name"];
                             string Country = (string)reader["Country"];
-                            DateTime ExpiryDate = (DateTime)reader["Expiration Date"];
+                            DateTime ExpiryDate = (DateTime)reader["ExpirationDate"];
                             decimal Price = (decimal)reader["Price"];
                             byte[] Picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
                             

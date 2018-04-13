@@ -48,7 +48,7 @@ namespace HospitalVRRAM
         {
             registration = new RegisterWindow();
             registration.FormClosing += (sender, e) => { if (MessageBox.Show("Are you sure you want to exit?", "Hospital", MessageBoxButtons.YesNo) == DialogResult.No) e.Cancel = true; };
-            registration.registrationCompleted += (sender, e) => { login.Show(); registration.clearFields(); registration.Hide(); };
+            registration.registrationCompleted += (sender, e) => { login.Show(); registration.clearFields(); login.clearFields(); registration.Hide(); };
             registration.goBackClicked += (sender, e) => { login.Show(); registration.Hide(); };
             registration.FormClosed += (sender, e) => { this.Close(); };
         }

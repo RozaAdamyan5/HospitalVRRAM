@@ -93,7 +93,7 @@ namespace HospitalForms
             Patient tmp = new Patient("Name", "Surname", "aaaaaaa", "Ggg", DateTime.Today);
 
             calendarInfo[new DateTime(2018, 4, 13, 4, 45, 0)] = tmp;
-            calendarInfo[new DateTime(2018, 4, 13, 15, 0, 0)] = tmp;
+            calendarInfo[new DateTime(2018, 4, 13, 13, 45, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 13, 16, 20, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 1, 0, 0)] = tmp;
             calendarInfo[new DateTime(2018, 4, 10, 2, 0, 0)] = tmp;

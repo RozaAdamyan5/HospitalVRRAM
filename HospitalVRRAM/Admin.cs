@@ -59,7 +59,7 @@ namespace HospitalClasses
                     cmd.Parameters.Add("@Country", SqlDbType.Char, 20).Value = medicine.Country;
                     cmd.Parameters.Add("@ExpirationDate", SqlDbType.DateTime).Value = medicine.ExpiryDate;
                     cmd.Parameters.Add("@Price", SqlDbType.SmallMoney).Value = medicine.Price;
-                    cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, (1 << 20)).Value = medicine.Picture;
+                    //cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, (1 << 20)).Value = medicine.Picture;
 
                     cmd.ExecuteNonQuery();
                 }
@@ -207,7 +207,7 @@ namespace HospitalClasses
                             string country = (string)reader["Country"];
                             DateTime expirationDate = (DateTime)reader["ExpirationDate"];
                             decimal price = (decimal)reader["Price"];
-                            byte[] pic = (byte[])reader["Picture"];
+                            byte[] pic = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
 
 
                             Medicine med = new Medicine(name, country, price, expirationDate);

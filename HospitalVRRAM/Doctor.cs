@@ -64,7 +64,7 @@ namespace HospitalClasses
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                throw new Exception("Passport ID must contain only digits and the length must be 9 characters!");
             }
         }
 
@@ -458,22 +458,24 @@ namespace HospitalClasses
                         }
                         else
                         {
+                            string passportID = (string)reader["PassportID"];
                             string name = (string)reader["Name"];
                             string surname = (string)reader["Surname"];
-                            string passportID = (string)reader["PassportID"];
-                            string speciality = (string)reader["Speciality"];
+                            decimal balance = (decimal)reader["Balance"];
                             byte[] picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
+                            string phoneNumber = (string)reader["PhoneNumber"];
+                            string speciality = (string)reader["Speciality"];
                             DateTime getEmployed = (DateTime)reader["DateOfApproval"];
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             decimal consultationCost = (decimal)reader["ConsultationCost"];
-                            string phoneNumber = (string)reader["PhoneNumber"];
+
                             doc = new Doctor(name, surname, passportID, speciality, getEmployed, consultationCost);
                             doc.Login = login;
                             doc.Password = password.Substring(0, 20);
                             doc.Picture = picture;
                             doc.DateOfBirth = dateOfBirth;
                             doc.PhoneNumber = phoneNumber;
-
+                            doc.Balance = balance;
                         }
 
                     }
