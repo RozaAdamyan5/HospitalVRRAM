@@ -15,7 +15,7 @@ Sofware can be used by both [doctors](https://github.com/ArmineT/HospitalVRRAM/n
 * [ADO.NET](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview) - Technology used for data access
 * [MS SQL Server](https://docs.microsoft.com/en-us/sql/sql-server/sql-server-technical-documentation?view=sql-server-2017) - Databases
 
-## Autors
+## Authors
 
 * **Vahagn Altunyan** - [altunyanv](https://github.com/altunyanv)
 * **Roza Adamyan** - [RozaAdamyan5](https://github.com/RozaAdamyan5)
