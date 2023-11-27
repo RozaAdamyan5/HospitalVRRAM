@@ -515,6 +515,7 @@ namespace HospitalClasses
         {
             Password = newPassword;
 
+
             var conn = HospitalConnection.CreateDbConnection();
 
             string SQLcmd = "dbo.ChangeDoctorPassword";
