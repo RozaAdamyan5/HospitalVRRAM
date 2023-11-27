@@ -540,7 +540,7 @@ namespace HospitalClasses
             }
         }
 
-        public override void ChangeBalance(decimal moneyToAdd)       // Can be negative
+        public override void ChangeBalance(decimal moneyToAdd)// Can be negative
         {
             Balance += moneyToAdd;
 
