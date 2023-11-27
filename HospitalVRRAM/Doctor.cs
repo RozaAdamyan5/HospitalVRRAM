@@ -548,6 +548,8 @@ namespace HospitalClasses
 
             string SQLcmd = "dbo.changeBalanceDoctor";
 
+
+
             try
             {
                 using (conn)
