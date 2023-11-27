@@ -18,7 +18,7 @@ namespace HospitalClasses
     public class Doctor : User
     {
         //  Properties  //
-        public DateTime  DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string Speciality { get; set; }
         public DateTime GetEmployed { get; set; }
         public decimal ConsultationCost { get; set; }
@@ -29,7 +29,7 @@ namespace HospitalClasses
 
         //Constructor//
         public Doctor(string name, string surname, string passportID, string login, string password,
-           string speciality, DateTime getEmployed, decimal consultationCost, DateTime dateOfBirth, string phoneNumber) 
+           string speciality, DateTime getEmployed, decimal consultationCost, DateTime dateOfBirth, string phoneNumber)
             : base(name, surname, passportID, login, password)
         {
             PhoneNumber = phoneNumber;
@@ -120,7 +120,7 @@ namespace HospitalClasses
             string sSQL = "sp_WriteDiagnosInDiagnoses";
             string sSQL1 = "dbo.sp_GetDiagnoseID";
             string sSQL2 = "sp_AddMedicineInAssignedTo";
-           
+
             try
             {
                 using (conn)
@@ -138,14 +138,15 @@ namespace HospitalClasses
 
                     int param = -1;
                     //cmd1.Parameters.Add("@diagID", SqlDbType.Int).Value = param;
-                    using (var reader = cmd1.ExecuteReader()) {
+                    using (var reader = cmd1.ExecuteReader())
+                    {
                         reader.Read();
                         param = (int)reader["mx"];
                     }
 
-                   var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
+                    var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL2, CommandType.StoredProcedure);
 
-                   
+
                     foreach (var elem in diagnose.PrescribedMedicines)
                     {
                         cmd2.Parameters.Add("@diagnoseID", SqlDbType.Int).Value = param;
@@ -154,9 +155,9 @@ namespace HospitalClasses
                         cmd2.ExecuteNonQuery();
                         cmd2.Parameters.Clear();
                     }
-                   
+
                 }
-              
+
 
             }
             catch (Exception e)
@@ -243,7 +244,7 @@ namespace HospitalClasses
             string sSQl2 = "dbo.GetDiagnoseMedicine";
             string sSQL1 = "dbo.GetDiagnose";
 
-            Dictionary<Medicine,int> medList = new Dictionary<Medicine,int>();
+            Dictionary<Medicine, int> medList = new Dictionary<Medicine, int>();
 
 
             DateTime diagnoseDate = new DateTime(1997, 5, 6);
@@ -255,12 +256,12 @@ namespace HospitalClasses
                 using (conn)
                 {
                     conn.Open();
-                 
+
 
                     var cmd2 = (SqlCommand)HospitalConnection.CreateDbCommand(conn, sSQL1, CommandType.StoredProcedure);
-                  
+
                     cmd2.Parameters.Add("@patientID", SqlDbType.VarChar, 9).Value = patient.PassportID;
-                   
+
                     using (var reader2 = (SqlDataReader)cmd2.ExecuteReader())
                     {
                         if (reader2.HasRows)
@@ -295,14 +296,14 @@ namespace HospitalClasses
                                     int count = reader.GetInt32(reader.GetOrdinal("count"));
 
                                     Medicine m = new Medicine(nameMed, countryMed, priceMed, expiryDate);
-                                    medList.Add(m,count);
+                                    medList.Add(m, count);
                                 }
 
                                 hasMoreResults = reader.NextResult();
                             }
                         }
 
-                      
+
                     }
                 }
                 result.Add(new Diagnosis(disease, diagnoseDate, medList));
@@ -499,7 +500,6 @@ namespace HospitalClasses
                         }
 
                     }
-
                 }
             }
             catch (Exception e)
