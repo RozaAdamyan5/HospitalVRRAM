@@ -490,13 +490,15 @@ namespace HospitalClasses
                             DateTime dateOfBirth = (DateTime)reader["DateOfBirth"];
                             decimal consultationCost = (decimal)reader["ConsultationCost"];
 
-                            doc = new Doctor(name, surname, passportID, speciality, getEmployed, consultationCost);
-                            doc.Login = login;
-                            doc.Password = password.Substring(0, 20);
-                            doc.Picture = picture;
-                            doc.DateOfBirth = dateOfBirth;
-                            doc.PhoneNumber = phoneNumber;
-                            doc.Balance = balance;
+                            doc = new Doctor(name, surname, passportID, speciality, getEmployed, consultationCost)
+                            {
+                                Login = login,
+                                Password = password.Substring(0, 20),
+                                Picture = picture,
+                                DateOfBirth = dateOfBirth,
+                                PhoneNumber = phoneNumber,
+                                Balance = balance
+                            };
                         }
 
                     }
