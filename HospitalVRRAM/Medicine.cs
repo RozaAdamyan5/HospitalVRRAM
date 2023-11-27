@@ -91,7 +91,7 @@ namespace HospitalClasses
                             DateTime ExpiryDate = (DateTime)reader["ExpirationDate"];
                             decimal Price = (decimal)reader["Price"];
                             byte[] Picture = (reader["Picture"] == System.DBNull.Value ? null : (byte[])reader["Picture"]);
-                            
+
                             med = new Medicine(Name, Country, Price, ExpiryDate);
                             med.Picture = Picture;
                         }
