@@ -533,6 +533,9 @@ namespace HospitalClasses
                     cmd.ExecuteNonQuery();
 
                 }
+
+
+
             }
             catch (Exception e)
             {
