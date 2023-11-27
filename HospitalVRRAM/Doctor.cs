@@ -511,7 +511,6 @@ namespace HospitalClasses
             return doc;
         }
 
-
         public void changePassword(string newPassword)
         {
             Password = newPassword;
