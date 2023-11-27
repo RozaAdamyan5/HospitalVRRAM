@@ -35,13 +35,13 @@ namespace HospitalClasses
             Name = name;
             Surname = surname;
             //if (PassportIdIsUnique(passportID))
-                PassportID = passportID;
+            PassportID = passportID;
 
             //if (LoginIsValid(login))
-                Login = login;
+            Login = login;
 
             //if (!PasswordIsValid(password))
-                Password = password;
+            Password = password;
 
         }
 
@@ -157,7 +157,7 @@ namespace HospitalClasses
             {
                 throw new Exception("Login must be at least 8 characters.");
             }
-            else if(!CheckDoctorLogin(login) && userType == typeof(Doctor) || 
+            else if (!CheckDoctorLogin(login) && userType == typeof(Doctor) ||
                     !CheckPatientLogin(login) && userType == typeof(Patient))
             {
                 throw new Exception("This login already exists");
@@ -205,14 +205,14 @@ namespace HospitalClasses
 
         public virtual void AddPicture(byte[] pic)
         {
-           //must be implemented by derived classes
-            
-        } 
+            //must be implemented by derived classes
+
+        }
 
         public virtual decimal ShowBalance()
         {
             return Balance;
-        } 
+        }
 
         public virtual void ChangeBalance(decimal amountForChange)
         {
